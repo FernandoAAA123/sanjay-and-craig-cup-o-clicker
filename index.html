@@ -2075,8 +2075,14 @@ function initLoading(){
   startMenu.style.display='flex';
   // Start looping title music
   _playTitleMusic();
+  // loadGame es async cuando cae a IDB — startTimers debe esperar
   loadGame();
-  startTimers();
+  // startTimers arranca solo cuando _gameLoaded sea true
+  const _waitForLoad=setInterval(()=>{
+    if(_gameLoaded){clearInterval(_waitForLoad);startTimers();}
+  },50);
+  // Timeout de seguridad: si en 3s no cargó, arrancar de todas formas
+  setTimeout(()=>{if(!_gameLoaded){_gameLoaded=true;clearInterval(_waitForLoad);startTimers();}},3000);
   // Update start prompt text for current language
   const spt=document.getElementById('start-prompt-txt');
   if(spt)spt.textContent=t('START_PROMPT');
@@ -4321,8 +4327,10 @@ async function fbManualSync(){
 // Auto-sync al guardar (debounced)
 let _fbSyncTimer=null;
 function _fbAutoSync(){
-  if(!_gameLoaded)return; // No subir hasta que el juego esté cargado
-  if(!state.totalSips && !state.wings && !state.bills)return; // No subir estado vacío
+  if(!_gameLoaded)return;
+  // No subir estado vacío si el jugador ya tiene código (significa que había progreso antes)
+  const hasProgress = state.totalSips>0 || state.wings>0 || state.bills>0 || (state.inventory&&state.inventory.length>0);
+  if(!hasProgress)return;
   if(_fbSyncTimer)clearTimeout(_fbSyncTimer);
   _fbSyncTimer=setTimeout(async()=>{
     _fbSyncTimer=null;
