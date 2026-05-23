@@ -4352,18 +4352,29 @@ async function vaultRestoreFromCloud(rawCode){
       lang==='es'?'Esto reemplazara tu progreso actual.':'This will overwrite your current progress.',
       ()=>{
         try{
-          // Disable ALL saves before writing restore data
+          // Deshabilitar TODOS los saves inmediatamente
           window._saveDisabled=true;
-          // Remove current save first to avoid any merge
+          // Cancelar cualquier save timer pendiente
+          if(window._saveTimer){clearTimeout(window._saveTimer);window._saveTimer=null;}
+          if(window._fbSyncTimer){clearTimeout(window._fbSyncTimer);window._fbSyncTimer=null;}
+          if(window._profileSyncTimer){clearTimeout(window._profileSyncTimer);window._profileSyncTimer=null;}
+          // Borrar save actual y escribir el restaurado
           localStorage.removeItem(SAVE_KEY);
-          // Write the restored save
           localStorage.setItem(SAVE_KEY,saveStr);
           sessionStorage.setItem(SAVE_KEY,saveStr);
           _idbSave(saveStr);
-          // Small delay to ensure writes complete before reload
-          setTimeout(()=>location.reload(), 100);
+          // Verificar que se escribió bien antes de recargar
+          const check=localStorage.getItem(SAVE_KEY);
+          if(!check||check.length<10){
+            notify(lang==='es'?'Error al escribir save':'Failed to write save','CLOUD',ICONS.error,true);
+            window._saveDisabled=false;
+            return;
+          }
+          // Recargar con delay suficiente para que IDB termine
+          setTimeout(()=>location.reload(), 300);
         }catch(e){
             notify(lang==='es'?'Error al restaurar':'Restore failed','CLOUD',ICONS.error,true);
+            window._saveDisabled=false;
         }
       }
     );
@@ -4504,7 +4515,15 @@ function vaultRestoreChip(){
     lang==='es'?'¿Restaurar desde chip?':'Restore from chip?',
     lang==='es'?'Esto reemplazará tu progreso actual.':'This will overwrite your current progress.',
     ()=>{
-      try{window._saveDisabled=true;const _s=JSON.stringify(saveData);localStorage.setItem(SAVE_KEY,_s);sessionStorage.setItem(SAVE_KEY,_s);_idbSave(_s);location.reload();}
+      try{window._saveDisabled=true;
+          if(window._saveTimer){clearTimeout(window._saveTimer);window._saveTimer=null;}
+          if(window._fbSyncTimer){clearTimeout(window._fbSyncTimer);window._fbSyncTimer=null;}
+          localStorage.removeItem(SAVE_KEY);
+          const _s=JSON.stringify(saveData);
+          localStorage.setItem(SAVE_KEY,_s);
+          sessionStorage.setItem(SAVE_KEY,_s);
+          _idbSave(_s);
+          setTimeout(()=>location.reload(),300);}
       catch(e){notify(lang==='es'?'Error al restaurar':'Restore failed','VAULT',ICONS.error,true);}
     }
   );
@@ -4540,7 +4559,15 @@ function importSaveFile(event){
         lang==='es'?'¿Restaurar backup .json?':'Restore .json backup?',
         lang==='es'?'Esto reemplazará tu progreso actual.':'This will overwrite your current progress.',
         ()=>{
-          try{window._saveDisabled=true;const _s=JSON.stringify(saveData);localStorage.setItem(SAVE_KEY,_s);sessionStorage.setItem(SAVE_KEY,_s);_idbSave(_s);location.reload();}
+          try{window._saveDisabled=true;
+          if(window._saveTimer){clearTimeout(window._saveTimer);window._saveTimer=null;}
+          if(window._fbSyncTimer){clearTimeout(window._fbSyncTimer);window._fbSyncTimer=null;}
+          localStorage.removeItem(SAVE_KEY);
+          const _s=JSON.stringify(saveData);
+          localStorage.setItem(SAVE_KEY,_s);
+          sessionStorage.setItem(SAVE_KEY,_s);
+          _idbSave(_s);
+          setTimeout(()=>location.reload(),300);}
           catch(err){notify(lang==='es'?'Archivo inválido':'Invalid file','VAULT',ICONS.error,true);}
         }
       );
