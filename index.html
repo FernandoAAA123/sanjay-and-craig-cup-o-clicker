@@ -1075,15 +1075,16 @@ input:checked+.toggle-slider::before{transform:translateX(20px);}
       </div>
     </div>
 
-    <!-- ── RANKING TAB ── -->
+    <!-- ── RANKING TAB (Amigos) ── -->
     <div id="social-panel-ranking" style="display:none;">
-      <div style="text-align:center;margin-bottom:12px;">
-        <div style="font-size:9px;color:#555;font-family:sans-serif;">Top jugadores globales por Wings totales</div>
+      <div style="display:flex;gap:6px;margin-bottom:10px;">
+        <button id="rtab-wings" class="rank-tab active" onclick="switchRankTab('wings')" style="flex:1;padding:7px;background:#0a1a0a;border:1px solid var(--friend-color);border-radius:8px;color:var(--friend-color);font-size:8px;font-family:'Arial Black',sans-serif;cursor:pointer;">🪶 WINGS</button>
+        <button id="rtab-level" class="rank-tab" onclick="switchRankTab('level')" style="flex:1;padding:7px;background:#111;border:1px solid #333;border-radius:8px;color:#666;font-size:8px;font-family:'Arial Black',sans-serif;cursor:pointer;">⭐ NIVEL</button>
+        <button id="rtab-clicks" class="rank-tab" onclick="switchRankTab('clicks')" style="flex:1;padding:7px;background:#111;border:1px solid #333;border-radius:8px;color:#666;font-size:8px;font-family:'Arial Black',sans-serif;cursor:pointer;">☕ SIPS</button>
       </div>
-      <div id="ranking-list" style="display:flex;flex-direction:column;gap:6px;max-height:340px;overflow-y:auto;">
-        <div style="color:#444;font-size:11px;text-align:center;font-family:sans-serif;padding:20px;">Cargando ranking...</div>
+      <div id="ranking-list-container" style="max-height:320px;overflow-y:auto;">
+        <div style="color:#444;font-size:11px;text-align:center;font-family:sans-serif;padding:20px;">Añade amigos para ver el ranking.</div>
       </div>
-      <button class="s-btn" style="width:100%;margin-top:10px;border-color:#444;color:#666;font-size:9px;" onclick="loadGlobalRanking()">🔄 ACTUALIZAR RANKING</button>
     </div>
 
     </div><!-- /padding -->
@@ -3098,18 +3099,17 @@ function updateRankingSidebarBtn(){
 }
 
 function openRanking(){
-  _currentRankTab='wings';
-  document.querySelectorAll('.rank-tab').forEach(b=>b.classList.remove('active'));
-  const rtw=document.getElementById('rtab-wings');if(rtw)rtw.classList.add('active');
-  renderRanking();
   openModal('ranking-modal');
+  const c=document.getElementById('ranking-list-container');
+  if(c)c.innerHTML='<div style="color:#444;font-size:11px;text-align:center;font-family:sans-serif;padding:30px;">Cargando ranking global...</div>';
+  loadGlobalRankingInto('ranking-list-container');
 }
 
 function switchRankTab(tab){
   _currentRankTab=tab;
   document.querySelectorAll('.rank-tab').forEach(b=>b.classList.remove('active'));
   const el=document.getElementById('rtab-'+tab);if(el)el.classList.add('active');
-  renderRanking();
+  // switchRankTab now unused from ranking modal (global), kept for friends tab
 }
 
 function renderRanking(){
@@ -4302,7 +4302,7 @@ function openModal(id){
   document.getElementById(id).style.display='flex';
   if(id==='prestige-modal')openPrestigeModal();
   if(id==='settings-modal')updateSettingsPanel();
-  if(id==='friends-modal')renderFriendsList();
+  if(id==='friends-modal')setTimeout(()=>socialTab('friends'),50);
   if(id==='missions-modal')renderMissions();
   if(id==='daily-modal')renderDailyGrid();
 }
@@ -5106,7 +5106,7 @@ function socialTab(tab){
   } else if(tab==='ranking'){
     if(rp)rp.style.display='';
     if(tr){tr.style.background='#c0392b';tr.style.color='#fff';tr.style.border='none';}
-    loadGlobalRanking();
+    renderRanking();  // Amigos en el tab Social
   }
 }
 
@@ -5389,15 +5389,15 @@ function copyClubInvite(){
 }
 
 // ── Global Ranking ─────────────────────────────────────
-async function loadGlobalRanking(){
-  const box=document.getElementById('ranking-list');
+async function loadGlobalRankingInto(containerId){
+  const box=document.getElementById(containerId);
   if(!box)return;
-  box.innerHTML='<div style="color:#444;font-size:11px;text-align:center;font-family:sans-serif;padding:20px;">Cargando...</div>';
   try{
     const url=`${_FB_PROFILES}?key=${_FB_CONFIG.apiKey}&pageSize=50`;
     const r=await fetch(url);
     if(!r.ok){box.innerHTML='<div style="color:#555;text-align:center;font-family:sans-serif;font-size:11px;padding:20px;">Error al cargar ranking.</div>';return;}
     const data=await r.json();
+    const myCode=(state.accountVaultCode||'').replace(/-/g,'').toUpperCase();
     const docs=(data.documents||[])
       .map(d=>({
         name:d.fields?.name?.stringValue||'Player',
@@ -5410,13 +5410,12 @@ async function loadGlobalRanking(){
       .sort((a,b)=>b.wings-a.wings)
       .slice(0,20);
     if(!docs.length){box.innerHTML='<div style="color:#555;text-align:center;font-family:sans-serif;font-size:11px;padding:20px;">Sin jugadores aún.</div>';return;}
-    const myCode=(state.accountVaultCode||'').replace(/-/g,'').toUpperCase();
     const medals=['🥇','🥈','🥉'];
     box.innerHTML=docs.map((p,i)=>{
       const isMe=p.code===myCode;
       const avatar=p.photo?`<img src="${p.photo}" style="width:32px;height:32px;border-radius:50%;object-fit:cover;border:2px solid ${isMe?'var(--neon-green)':'#333'};">`:`<div style="width:32px;height:32px;border-radius:50%;background:#1a1a1a;display:flex;align-items:center;justify-content:center;font-size:14px;border:2px solid ${isMe?'var(--neon-green)':'#222'};">👤</div>`;
-      return `<div style="display:flex;align-items:center;gap:8px;padding:8px;background:${isMe?'rgba(0,60,0,0.3)':'rgba(15,15,15,0.8)'};border:1px solid ${isMe?'var(--neon-green)':'#1a1a1a'};border-radius:8px;">
-        <div style="font-size:${i<3?'18px':'12px'};color:${i<3?'var(--gold)':'#555'};width:24px;text-align:center;font-family:'Arial Black',sans-serif;">${medals[i]||('#'+(i+1))}</div>
+      return `<div style="display:flex;align-items:center;gap:8px;padding:8px;margin-bottom:4px;background:${isMe?'rgba(0,60,0,0.3)':'rgba(15,15,15,0.8)'};border:1px solid ${isMe?'var(--neon-green)':'#1a1a1a'};border-radius:8px;">
+        <div style="font-size:${i<3?'18px':'11px'};color:${i<3?'var(--gold)':'#444'};width:24px;text-align:center;font-family:'Arial Black',sans-serif;">${medals[i]||('#'+(i+1))}</div>
         ${avatar}
         <div style="flex:1;min-width:0;">
           <div style="font-size:11px;color:${isMe?'var(--neon-green)':'#ddd'};font-family:'Arial Black',sans-serif;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p.name}${isMe?' ★':''}</div>
@@ -5429,6 +5428,10 @@ async function loadGlobalRanking(){
       </div>`;
     }).join('');
   }catch(e){box.innerHTML='<div style="color:#555;text-align:center;font-family:sans-serif;font-size:11px;padding:20px;">Sin conexión.</div>';}
+}
+
+async function loadGlobalRanking(){
+  loadGlobalRankingInto('ranking-list');
 }
 
 // ── Club Chat ──────────────────────────────────────────
