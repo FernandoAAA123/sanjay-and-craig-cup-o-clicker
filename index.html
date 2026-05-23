@@ -1935,9 +1935,6 @@ function _applyLoadedState(loaded){
 
 // Nueva loadGame: localStorage → sessionStorage → IndexedDB
 function loadGame(){
-  // Si venimos de un restore desde la nube, no subir a Firebase al cargar
-  const _justRestored=sessionStorage.getItem('_fbRestored');
-  if(_justRestored){sessionStorage.removeItem('_fbRestored');}
   // 1) Intentar localStorage
   let raw=null;
   for(const key of SAVE_KEYS){
@@ -1953,9 +1950,7 @@ function loadGame(){
     _applyLoadedState(loaded);
     _idbSave(raw);
     // Sync inicial a Firebase — solo si NO venimos de un restore
-    if(!_justRestored){
-      setTimeout(()=>{if(typeof _fbAutoSync==='function')_fbAutoSync();},5000);
-    }
+    setTimeout(()=>{if(typeof _fbAutoSync==='function')_fbAutoSync();},5000);
     return;
   }
   // 3) Fallback: IndexedDB (async)
@@ -4357,12 +4352,16 @@ async function vaultRestoreFromCloud(rawCode){
       lang==='es'?'Esto reemplazara tu progreso actual.':'This will overwrite your current progress.',
       ()=>{
         try{
+          // Disable ALL saves before writing restore data
           window._saveDisabled=true;
-          sessionStorage.setItem('_fbRestored','1');
+          // Remove current save first to avoid any merge
+          localStorage.removeItem(SAVE_KEY);
+          // Write the restored save
           localStorage.setItem(SAVE_KEY,saveStr);
           sessionStorage.setItem(SAVE_KEY,saveStr);
           _idbSave(saveStr);
-          location.reload();
+          // Small delay to ensure writes complete before reload
+          setTimeout(()=>location.reload(), 100);
         }catch(e){
             notify(lang==='es'?'Error al restaurar':'Restore failed','CLOUD',ICONS.error,true);
         }
@@ -5355,7 +5354,7 @@ if(typeof state !== 'undefined'){
 // ── Update Firestore rules reminder (in console) ───────
 // Social system loaded
 
-window.addEventListener('beforeunload',()=>saveGame(true));
+window.addEventListener('beforeunload',()=>{if(!window._saveDisabled)saveGame(true);});
 document.addEventListener('visibilitychange',()=>{
   if(document.hidden){saveGame(true);}
   else{// Reset combo and streak when returning to tab to avoid phantom combos
