@@ -262,10 +262,25 @@ body.mobile-mode #daily-badge img,body.mobile-mode #missions-badge img{width:14p
 .btn-owned-gray{border-color:#555!important;color:#555!important;cursor:not-allowed;}
 @keyframes pulse-red{0%,100%{opacity:1;}50%{opacity:0.5;}}
 
-/* EVENT BANNER */
-.event-banner{width:100%;height:140px;border-radius:15px;background:linear-gradient(45deg,#ff00ff,#4b0082);margin-bottom:15px;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:center;align-items:center;border:2px solid var(--neon-pink);}
-.event-banner img.banner-bg{position:absolute;width:100%;height:100%;object-fit:cover;opacity:0.25;z-index:1;}
-.event-banner-content{z-index:2;text-shadow:0 0 12px black;}
+/* EVENT BANNER — MEJORADO */
+.event-banner{width:100%;min-height:160px;border-radius:15px;background:linear-gradient(135deg,#1a0015,#0d0020,#15000d);margin-bottom:15px;position:relative;overflow:hidden;display:flex;flex-direction:row;align-items:center;gap:0;border:2px solid var(--neon-pink);box-shadow:0 0 30px rgba(255,0,255,0.25),inset 0 0 60px rgba(255,0,255,0.05);}
+.event-banner::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(255,0,255,0.12) 0%,transparent 50%,rgba(75,0,130,0.12) 100%);z-index:1;pointer-events:none;}
+.event-banner::after{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:conic-gradient(transparent 0deg,rgba(255,0,255,0.03) 60deg,transparent 120deg);animation:banner-rotate 8s linear infinite;z-index:0;pointer-events:none;}
+@keyframes banner-rotate{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
+.event-banner-side-img{width:140px;height:100%;min-height:160px;position:relative;flex-shrink:0;z-index:2;display:flex;align-items:flex-end;justify-content:center;overflow:hidden;}
+.event-banner-side-img img{width:120px;height:120px;object-fit:contain;filter:drop-shadow(0 0 20px var(--ev-color,#ff00ff));animation:banner-char-float 3s ease-in-out infinite;}
+@keyframes banner-char-float{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-8px) scale(1.03);}}
+.event-banner-content{z-index:3;text-shadow:0 0 12px black;flex:1;padding:16px 18px 16px 4px;display:flex;flex-direction:column;justify-content:center;gap:8px;}
+.event-banner-title{font-size:22px;font-weight:bold;font-family:'Arial Black',sans-serif;line-height:1.1;letter-spacing:1px;}
+.event-banner-desc{font-size:11px;color:#ccc;font-family:sans-serif;line-height:1.4;}
+.event-banner-countdown{display:inline-flex;align-items:center;gap:6px;background:rgba(0,0,0,0.55);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:5px 12px;backdrop-filter:blur(4px);}
+.event-countdown-block{display:flex;flex-direction:column;align-items:center;gap:1px;}
+.event-countdown-num{font-size:18px;font-weight:bold;font-family:'Arial Black',sans-serif;line-height:1;}
+.event-countdown-lbl{font-size:7px;color:#888;text-transform:uppercase;letter-spacing:1px;font-family:sans-serif;}
+.event-countdown-sep{font-size:16px;color:#555;font-weight:bold;margin-bottom:6px;}
+.event-banner-badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:2px;}
+.event-banner-badge{font-size:8px;font-family:'Arial Black',sans-serif;padding:3px 9px;border-radius:20px;letter-spacing:0.5px;font-weight:bold;}
+.event-banner img.banner-bg{position:absolute;width:100%;height:100%;object-fit:cover;opacity:0.08;z-index:1;filter:blur(2px);}
 
 /* PARTICLES */
 .particle{position:fixed;pointer-events:none;z-index:1000;animation:floatOut 0.85s ease-out forwards;width:28px;height:28px;}
@@ -412,6 +427,12 @@ input:checked+.toggle-slider::before{transform:translateX(20px);}
 /* LEVEL icon images */
 .level-img{width:20px;height:20px;vertical-align:middle;}
 
+/* EVENT EMPTY */
+.event-empty-box{text-align:center;padding:40px 20px;}
+.event-empty-img{width:56px;height:56px;opacity:0.3;display:block;margin:0 auto 14px;}
+/* FRIEND LEVEL LABEL */
+.friend-level-lbl{font-size:9px;color:var(--level-color);font-family:'Arial Black',sans-serif;}
+.friend-code-lbl{font-size:8px;color:#444;font-family:monospace;margin-top:4px;letter-spacing:1px;}
 /* FRIEND btn */
 .btn-friend-action{border-color:var(--blueberry-blue)!important;color:var(--blueberry-blue)!important;font-size:9px!important;padding:5px 10px!important;}
 .btn-remove-friend{border-color:#c0392b!important;color:#c0392b!important;font-size:9px!important;padding:5px 8px!important;}
@@ -704,22 +725,49 @@ input:checked+.toggle-slider::before{transform:translateX(20px);}
 <!-- EVENT MODAL -->
 <div id="event-modal" class="modal">
   <div class="modal-content" id="event-modal-content" style="border-color:var(--neon-pink);padding:0;overflow:hidden;">
-    <div id="event-banner-dynamic" style="position:relative;padding:20px;text-align:center;background:linear-gradient(135deg,#1a0015,#0d0020);border-bottom:2px solid var(--neon-pink);">
-      <img id="event-banner-icon" src="https://img.icons8.com/fluency/48/confetti.png" style="width:52px;height:52px;border-radius:50%;border:2px solid var(--neon-pink);margin-bottom:8px;display:block;margin-left:auto;margin-right:auto;object-fit:cover;">
-      <h1 id="event-title-text" style="color:var(--neon-pink);margin:0;font-size:20px;text-shadow:0 0 20px var(--neon-pink);">EVENTO</h1>
-      <p id="event-sub-text" style="font-family:sans-serif;font-size:11px;margin:4px 0 10px;color:#aaa;"></p>
-      <div id="event-countdown" style="background:rgba(0,0,0,0.5);border:1px solid var(--neon-pink);border-radius:8px;padding:6px 14px;display:inline-flex;gap:14px;align-items:center;">
-        <span style="font-size:8px;color:#888;text-transform:uppercase;letter-spacing:1px;" id="ev-cd-label">Termina en</span>
-        <span id="ev-cd-days" style="font-size:16px;color:var(--neon-pink);font-family:'Arial Black',sans-serif;">--d</span>
-        <span id="ev-cd-hours" style="font-size:16px;color:var(--neon-pink);font-family:'Arial Black',sans-serif;">--h</span>
-        <span id="ev-cd-mins" style="font-size:16px;color:var(--neon-pink);font-family:'Arial Black',sans-serif;">--m</span>
+    <div id="event-banner-dynamic" class="event-banner" style="border-radius:0;border:none;border-bottom:2px solid var(--neon-pink);margin-bottom:0;">
+      <!-- BG image overlay -->
+      <img id="event-banner-bg-img" class="banner-bg" src="" alt="">
+      <!-- Character / icon side -->
+      <div class="event-banner-side-img" id="event-banner-side">
+        <img id="event-banner-icon" src="https://img.icons8.com/fluency/48/confetti.png" style="width:110px;height:110px;object-fit:contain;">
+      </div>
+      <!-- Text content -->
+      <div class="event-banner-content">
+        <div class="event-banner-badges">
+          <span class="event-banner-badge" id="ev-badge-live" style="background:rgba(255,0,0,0.2);color:#ff4444;border:1px solid #ff4444;">🔴 LIVE</span>
+          <span class="event-banner-badge" id="ev-badge-exclusive" style="background:rgba(255,215,0,0.15);color:var(--gold);border:1px solid var(--gold);">⭐ EXCLUSIVE</span>
+        </div>
+        <h1 id="event-title-text" class="event-banner-title" style="color:var(--neon-pink);text-shadow:0 0 20px var(--neon-pink);margin:0;">EVENTO</h1>
+        <p id="event-sub-text" class="event-banner-desc" style="margin:0;"></p>
+        <!-- Countdown -->
+        <div id="event-countdown" class="event-banner-countdown">
+          <span style="font-size:8px;color:#888;text-transform:uppercase;letter-spacing:1px;font-family:sans-serif;" id="ev-cd-label">Termina en</span>
+          <div class="event-countdown-block">
+            <span class="event-countdown-num" id="ev-cd-days" style="color:var(--neon-pink);">--</span>
+            <span class="event-countdown-lbl">días</span>
+          </div>
+          <span class="event-countdown-sep">:</span>
+          <div class="event-countdown-block">
+            <span class="event-countdown-num" id="ev-cd-hours" style="color:var(--neon-pink);">--</span>
+            <span class="event-countdown-lbl">horas</span>
+          </div>
+          <span class="event-countdown-sep">:</span>
+          <div class="event-countdown-block">
+            <span class="event-countdown-num" id="ev-cd-mins" style="color:var(--neon-pink);">--</span>
+            <span class="event-countdown-lbl">mins</span>
+          </div>
+        </div>
       </div>
     </div>
     <div style="padding:14px;">
-      <div id="event-tokens-bar" style="background:#1a0015;border:1px solid var(--neon-pink);border-radius:10px;padding:8px 14px;margin-bottom:14px;display:flex;align-items:center;gap:10px;">
-        <img src="https://img.icons8.com/fluency/48/confetti.png" style="width:20px;height:20px;">
-        <span style="font-size:10px;color:var(--neon-pink);text-transform:uppercase;letter-spacing:1px;" id="ev-tokens-lbl">EVENT TOKENS</span>
-        <span style="margin-left:auto;font-size:18px;font-weight:bold;color:var(--neon-pink);font-family:'Arial Black',sans-serif;" id="ev-tokens-val">0</span>
+      <div id="event-tokens-bar" style="background:linear-gradient(135deg,#1a0015,#0d0015);border:1px solid var(--neon-pink);border-radius:12px;padding:10px 16px;margin-bottom:14px;display:flex;align-items:center;gap:10px;box-shadow:0 0 12px rgba(255,0,255,0.15);">
+        <img src="https://img.icons8.com/fluency/48/confetti.png" style="width:22px;height:22px;flex-shrink:0;">
+        <div style="flex:1;">
+          <div style="font-size:8px;color:#888;text-transform:uppercase;letter-spacing:1px;font-family:sans-serif;" id="ev-tokens-lbl">EVENT TOKENS</div>
+          <div style="font-size:20px;font-weight:bold;color:var(--neon-pink);font-family:'Arial Black',sans-serif;line-height:1;" id="ev-tokens-val">0</div>
+        </div>
+        <div style="font-size:8px;color:#555;text-align:right;font-family:sans-serif;">${lang==='es'?'Gana tokens<br>haciendo clic':'Earn tokens<br>by clicking'}</div>
       </div>
       <h3 style="color:var(--neon-pink);text-align:left;margin-bottom:10px;display:flex;align-items:center;gap:8px;">
         <img src="https://img.icons8.com/fluency/48/confetti.png" style="width:18px;height:18px;"><span id="event-store-title">EVENT STORE</span>
@@ -1009,7 +1057,7 @@ input:checked+.toggle-slider::before{transform:translateX(20px);}
         <img src="https://img.icons8.com/fluency/48/conference-call.png" style="width:16px;height:16px;">
         <span style="font-size:10px;color:var(--friend-color);font-family:'Arial Black',sans-serif;letter-spacing:1px;" id="friends-list-title">MIS AMIGOS</span>
         <span id="friends-count-badge" style="background:var(--friend-color);color:#000;border-radius:20px;padding:1px 8px;font-size:8px;">0</span>
-        <button class="s-btn" style="margin-left:auto;font-size:8px;padding:4px 10px;border-color:#444;color:#666;" onclick="refreshAllFriendsFromCloud()">🔄 ACTUALIZAR</button>
+        <button class="s-btn" style="margin-left:auto;font-size:8px;padding:4px 10px;border-color:#2ecc71;color:#2ecc71;" onclick="refreshAllFriendsFromCloud().then(()=>notify(lang==='es'?'Perfiles actualizados':'Profiles updated','SOCIAL',ICONS.friends,false,true))">🔄 SYNC</button>
       </div>
       <div id="friends-list-container">
         <p style="color:#555;font-size:12px;font-family:sans-serif;" id="no-friends-text">Sin amigos aún.</p>
@@ -1078,11 +1126,11 @@ input:checked+.toggle-slider::before{transform:translateX(20px);}
     <!-- ── RANKING TAB (Amigos) ── -->
     <div id="social-panel-ranking" style="display:none;">
       <div style="display:flex;gap:6px;margin-bottom:10px;">
-        <button id="rtab-wings" class="rank-tab active" onclick="switchRankTab('wings')" style="flex:1;padding:7px;background:#0a1a0a;border:1px solid var(--friend-color);border-radius:8px;color:var(--friend-color);font-size:8px;font-family:'Arial Black',sans-serif;cursor:pointer;">🪶 WINGS</button>
-        <button id="rtab-level" class="rank-tab" onclick="switchRankTab('level')" style="flex:1;padding:7px;background:#111;border:1px solid #333;border-radius:8px;color:#666;font-size:8px;font-family:'Arial Black',sans-serif;cursor:pointer;">⭐ NIVEL</button>
-        <button id="rtab-clicks" class="rank-tab" onclick="switchRankTab('clicks')" style="flex:1;padding:7px;background:#111;border:1px solid #333;border-radius:8px;color:#666;font-size:8px;font-family:'Arial Black',sans-serif;cursor:pointer;">☕ SIPS</button>
+        <button id="frtab-wings" onclick="switchFriendsRankTab('wings')" style="flex:1;padding:7px;background:var(--friend-color);border:none;border-radius:8px;color:#000;font-size:8px;font-family:'Arial Black',sans-serif;cursor:pointer;">🪶 WINGS</button>
+        <button id="frtab-level" onclick="switchFriendsRankTab('level')" style="flex:1;padding:7px;background:#111;border:1px solid #333;border-radius:8px;color:#666;font-size:8px;font-family:'Arial Black',sans-serif;cursor:pointer;">⭐ NIVEL</button>
+        <button id="frtab-clicks" onclick="switchFriendsRankTab('clicks')" style="flex:1;padding:7px;background:#111;border:1px solid #333;border-radius:8px;color:#666;font-size:8px;font-family:'Arial Black',sans-serif;cursor:pointer;">☕ SIPS</button>
       </div>
-      <div id="ranking-list-container" style="max-height:320px;overflow-y:auto;">
+      <div id="ranking-friends-container" style="max-height:320px;overflow-y:auto;">
         <div style="color:#444;font-size:11px;text-align:center;font-family:sans-serif;padding:20px;">Añade amigos para ver el ranking.</div>
       </div>
     </div>
@@ -1126,7 +1174,7 @@ input:checked+.toggle-slider::before{transform:translateX(20px);}
     </h2>
     <p style="font-size:10px;color:#888;font-family:sans-serif;margin:0 0 14px;text-align:center;" id="ranking-sub">Top players of all time</p>
     <div class="rank-tabs">
-      <button class="rank-tab active" id="rtab-wings" onclick="switchRankTab('wings')"><img src="https://files.catbox.moe/soha2r.png" style="width:12px;height:12px;vertical-align:middle;margin-right:3px;"> WINGS</button>
+      <button class="rank-tab" id="rtab-wings" onclick="switchRankTab('wings')"><img src="https://files.catbox.moe/soha2r.png" style="width:12px;height:12px;vertical-align:middle;margin-right:3px;"> WINGS</button>
       <button class="rank-tab" id="rtab-level" onclick="switchRankTab('level')"><img src="https://img.icons8.com/fluency/48/star.png" style="width:12px;height:12px;vertical-align:middle;margin-right:3px;"> LEVEL</button>
       <button class="rank-tab" id="rtab-clicks" onclick="switchRankTab('clicks')"><img src="https://img.icons8.com/fluency/48/touch-screen.png" style="width:12px;height:12px;vertical-align:middle;margin-right:3px;"> CLICKS</button>
     </div>
@@ -2273,12 +2321,19 @@ function addFriendByCode(){
   state.friends.push({
     name:data.n||'Player',level:data.l||1,wings:data.w||0,
     avatar:friendAvatar,prestige:data.p||0,
-    code:raw,uid:data.id,totalSips:data.ts||0,frenzies:0,lastCode:raw
+    code:raw,uid:data.id,totalSips:data.ts||0,frenzies:0,lastCode:raw,
+    cloudPhoto:''
   });
   document.getElementById('friend-code-input').value='';
   saveGame();renderFriendsList();
   notify(data.n||'Player',t('FRIEND_ADDED'),friendAvatar);
   checkAchievements();
+  // Try to fetch cloud profile for real photo
+  if(typeof fbGetProfile==='function'){
+    setTimeout(()=>{
+      refreshFriendFromCloud(data.id).then(()=>renderFriendsList()).catch(()=>{});
+    },500);
+  }
 }
 
 function refreshFriend(code){
@@ -2348,40 +2403,69 @@ function renderFriendsList(){
     c.innerHTML=`<div style="text-align:center;padding:30px 0;">
       <img src="${ICONS.friends}" style="width:48px;height:48px;opacity:0.3;display:block;margin:0 auto 10px;">
       <p style="color:#555;font-size:12px;font-family:sans-serif;">${t('NO_FRIENDS')}</p>
+      <p style="color:#333;font-size:10px;font-family:sans-serif;margin-top:4px;">${lang==='es'?'Comparte tu código con amigos para agregarlos':'Share your code with friends to add them'}</p>
     </div>`;
     return;
   }
   c.innerHTML='';
   state.friends.forEach(f=>{
     const lvlNum=f.level||1;
-    const pTag=f.prestige>0?`<span style="background:var(--prestige-color);color:#fff;font-size:8px;border-radius:8px;padding:1px 6px;margin-left:4px;">P${f.prestige}</span>`:'';
-    const ahead=f.wings>=(state.wings||0);
+    const pTag=f.prestige>0?`<span style="background:var(--prestige-color);color:#fff;font-size:7px;border-radius:8px;padding:1px 5px;font-weight:bold;">P${f.prestige}</span>`:'';
+    const ahead=(f.wings||0)>=(state.wings||0);
     const cmpTag=ahead
-      ?`<span style="color:var(--neon-green);font-size:9px;font-weight:bold;display:flex;align-items:center;gap:2px;"><img src="https://img.icons8.com/fluency/48/up-arrow.png" style="width:10px;height:10px;"> AHEAD</span>`
-      :`<span style="color:#c0392b;font-size:9px;font-weight:bold;display:flex;align-items:center;gap:2px;"><img src="https://img.icons8.com/fluency/48/down-arrow.png" style="width:10px;height:10px;"> BEHIND</span>`;
-    const avatarUrl=f.avatar&&f.avatar!==ICONS.friends?f.avatar:ICONS.friends;
+      ?`<span style="background:rgba(46,204,113,0.15);border:1px solid var(--neon-green);color:var(--neon-green);font-size:7px;font-weight:bold;border-radius:10px;padding:2px 6px;display:inline-flex;align-items:center;gap:2px;"><img src="https://img.icons8.com/fluency/48/up-arrow.png" style="width:8px;height:8px;"> AHEAD</span>`
+      :`<span style="background:rgba(192,57,43,0.15);border:1px solid #c0392b;color:#e74c3c;font-size:7px;font-weight:bold;border-radius:10px;padding:2px 6px;display:inline-flex;align-items:center;gap:2px;"><img src="https://img.icons8.com/fluency/48/down-arrow.png" style="width:8px;height:8px;"> BEHIND</span>`;
+    // Use cloudPhoto if available, otherwise fallback
+    const avatarUrl=(f.cloudPhoto&&f.cloudPhoto.length>10)?f.cloudPhoto:(f.avatar&&f.avatar!==ICONS.friends?f.avatar:ICONS.friends);
     const levelIcon=getLevelIconUrl(lvlNum);
-    c.innerHTML+=`<div class="friend-card">
-      <img src="${avatarUrl}" class="friend-avatar" onerror="this.src='${ICONS.friends}'" style="width:62px;height:62px;">
-      <div class="friend-info" style="flex:1;min-width:0;">
-        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
-          <span class="friend-name">${f.name}</span>${pTag}${cmpTag}
-        </div>
-        <div class="friend-level-lbl" style="display:flex;align-items:center;gap:4px;margin-top:3px;">
-          <img src="${levelIcon}" style="width:12px;height:12px;">${t('LEVEL_LBL')} ${lvlNum}
-        </div>
-        <div class="friend-stats-lbl" style="margin-top:3px;">
-          <img src="${ICONS.wing}" style="width:10px;height:10px;vertical-align:middle;margin-right:2px;">${formatNum(f.wings)} ${t('WINGS')}
-          &nbsp;·&nbsp;
-          <img src="${ICONS.touch}" style="width:10px;height:10px;vertical-align:middle;margin-right:2px;">${formatNum(f.totalSips||0)} ${t('TOTAL_SIPS')}
-        </div>
-        ${f.frenzies>0?`<div style="font-size:9px;color:var(--hot-sauce);margin-top:2px;"><img src="${ICONS.storm}" style="width:10px;height:10px;vertical-align:middle;margin-right:2px;">${f.frenzies} ${t('TOTAL_FRENZIES')}</div>`:''}
-        <div class="friend-code-lbl">${t('FRIEND_CODE_LBL')} ${formatPlayerCode(f.uid||f.code.slice(0,8))}</div>
+    const lvlPct=100; // show level visually
+    const wingsFormatted=formatNum(f.wings||0);
+    const sipsFormatted=formatNum(f.totalSips||0);
+    c.innerHTML+=`<div class="friend-card" style="position:relative;overflow:hidden;">
+      <!-- Glow accent bar -->
+      <div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--neon-green),transparent);border-radius:3px 0 0 3px;"></div>
+      <!-- Avatar with online ring -->
+      <div style="position:relative;flex-shrink:0;">
+        <img src="${avatarUrl}" class="friend-avatar" onerror="this.src='${ICONS.friends}'"
+          style="width:64px;height:64px;border-radius:50%;object-fit:cover;border:2px solid var(--friend-color);box-shadow:0 0 10px rgba(46,204,113,0.3);display:block;">
+        <div style="position:absolute;bottom:2px;right:2px;width:12px;height:12px;background:var(--neon-green);border-radius:50%;border:2px solid #0d1a0d;box-shadow:0 0 5px var(--neon-green);"></div>
       </div>
-      <div style="display:flex;flex-direction:column;gap:5px;flex-shrink:0;">
-        <button class="s-btn btn-friend-action" onclick="showFriendStats('${f.code}')" style="white-space:nowrap;">${t('VIEW_STATS')}</button>
-        <button class="s-btn btn-send-gift" onclick="openGiftModal('${f.code}')"><img src="${ICONS.gift}" class="icon-small">${t('SEND_GIFT')}</button>
-        <button class="s-btn btn-remove-friend" onclick="showConfirm(lang==='es'?'¿Eliminar amigo?':'Remove friend?','${f.name.replace(/'/g,"\\'")}',()=>removeFriend('${f.code}'))"><img src="${ICONS.error}" style="width:12px;height:12px;"></button>
+      <!-- Info -->
+      <div class="friend-info" style="flex:1;min-width:0;">
+        <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-bottom:4px;">
+          <span class="friend-name" style="font-size:14px;">${f.name}</span>${pTag}${cmpTag}
+        </div>
+        <!-- Level row -->
+        <div style="display:flex;align-items:center;gap:4px;margin-bottom:5px;">
+          <img src="${levelIcon}" style="width:12px;height:12px;">
+          <span style="font-size:9px;color:var(--level-color);font-weight:bold;font-family:'Arial Black',sans-serif;">${t('LEVEL_LBL')} ${lvlNum}</span>
+        </div>
+        <!-- Stats chips -->
+        <div style="display:flex;gap:5px;flex-wrap:wrap;">
+          <div style="background:rgba(255,219,0,0.1);border:1px solid rgba(255,219,0,0.3);border-radius:6px;padding:2px 7px;display:flex;align-items:center;gap:3px;">
+            <img src="${ICONS.wing}" style="width:10px;height:10px;">
+            <span style="font-size:9px;color:var(--gold);font-family:sans-serif;font-weight:bold;">${wingsFormatted}</span>
+          </div>
+          <div style="background:rgba(0,255,255,0.08);border:1px solid rgba(0,255,255,0.2);border-radius:6px;padding:2px 7px;display:flex;align-items:center;gap:3px;">
+            <img src="${ICONS.touch}" style="width:10px;height:10px;">
+            <span style="font-size:9px;color:var(--neon-blue);font-family:sans-serif;">${sipsFormatted}</span>
+          </div>
+          ${f.frenzies>0?`<div style="background:rgba(255,51,0,0.1);border:1px solid rgba(255,51,0,0.25);border-radius:6px;padding:2px 7px;display:flex;align-items:center;gap:3px;"><img src="${ICONS.fire}" style="width:10px;height:10px;"><span style="font-size:9px;color:var(--hot-sauce);font-family:sans-serif;">${f.frenzies}</span></div>`:''}
+        </div>
+        <!-- Code -->
+        <div style="font-size:8px;color:#444;font-family:monospace;margin-top:4px;letter-spacing:1px;">${t('FRIEND_CODE_LBL')} ${formatPlayerCode(f.uid||f.code.slice(0,8))}</div>
+      </div>
+      <!-- Actions -->
+      <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;align-items:stretch;">
+        <button class="s-btn btn-friend-action" onclick="showFriendStats('${f.code}')" style="white-space:nowrap;font-size:8px;padding:5px 9px;">
+          <img src="${ICONS.trophy}" style="width:10px;height:10px;margin-right:3px;vertical-align:middle;">${t('VIEW_STATS')}
+        </button>
+        <button class="s-btn btn-send-gift" onclick="openGiftModal('${f.code}')" style="font-size:8px;padding:5px 9px;">
+          <img src="${ICONS.gift}" style="width:10px;height:10px;margin-right:3px;vertical-align:middle;">${t('SEND_GIFT')}
+        </button>
+        <button class="s-btn btn-remove-friend" onclick="showConfirm(lang==='es'?'¿Eliminar amigo?':'Remove friend?','${f.name.replace(/'/g,"\\'")}',()=>removeFriend('${f.code}'))" style="font-size:8px;padding:5px 9px;">
+          <img src="${ICONS.error}" style="width:10px;height:10px;margin-right:2px;vertical-align:middle;">
+        </button>
       </div>
     </div>`;
   });
@@ -2391,28 +2475,35 @@ function showFriendStats(code){
   const f=state.friends.find(x=>x.code===code);if(!f)return;
   const lvl=f.level||1;
   const pText=f.prestige>0?`<span style="background:var(--prestige-color);color:#fff;font-size:9px;border-radius:8px;padding:2px 8px;"><img src="${ICONS.diamond}" style="width:11px;height:11px;vertical-align:middle;margin-right:2px;">${t('PRESTIGE')} ${f.prestige}</span>`:'';
-  const avatarUrl=f.avatar&&f.avatar!==ICONS.friends?f.avatar:ICONS.friends;
-  const ahead=f.wings>=(state.wings||0);
+  const avatarUrl=(f.cloudPhoto&&f.cloudPhoto.length>10)?f.cloudPhoto:(f.avatar&&f.avatar!==ICONS.friends?f.avatar:ICONS.friends);
+  const ahead=(f.wings||0)>=(state.wings||0);
   const cmpStyle=ahead?'color:var(--neon-green)':'color:#c0392b';
   const cmpText=ahead
     ?(lang==='es'?'<img src="https://img.icons8.com/fluency/48/up-arrow.png" style="width:12px;height:12px;vertical-align:middle;margin-right:3px;"> Por delante tuyo':'<img src="https://img.icons8.com/fluency/48/up-arrow.png" style="width:12px;height:12px;vertical-align:middle;margin-right:3px;"> Ahead of you')
     :(lang==='es'?'<img src="https://img.icons8.com/fluency/48/down-arrow.png" style="width:12px;height:12px;vertical-align:middle;margin-right:3px;"> Por detras tuyo':'<img src="https://img.icons8.com/fluency/48/down-arrow.png" style="width:12px;height:12px;vertical-align:middle;margin-right:3px;"> Behind you');
+  const wDiff=Math.abs((f.wings||0)-(state.wings||0));
+  const diffStr=ahead?(lang==='es'?`Te lleva ${formatNum(wDiff)} alitas`:`Leads by ${formatNum(wDiff)} wings`):(lang==='es'?`Le llevas ${formatNum(wDiff)} alitas`:`You lead by ${formatNum(wDiff)} wings`);
   document.getElementById('friend-stats-content').innerHTML=`
-    <div style="background:#0d1a0d;border:1px solid var(--friend-color);border-radius:16px;padding:18px;margin-bottom:15px;display:flex;align-items:center;gap:18px;">
-      <img src="${avatarUrl}" style="width:75px;height:75px;border-radius:50%;border:3px solid var(--friend-color);object-fit:cover;box-shadow:0 0 15px rgba(46,204,113,0.4);" onerror="this.src='${ICONS.friends}'">
-      <div style="text-align:left;flex:1;">
-        <div style="font-size:20px;font-weight:bold;color:var(--friend-color);margin-bottom:4px;">${f.name}</div>
-        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:4px;">
+    <div style="background:linear-gradient(135deg,#0d1a0d,#0a0f0d);border:2px solid var(--friend-color);border-radius:16px;padding:18px;margin-bottom:15px;display:flex;align-items:center;gap:18px;position:relative;overflow:hidden;">
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(46,204,113,0.08),transparent 60%);pointer-events:none;"></div>
+      <div style="position:relative;flex-shrink:0;">
+        <img src="${avatarUrl}" style="width:80px;height:80px;border-radius:50%;border:3px solid var(--friend-color);object-fit:cover;box-shadow:0 0 20px rgba(46,204,113,0.4);display:block;" onerror="this.src='${ICONS.friends}'">
+        <div style="position:absolute;bottom:4px;right:4px;width:14px;height:14px;background:var(--neon-green);border-radius:50%;border:2px solid #0d1a0d;"></div>
+      </div>
+      <div style="text-align:left;flex:1;position:relative;">
+        <div style="font-size:22px;font-weight:bold;color:var(--friend-color);margin-bottom:5px;">${f.name}</div>
+        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:5px;">
           <img src="${getLevelIconUrl(lvl)}" style="width:14px;height:14px;">
           <span style="font-size:11px;color:var(--level-color);font-weight:bold;">${t('LEVEL_LBL')} ${lvl}</span>
           ${pText}
         </div>
-        <div style="font-size:11px;${cmpStyle};font-weight:bold;">${cmpText}</div>
+        <div style="font-size:11px;${cmpStyle};font-weight:bold;display:flex;align-items:center;">${cmpText}</div>
+        <div style="font-size:9px;color:#555;font-family:sans-serif;margin-top:3px;">${diffStr}</div>
         <div style="font-size:9px;color:var(--neon-blue);font-family:monospace;margin-top:4px;">${t('FRIEND_CODE_LBL')} ${formatPlayerCode(f.uid||f.code.slice(0,8))}</div>
       </div>
     </div>
     <div class="stats-grid">
-      <div class="stat-box"><div class="stat-box-label"><img src="${ICONS.wing}">${t('WINGS')}</div><div class="stat-box-value">${formatNum(f.wings)}</div></div>
+      <div class="stat-box"><div class="stat-box-label"><img src="${ICONS.wing}">${t('WINGS')}</div><div class="stat-box-value">${formatNum(f.wings||0)}</div></div>
       <div class="stat-box"><div class="stat-box-label"><img src="${ICONS.star}">${t('LEVEL_LBL')}</div><div class="stat-box-value">${lvl}</div></div>
       <div class="stat-box"><div class="stat-box-label"><img src="${ICONS.touch}">${t('TOTAL_SIPS')}</div><div class="stat-box-value">${formatNum(f.totalSips||0)}</div></div>
       <div class="stat-box"><div class="stat-box-label"><img src="${ICONS.fire}">${t('TOTAL_FRENZIES')}</div><div class="stat-box-value">${f.frenzies||0}</div></div>
@@ -3099,21 +3190,46 @@ function updateRankingSidebarBtn(){
 }
 
 function openRanking(){
+  _currentRankTab='wings';
   openModal('ranking-modal');
+  // Set initial active tab style
+  ['wings','level','clicks'].forEach(t=>{
+    const b=document.getElementById('rtab-'+t);
+    if(!b)return;
+    if(t==='wings'){b.style.background='var(--gold)';b.style.color='#000';b.style.border='none';}
+    else{b.style.background='#111';b.style.color='#666';b.style.border='1px solid #333';}
+  });
   const c=document.getElementById('ranking-list-container');
   if(c)c.innerHTML='<div style="color:#444;font-size:11px;text-align:center;font-family:sans-serif;padding:30px;">Cargando ranking global...</div>';
-  loadGlobalRankingInto('ranking-list-container');
+  setTimeout(()=>loadGlobalRankingInto('ranking-list-container'),100);
 }
 
 function switchRankTab(tab){
+  // Only for GLOBAL ranking modal
   _currentRankTab=tab;
-  document.querySelectorAll('.rank-tab').forEach(b=>b.classList.remove('active'));
-  const el=document.getElementById('rtab-'+tab);if(el)el.classList.add('active');
-  // switchRankTab now unused from ranking modal (global), kept for friends tab
+  ['wings','level','clicks'].forEach(t=>{
+    const b=document.getElementById('rtab-'+t);
+    if(!b)return;
+    if(t===tab){b.style.background='var(--gold)';b.style.color='#000';b.style.border='none';}
+    else{b.style.background='#111';b.style.color='#666';b.style.border='1px solid #333';}
+  });
+  loadGlobalRankingInto('ranking-list-container');
+}
+
+let _friendsRankTab='wings';
+function switchFriendsRankTab(tab){
+  _friendsRankTab=tab;
+  ['wings','level','clicks'].forEach(t=>{
+    const b=document.getElementById('frtab-'+t);
+    if(!b)return;
+    if(t===tab){b.style.background='var(--neon-green)';b.style.color='#000';b.style.border='none';}
+    else{b.style.background='#111';b.style.color='#666';b.style.border='1px solid #333';}
+  });
+  renderRanking();
 }
 
 function renderRanking(){
-  const c=document.getElementById('ranking-list-container');
+  const c=document.getElementById('ranking-friends-container');
   if(!c)return;
   if(!state.friends||!state.friends.length){
     c.innerHTML=`<div style="text-align:center;padding:40px 20px;">
@@ -3143,35 +3259,11 @@ function renderRanking(){
     isFriend:true
   }));
   let allPlayers=[...friendEntries,meEntry];
-  if(_currentRankTab==='wings'){allPlayers.sort((a,b)=>b.wings-a.wings);}
-  else if(_currentRankTab==='level'){allPlayers.sort((a,b)=>b.level-a.level||b.wings-a.wings);}
-  else if(_currentRankTab==='clicks'){allPlayers.sort((a,b)=>b.totalSips-a.totalSips);}
+  if(_friendsRankTab==='wings'){allPlayers.sort((a,b)=>b.wings-a.wings);}
+  else if(_friendsRankTab==='level'){allPlayers.sort((a,b)=>b.level-a.level||b.wings-a.wings);}
+  else if(_friendsRankTab==='clicks'){allPlayers.sort((a,b)=>b.totalSips-a.totalSips);}
   c.innerHTML='';
-  allPlayers.forEach((p,i)=>{
-    const rank=i+1;
-    let badgeClass='rank-other';
-    let badgeContent=rank;
-    if(rank===1){badgeClass='rank-1';badgeContent=`<img src="${ICONS.trophy}" style="width:18px;height:18px;">`;}
-    else if(rank===2){badgeClass='rank-2';badgeContent=`<img src="https://img.icons8.com/fluency/48/medal.png" style="width:18px;height:18px;">`;}
-    else if(rank===3){badgeClass='rank-3';badgeContent=`<img src="https://img.icons8.com/fluency/48/medal2.png" style="width:18px;height:18px;">`;}
-    if(p.isMe)badgeClass='rank-me';
-    const scoreVal=_currentRankTab==='wings'?formatNum(p.wings):_currentRankTab==='level'?p.level:formatNum(p.totalSips);
-    const scoreIcon=_currentRankTab==='wings'?ICONS.wing:_currentRankTab==='level'?ICONS.star:ICONS.touch;
-    const scoreLabel=`<img src="${scoreIcon}" style="width:11px;height:11px;vertical-align:middle;margin-right:2px;">`;
-    const prestageBadge=p.prestige>0?`<span style="font-size:9px;background:var(--prestige-color);color:#fff;border-radius:8px;padding:1px 5px;margin-left:4px;">P${p.prestige}</span>`:'';
-    const youTag=p.isMe?`<span class="rank-you-tag">${lang==='es'?'TÚ':'YOU'}</span>`:'';
-    const borderStyle=p.isMe?'border-color:var(--neon-blue);background:#0a0a1a;':'border-color:var(--friend-color);background:#0d1a0d;';
-    const avatarBorder=p.isMe?'border-color:var(--neon-blue);':'border-color:var(--friend-color);';
-    c.innerHTML+=`<div class="ranking-card" style="${borderStyle}">
-      <div class="rank-badge ${badgeClass}">${badgeContent}</div>
-      <img src="${p.avatar}" class="rank-avatar" onerror="this.src='${ICONS.friends}'" style="${avatarBorder}">
-      <div class="rank-info">
-        <div class="rank-name">${p.name}${youTag}${prestageBadge}</div>
-        <div class="rank-score">${scoreLabel} ${scoreVal}</div>
-        <div class="rank-level"><img src="${getLevelIconUrl(p.level)}" style="width:10px;height:10px;vertical-align:middle;margin-right:2px;">${lang==='es'?'Nivel':'Level'} ${p.level}</div>
-      </div>
-    </div>`;
-  });
+  c.innerHTML = allPlayers.map((p,i)=>_buildRankCard(p,i,{tab:_friendsRankTab})).join('');
 }
 
 // ══════════════════════════════════════════════════════
@@ -3958,23 +4050,45 @@ function updateEventCountdown(){
   const t=getEventTimeLeft();
   if(!t){cd.style.display='none';return;}
   cd.style.display='inline-flex';
-  document.getElementById('ev-cd-days').textContent=t.d+'d';
-  document.getElementById('ev-cd-hours').textContent=t.h+'h';
-  document.getElementById('ev-cd-mins').textContent=t.m+'m';
+  const dEl=document.getElementById('ev-cd-days');
+  const hEl=document.getElementById('ev-cd-hours');
+  const mEl=document.getElementById('ev-cd-mins');
+  if(dEl)dEl.textContent=t.d;
+  if(hEl)hEl.textContent=String(t.h).padStart(2,'0');
+  if(mEl)mEl.textContent=String(t.m).padStart(2,'0');
 }
 
 function renderEventBanner(){
   const ev=CURRENT_EVENT;
   const color=ev.color||'var(--neon-pink)';
-  // Banner
+  // Apply CSS variable for animation color
   const banner=document.getElementById('event-banner-dynamic');
-  if(banner)banner.style.borderBottomColor=color;
+  if(banner){
+    banner.style.setProperty('--ev-color',color);
+    banner.style.borderBottomColor=color;
+    banner.style.boxShadow=`0 0 30px ${color}33, inset 0 0 60px ${color}08`;
+    banner.style.borderColor=color;
+  }
+  // Side character image
   const icon=document.getElementById('event-banner-icon');
-  if(icon&&ev.icon){icon.src=ev.icon;icon.style.borderColor=color;}
+  if(icon&&ev.icon){
+    icon.src=ev.icon;
+    icon.style.filter=`drop-shadow(0 0 20px ${color})`;
+  }
+  // BG image (subtle)
+  const bgImg=document.getElementById('event-banner-bg-img');
+  if(bgImg&&ev.icon){bgImg.src=ev.icon;}
+  // Title
   const title=document.getElementById('event-title-text');
-  if(title){title.textContent=lang==='es'?ev.name_es:ev.name_en;title.style.color=color;title.style.textShadow=`0 0 20px ${color}`;}
+  if(title){title.textContent=lang==='es'?ev.name_es:ev.name_en;title.style.color=color;title.style.textShadow=`0 0 20px ${color},0 0 40px ${color}66`;}
+  // Sub
   const sub=document.getElementById('event-sub-text');
   if(sub)sub.textContent=lang==='es'?ev.desc_es:ev.desc_en;
+  // Badges
+  const badgeLive=document.getElementById('ev-badge-live');
+  if(badgeLive){badgeLive.textContent='🔴 '+(lang==='es'?'EN VIVO':'LIVE');}
+  const badgeEx=document.getElementById('ev-badge-exclusive');
+  if(badgeEx){badgeEx.textContent='⭐ '+(lang==='es'?'EXCLUSIVO':'EXCLUSIVE');}
   // Modal border color
   const mc=document.getElementById('event-modal-content');
   if(mc)mc.style.borderColor=color;
@@ -3985,7 +4099,12 @@ function renderEventBanner(){
   if(tl)tl.style.color=color;
   const tv=document.getElementById('ev-tokens-val');
   if(tv)tv.style.color=color;
-  // Countdown label
+  // Countdown styling
+  const cd=document.getElementById('event-countdown');
+  if(cd)cd.style.borderColor=color+'33';
+  ['ev-cd-days','ev-cd-hours','ev-cd-mins'].forEach(id=>{
+    const el=document.getElementById(id);if(el)el.style.color=color;
+  });
   const cdl=document.getElementById('ev-cd-label');
   if(cdl)cdl.textContent=lang==='es'?'Termina en':'Ends in';
   updateEventCountdown();
@@ -4007,14 +4126,62 @@ function renderEventStoreItems(){
   active.forEach(i=>{
     const owned=state.inventory.some(x=>x.id===i.id);
     const iconImg=i.currency==='bills'?ICONS.bill:ICONS.wing;
-    c.innerHTML+=`<div class="item-row" style="border-color:${color}">
-      <img src="${iIcon(i)}" class="item-icon-badge" style="width:48px;height:48px;border-radius:10px;">
-      <div class="item-info">
-        <div class="item-title-row"><span class="item-name" style="color:${color}">${iName(i)}</span><span class="bonus-tag">+${i.multi}</span></div>
-        <span class="item-desc">${iDesc(i)}</span>
-        <div class="item-cost">${i.cost} <img src="${iconImg}" class="icon-small"></div>
+    const curName=i.currency==='bills'?(lang==='es'?'Billetes':'Bills'):(lang==='es'?'Alitas':'Wings');
+    const bal=i.currency==='bills'?(state.bills||0):(state.wings||0);
+    const canAfford=bal>=i.cost;
+    const typeKey=i.type||'';
+    const typeLabel=typeKey==='char'||typeKey==='variant'?(lang==='es'?'PERSONAJE':'CHARACTER'):typeKey==='cup'?(lang==='es'?'VASO':'CUP'):typeKey==='bg'?(lang==='es'?'FONDO':'BACKGROUND'):(lang==='es'?'OBJETO':'ITEM');
+    const multiVal=i.multi||0;
+    const rarityColor=multiVal>=5000?'#ffd700':multiVal>=500?'#9b59b6':multiVal>=50?'#4f86f7':'#888';
+    const rarityLabel=multiVal>=5000?(lang==='es'?'LEGENDARIO':'LEGENDARY'):multiVal>=500?(lang==='es'?'ÉPICO':'EPIC'):multiVal>=50?(lang==='es'?'RARO':'RARE'):(lang==='es'?'COMÚN':'COMMON');
+    c.innerHTML+=`
+    <div style="
+      background:linear-gradient(135deg,${color}08,rgba(10,10,10,0.95));
+      border:1px solid ${owned?'#2ecc71':canAfford?color+'99':'#2a2a2a'};
+      border-radius:14px;padding:0;margin:8px 0;display:flex;align-items:stretch;
+      overflow:hidden;position:relative;transition:border-color 0.2s,box-shadow 0.2s;
+      ${owned?'box-shadow:0 0 10px rgba(46,204,113,0.15);':canAfford?`box-shadow:0 0 8px ${color}22;`:''}
+    " onmouseenter="this.style.boxShadow='0 0 18px ${color}55'" onmouseleave="this.style.boxShadow='${owned?'0 0 10px rgba(46,204,113,0.15)':canAfford?'0 0 8px '+color+'22':''}'">
+      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,${owned?'#2ecc71':color},transparent);pointer-events:none;"></div>
+      <div style="width:4px;background:linear-gradient(180deg,${owned?'#2ecc71':color},transparent);flex-shrink:0;"></div>
+      <div style="width:72px;min-height:72px;display:flex;align-items:center;justify-content:center;padding:10px;flex-shrink:0;">
+        <div style="position:relative;">
+          <img src="${iIcon(i)}" style="width:52px;height:52px;border-radius:10px;object-fit:contain;background:#111;border:1px solid ${color}44;padding:4px;display:block;">
+          ${owned?`<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(46,204,113,0.25);border-radius:10px;"><img src="${ICONS.check}" style="width:20px;height:20px;"></div>`:''}
+        </div>
       </div>
-      <button class="s-btn ${owned?'btn-owned-gray':''}" style="${owned?'':'border-color:'+color+';color:'+color}" onclick="buyItem('event','${i.id}')" ${owned?'disabled':''}>${owned?t('OWNED'):t('BUY')}</button>
+      <div style="flex:1;padding:10px 8px;min-width:0;">
+        <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-bottom:4px;">
+          <span style="font-size:13px;font-weight:bold;color:${owned?'#2ecc71':color};font-family:'Arial Black',sans-serif;">${iName(i)}</span>
+          ${multiVal?`<span style="font-size:7px;background:${color}22;border:1px solid ${color}55;color:${color};border-radius:4px;padding:1px 6px;font-family:'Arial Black',sans-serif;">+${multiVal}</span>`:''}
+        </div>
+        <div style="display:flex;gap:4px;margin-bottom:5px;flex-wrap:wrap;">
+          <span style="font-size:7px;background:#151515;border:1px solid #2a2a2a;color:#777;border-radius:4px;padding:1px 5px;font-family:'Arial Black',sans-serif;">${typeLabel}</span>
+          ${multiVal>0?`<span style="font-size:7px;background:${rarityColor}18;border:1px solid ${rarityColor}44;color:${rarityColor};border-radius:4px;padding:1px 5px;font-family:'Arial Black',sans-serif;">${rarityLabel}</span>`:''}
+          <span style="font-size:7px;background:${color}15;border:1px solid ${color}44;color:${color};border-radius:4px;padding:1px 5px;font-family:'Arial Black',sans-serif;">⭐ EVENTO</span>
+          ${owned?`<span style="font-size:7px;background:rgba(46,204,113,0.15);border:1px solid #2ecc71;color:#2ecc71;border-radius:4px;padding:1px 5px;font-family:'Arial Black',sans-serif;">✓ ${t('OWNED')}</span>`:''}
+        </div>
+        <div style="font-size:10px;color:#777;font-family:sans-serif;line-height:1.3;margin-bottom:5px;">${iDesc(i)}</div>
+        <div style="display:flex;align-items:center;gap:5px;">
+          <img src="${iconImg}" style="width:13px;height:13px;">
+          <span style="font-size:12px;font-weight:bold;color:${owned?'#555':canAfford?'#fff':'#e74c3c'};font-family:'Arial Black',sans-serif;">${i.cost.toLocaleString()}</span>
+          <span style="font-size:8px;color:#555;font-family:sans-serif;">${curName}</span>
+          ${!owned&&!canAfford?`<span style="font-size:8px;color:#e74c3c;background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:4px;padding:1px 5px;margin-left:2px;">${lang==='es'?'Insuf.':'Insuff.'}</span>`:''}
+          ${!owned&&canAfford?`<span style="font-size:8px;color:${color};background:${color}15;border:1px solid ${color}33;border-radius:4px;padding:1px 5px;margin-left:2px;">✓</span>`:''}
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;padding:10px 12px;flex-shrink:0;">
+        <button style="
+          border:2px solid ${owned?'#333':canAfford?color:'#555'};
+          color:${owned?'#555':canAfford?color:'#555'};
+          background:${owned?'transparent':canAfford?color+'15':'transparent'};
+          border-radius:8px;padding:9px 16px;cursor:${owned?'not-allowed':'pointer'};
+          font-size:10px;font-family:'Arial Black',sans-serif;font-weight:bold;
+          letter-spacing:1px;white-space:nowrap;
+          ${canAfford&&!owned?'box-shadow:0 0 10px '+color+'55;':''}"
+          onclick="buyItem('event','${i.id}')" ${owned?'disabled':''}
+        >${owned?t('OWNED'):t('BUY')}</button>
+      </div>
     </div>`;
   });
 }
@@ -4049,18 +4216,90 @@ function switchShop(tab){
     return;
   }
   if(!shopItems[tab])return;
+  // Color palette per tab
+  const TAB_COLORS={
+    chars:'#ffd700',variants:'#e879f9',cups:'#4f86f7',
+    blue:'#2ecc71',bgs:'#9b59b6'
+  };
+  const TAB_GLOW={
+    chars:'rgba(255,215,0,0.07)',variants:'rgba(232,121,249,0.07)',cups:'rgba(79,134,247,0.07)',
+    blue:'rgba(46,204,113,0.07)',bgs:'rgba(155,89,182,0.07)'
+  };
+  const accentColor=TAB_COLORS[tab]||'var(--neon-blue)';
+  const glowBg=TAB_GLOW[tab]||'rgba(0,255,255,0.05)';
   shopItems[tab].forEach(i=>{
     if(i.cost===0)return;
     const owned=state.inventory.some(x=>x.id===i.id);
     const iconImg=i.currency==='bills'?ICONS.bill:i.currency==='blue'?ICONS.berry:ICONS.wing;
-    c.innerHTML+=`<div class="item-row">
-      <img src="${iIcon(i)}" class="item-icon-badge" style="width:48px;height:48px;border-radius:10px;">
-      <div class="item-info">
-        <div class="item-title-row"><span class="item-name">${iName(i)}</span>${i.multi?`<span class="bonus-tag">+${i.multi}</span>`:''}${i.cps?`<span class="bonus-tag">+${i.cps} CPS</span>`:''}</div>
-        <span class="item-desc">${iDesc(i)}</span>
-        <div class="item-cost">${i.cost} <img src="${iconImg}" class="icon-small"></div>
+    const curName=i.currency==='bills'?(lang==='es'?'Billetes':'Bills'):i.currency==='blue'?(lang==='es'?'Arándanos':'Blueberries'):(lang==='es'?'Alitas':'Wings');
+    const bal=i.currency==='bills'?(state.bills||0):i.currency==='blue'?(state.blueberries||0):(state.wings||0);
+    const canAfford=bal>=i.cost;
+    // Type badge
+    const typeKey=i.type||tab;
+    const typeLabel=typeKey==='char'||typeKey==='variant'?(lang==='es'?'PERSONAJE':'CHARACTER'):typeKey==='cup'?(lang==='es'?'VASO':'CUP'):typeKey==='bg'?(lang==='es'?'FONDO':'BACKGROUND'):typeKey==='blue'?(lang==='es'?'OBJETO':'ITEM'):(lang==='es'?'OBJETO':'ITEM');
+    // Rarity hint based on cost/multi
+    const multiVal=i.multi||0;
+    const rarityColor=multiVal>=5000?'#ffd700':multiVal>=500?'#9b59b6':multiVal>=50?'#4f86f7':'#888';
+    const rarityLabel=multiVal>=5000?(lang==='es'?'LEGENDARIO':'LEGENDARY'):multiVal>=500?(lang==='es'?'ÉPICO':'EPIC'):multiVal>=50?(lang==='es'?'RARO':'RARE'):(lang==='es'?'COMÚN':'COMMON');
+    c.innerHTML+=`
+    <div class="shop-item-card" style="
+      background:linear-gradient(135deg,${glowBg},rgba(10,10,10,0.95));
+      border:1px solid ${owned?'#2ecc71':canAfford?accentColor+'88':'#2a2a2a'};
+      border-radius:14px;padding:0;margin:8px 0;display:flex;align-items:stretch;
+      overflow:hidden;position:relative;transition:border-color 0.2s,box-shadow 0.2s;
+      ${owned?'box-shadow:0 0 10px rgba(46,204,113,0.15);':canAfford?`box-shadow:0 0 8px ${accentColor}22;`:''}
+    " onmouseenter="this.style.boxShadow='0 0 18px ${accentColor}44'" onmouseleave="this.style.boxShadow='${owned?'0 0 10px rgba(46,204,113,0.15)':canAfford?'0 0 8px '+accentColor+'22':''}'">
+      <!-- Top accent line -->
+      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,${owned?'#2ecc71':accentColor},transparent);pointer-events:none;"></div>
+      <!-- Left color bar -->
+      <div style="width:4px;background:linear-gradient(180deg,${owned?'#2ecc71':accentColor},transparent);flex-shrink:0;"></div>
+      <!-- Icon area -->
+      <div style="width:72px;min-height:72px;display:flex;align-items:center;justify-content:center;padding:10px;flex-shrink:0;">
+        <div style="position:relative;">
+          <img src="${iIcon(i)}" style="width:52px;height:52px;border-radius:10px;object-fit:contain;background:#111;border:1px solid ${accentColor}33;padding:4px;display:block;" onerror="this.style.opacity='0.3'">
+          ${owned?`<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(46,204,113,0.25);border-radius:10px;"><img src="${ICONS.check}" style="width:20px;height:20px;"></div>`:''}
+        </div>
       </div>
-      <button class="s-btn ${owned?'btn-owned-gray':'btn-buy-pink'}" onclick="buyItem('${tab}','${i.id}')" ${owned?'disabled':''}>${owned?t('OWNED'):t('BUY')}</button>
+      <!-- Info area -->
+      <div style="flex:1;padding:10px 8px;min-width:0;">
+        <!-- Name + badges row -->
+        <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-bottom:4px;">
+          <span style="font-size:13px;font-weight:bold;color:${owned?'#2ecc71':accentColor};font-family:'Arial Black',sans-serif;letter-spacing:0.3px;">${iName(i)}</span>
+          ${i.multi?`<span style="font-size:7px;background:${accentColor}22;border:1px solid ${accentColor}55;color:${accentColor};border-radius:4px;padding:1px 6px;font-family:'Arial Black',sans-serif;font-weight:bold;">+${i.multi}</span>`:''}
+          ${i.cps?`<span style="font-size:7px;background:rgba(0,255,0,0.1);border:1px solid #0f0;color:#0f0;border-radius:4px;padding:1px 6px;font-family:'Arial Black',sans-serif;">+${i.cps} CPS</span>`:''}
+        </div>
+        <!-- Type + Rarity chips -->
+        <div style="display:flex;gap:4px;margin-bottom:5px;flex-wrap:wrap;">
+          <span style="font-size:7px;background:#151515;border:1px solid #2a2a2a;color:#777;border-radius:4px;padding:1px 5px;font-family:'Arial Black',sans-serif;letter-spacing:0.5px;">${typeLabel}</span>
+          ${multiVal>0?`<span style="font-size:7px;background:${rarityColor}18;border:1px solid ${rarityColor}44;color:${rarityColor};border-radius:4px;padding:1px 5px;font-family:'Arial Black',sans-serif;">${rarityLabel}</span>`:''}
+          ${owned?`<span style="font-size:7px;background:rgba(46,204,113,0.15);border:1px solid #2ecc71;color:#2ecc71;border-radius:4px;padding:1px 5px;font-family:'Arial Black',sans-serif;">✓ ${t('OWNED')}</span>`:''}
+        </div>
+        <!-- Description -->
+        <div style="font-size:10px;color:#777;font-family:sans-serif;line-height:1.3;margin-bottom:5px;">${iDesc(i)}</div>
+        <!-- Price row -->
+        <div style="display:flex;align-items:center;gap:5px;">
+          <img src="${iconImg}" style="width:13px;height:13px;">
+          <span style="font-size:12px;font-weight:bold;color:${owned?'#555':canAfford?'#fff':'#e74c3c'};font-family:'Arial Black',sans-serif;">${i.cost.toLocaleString()}</span>
+          <span style="font-size:8px;color:#555;font-family:sans-serif;">${curName}</span>
+          ${!owned&&!canAfford?`<span style="font-size:8px;color:#e74c3c;background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:4px;padding:1px 5px;margin-left:2px;">${lang==='es'?'Insuf.':'Insuff.'}</span>`:''}
+          ${!owned&&canAfford?`<span style="font-size:8px;color:${accentColor};background:${accentColor}15;border:1px solid ${accentColor}33;border-radius:4px;padding:1px 5px;margin-left:2px;">✓</span>`:''}
+        </div>
+      </div>
+      <!-- Buy button area -->
+      <div style="display:flex;align-items:center;padding:10px 12px;flex-shrink:0;">
+        <button style="
+          border:2px solid ${owned?'#333':canAfford?accentColor:'#555'};
+          color:${owned?'#555':canAfford?accentColor:'#555'};
+          background:${owned?'transparent':canAfford?accentColor+'15':'transparent'};
+          border-radius:8px;padding:9px 16px;cursor:${owned?'not-allowed':'pointer'};
+          font-size:10px;font-family:'Arial Black',sans-serif;font-weight:bold;
+          letter-spacing:1px;transition:all 0.15s;white-space:nowrap;
+          ${canAfford&&!owned?'box-shadow:0 0 10px '+accentColor+'44;':''}"
+          onclick="buyItem('${tab}','${i.id}')" ${owned?'disabled':''}
+          onmouseenter="if(!${owned})this.style.background='${accentColor}30'"
+          onmouseleave="if(!${owned})this.style.background='${accentColor}15'"
+        >${owned?t('OWNED'):t('BUY')}</button>
+      </div>
     </div>`;
   });
 }
@@ -4179,34 +4418,72 @@ function switchInventory(tab){
   let all=[];
   for(let cat in shopItems){shopItems[cat].forEach(i=>{if(i.type===typeMap[tab]&&(i.cost===0||state.inventory.some(p=>p.id===i.id)))all.push(i);});}
   if(!all.length){c.innerHTML=`<p style="color:#555;font-size:12px;font-family:sans-serif;text-align:center;padding:20px;">${lang==='es'?'Vacio — visita la tienda!':'Empty — visit the store!'}</p>`;return;}
+  const INV_COLORS={chars:'#ffd700',variants:'#e879f9',cups:'#4f86f7',blue:'#2ecc71',bgs:'#9b59b6'};
+  const accentColor=INV_COLORS[tab]||'var(--neon-green)';
   all.forEach(inv=>{
     let act='';let upgradeUI='';
+    const isActive=(tab==='chars'||tab==='variants')&&
+      (state.leftChar.id===inv.id||state.rightChar.id===inv.id);
+    const isCupActive=tab==='cups'&&state.currentBgId!==inv.id&&state.cupFilter===inv.filter;
+    const isBgActive=tab==='bgs'&&state.currentBgId===inv.id;
+    const activeTag=isActive||isBgActive?`<span style="font-size:7px;background:rgba(46,204,113,0.2);border:1px solid #2ecc71;color:#2ecc71;border-radius:4px;padding:1px 5px;font-family:'Arial Black',sans-serif;">▶ EQUIPADO</span>`:'';
+
     if(tab==='chars'||tab==='variants'){
       const lvl=state.upgrades[inv.id]||1;const costUp=lvl*15;
       const boosted=state.charBoosts[inv.id]>0;
-      upgradeUI=`<span class="lvl-tag">${t('LEVEL_LBL')} ${lvl} (x${getCharPower(inv.id).toFixed(1)})</span>
-        ${boosted?`<span class="spicy-tag">${t('POTENCED')} (${state.charBoosts[inv.id]}s)</span>`:''}`;
-      act=`<div class="inv-actions">
-        <div style="display:flex;gap:4px;margin-bottom:4px;">
-          <button class="s-btn btn-inv" style="font-size:8px;padding:4px 8px;flex:1;" onclick="setChar('${inv.id}','left')">${t('LEFT_SIDEBAR')}</button>
-          <button class="s-btn btn-inv" style="font-size:8px;padding:4px 8px;flex:1;" onclick="setChar('${inv.id}','right')">${t('RIGHT_SIDEBAR')}</button>
+      const power=getCharPower(inv.id);
+      upgradeUI=`
+        <div style="display:flex;gap:5px;align-items:center;flex-wrap:wrap;margin-top:3px;">
+          <span style="font-size:8px;color:${accentColor};background:${accentColor}15;border:1px solid ${accentColor}33;border-radius:4px;padding:1px 6px;font-family:'Arial Black',sans-serif;">${t('LEVEL_LBL')} ${lvl}</span>
+          <span style="font-size:8px;color:#aaa;background:#111;border:1px solid #222;border-radius:4px;padding:1px 6px;font-family:sans-serif;">×${power.toFixed(1)} power</span>
+          ${boosted?`<span style="font-size:8px;color:var(--hot-sauce);background:rgba(255,51,0,0.12);border:1px solid rgba(255,51,0,0.3);border-radius:4px;padding:1px 6px;font-family:'Arial Black',sans-serif;animation:pulse-red 1s infinite;">🔥 ${t('POTENCED')} ${state.charBoosts[inv.id]}s</span>`:''}
+          ${activeTag}
+        </div>`;
+      act=`<div style="display:flex;flex-direction:column;gap:5px;align-items:stretch;flex-shrink:0;min-width:90px;">
+        <div style="display:flex;gap:3px;">
+          <button class="s-btn btn-inv" style="font-size:7px;padding:4px 5px;flex:1;border-radius:5px;" onclick="setChar('${inv.id}','left')">◀ ${t('LEFT_SIDEBAR')}</button>
+          <button class="s-btn btn-inv" style="font-size:7px;padding:4px 5px;flex:1;border-radius:5px;" onclick="setChar('${inv.id}','right')">${t('RIGHT_SIDEBAR')} ▶</button>
         </div>
-        <div class="inv-boost-row">
-          <button class="s-btn btn-upgrade" onclick="upgradeChar('${inv.id}')"><img src="${ICONS.berry}" class="icon-small">${t('IMPROVE')} (${costUp})</button>
-          <button class="s-btn btn-spicy-boost" onclick="spicyBoostChar('${inv.id}')" ${boosted?'disabled':''}><img src="${ICONS.sauce}" class="icon-small">${t('POTENCY')} (1)</button>
-        </div>
+        <button class="s-btn btn-upgrade" style="border-radius:5px;" onclick="upgradeChar('${inv.id}')"><img src="${ICONS.berry}" class="icon-small">${t('IMPROVE')} (${costUp})</button>
+        <button class="s-btn btn-spicy-boost" style="border-radius:5px;" onclick="spicyBoostChar('${inv.id}')" ${boosted?'disabled':''}><img src="${ICONS.sauce}" class="icon-small">${t('POTENCY')} (1)</button>
       </div>`;
-    }else if(tab==='cups')act=`<button class="s-btn btn-inv" onclick="setCup('${inv.filter||'none'}',${inv.multi},'${inv.class||''}','')">${t('USE')}</button>`;
-    else if(tab==='bgs')act=`<button class="s-btn btn-inv" onclick="setBG('${inv.img}','${inv.id}')">${t('USE')}</button>`;
-    else act=`<span style="color:var(--neon-green);font-size:10px;">${t('ACTIVATED')}</span>`;
+    }else if(tab==='cups'){
+      act=`<button class="s-btn btn-inv" style="white-space:nowrap;" onclick="setCup('${inv.filter||'none'}',${inv.multi},'${inv.class||''}','')">${isCupActive?'✓ '+t('USE'):t('USE')}</button>`;
+    }else if(tab==='bgs'){
+      act=`<button class="s-btn btn-inv" style="white-space:nowrap;${isBgActive?'border-color:#2ecc71;color:#2ecc71;':''}" onclick="setBG('${inv.img}','${inv.id}')">${isBgActive?'✓ ACTIVE':t('USE')}</button>`;
+    }else{
+      act=`<span style="color:var(--neon-green);font-size:10px;white-space:nowrap;">✓ ${t('ACTIVATED')}</span>`;
+    }
     const invDesc=lang==='es'?(inv.desc_es||''):(inv.desc_en||'');
-    c.innerHTML+=`<div class="item-row">
-      <img src="${iIcon(inv)}" class="item-icon-badge" style="width:48px;height:48px;border-radius:10px;">
-      <div class="item-info">
-        <span class="item-name">${iName(inv)}</span>${upgradeUI}
-        ${invDesc?`<div class="item-desc" style="margin-top:3px;">${invDesc}</div>`:''}
+    const multiVal=inv.multi||0;
+    const rarityColor=multiVal>=5000?'#ffd700':multiVal>=500?'#9b59b6':multiVal>=50?'#4f86f7':'#888';
+    const rarityLabel=multiVal>=5000?(lang==='es'?'LEGENDARIO':'LEGENDARY'):multiVal>=500?(lang==='es'?'ÉPICO':'EPIC'):multiVal>=50?(lang==='es'?'RARO':'RARE'):(lang==='es'?'COMÚN':'COMMON');
+    c.innerHTML+=`
+    <div style="
+      background:linear-gradient(135deg,${accentColor}06,rgba(10,10,10,0.95));
+      border:1px solid ${isActive||isBgActive?'#2ecc71':accentColor+'55'};
+      border-radius:14px;padding:0;margin:8px 0;display:flex;align-items:stretch;
+      overflow:hidden;position:relative;
+      ${isActive||isBgActive?'box-shadow:0 0 10px rgba(46,204,113,0.15);':''}
+    ">
+      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,${isActive||isBgActive?'#2ecc71':accentColor},transparent);pointer-events:none;"></div>
+      <div style="width:4px;background:linear-gradient(180deg,${isActive||isBgActive?'#2ecc71':accentColor},transparent);flex-shrink:0;"></div>
+      <div style="width:72px;min-height:72px;display:flex;align-items:center;justify-content:center;padding:10px;flex-shrink:0;">
+        <img src="${iIcon(inv)}" style="width:52px;height:52px;border-radius:10px;object-fit:contain;background:#111;border:1px solid ${accentColor}33;padding:4px;display:block;">
       </div>
-      ${act}
+      <div style="flex:1;padding:10px 8px;min-width:0;">
+        <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-bottom:3px;">
+          <span style="font-size:13px;font-weight:bold;color:${accentColor};font-family:'Arial Black',sans-serif;">${iName(inv)}</span>
+          ${multiVal?`<span style="font-size:7px;background:${accentColor}22;border:1px solid ${accentColor}55;color:${accentColor};border-radius:4px;padding:1px 6px;font-family:'Arial Black',sans-serif;">+${multiVal}</span>`:''}
+        </div>
+        <div style="display:flex;gap:4px;margin-bottom:4px;flex-wrap:wrap;">
+          ${multiVal>0?`<span style="font-size:7px;background:${rarityColor}18;border:1px solid ${rarityColor}44;color:${rarityColor};border-radius:4px;padding:1px 5px;font-family:'Arial Black',sans-serif;">${rarityLabel}</span>`:''}
+        </div>
+        ${invDesc?`<div style="font-size:10px;color:#666;font-family:sans-serif;line-height:1.3;margin-bottom:4px;">${invDesc}</div>`:''}
+        ${tab==='chars'||tab==='variants'?upgradeUI:''}
+        ${tab!=='chars'&&tab!=='variants'?activeTag:''}
+      </div>
+      <div style="display:flex;align-items:center;padding:10px 10px;flex-shrink:0;">${act}</div>
     </div>`;
   });
 }
@@ -5388,6 +5665,48 @@ function copyClubInvite(){
   notify(lang==='es'?`Código "${code}" copiado`:`Code "${code}" copied`,'CLUB',ICONS.friends,false,true);
 }
 
+// ── Shared ranking card builder ───────────────────────
+function _buildRankCard(p, i, opts={}){
+  const medals=['🥇','🥈','🥉'];
+  const isMe = p.isMe || p.isMe===true;
+  const isFriend = p.isFriend;
+  const accentColor = isMe ? 'var(--neon-green)' : isFriend ? 'var(--friend-color)' : '#333';
+  const bgColor = isMe ? 'rgba(0,60,0,0.35)' : isFriend ? 'rgba(0,30,0,0.2)' : 'rgba(12,12,12,0.9)';
+
+  // Avatar — use cloudPhoto > photo > avatar > default icon
+  const photoSrc = p.cloudPhoto || p.photo || p.avatar || '';
+  const avatar = photoSrc
+    ? `<img src="${photoSrc}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" style="width:38px;height:38px;border-radius:50%;object-fit:cover;border:2px solid ${accentColor};flex-shrink:0;"><div style="display:none;width:38px;height:38px;border-radius:50%;background:#1a1a1a;align-items:center;justify-content:center;font-size:16px;border:2px solid ${accentColor};flex-shrink:0;">👤</div>`
+    : `<div style="width:38px;height:38px;border-radius:50%;background:#1a1a1a;display:flex;align-items:center;justify-content:center;font-size:16px;border:2px solid ${accentColor};flex-shrink:0;">👤</div>`;
+
+  // Badge
+  const badge = i < 3
+    ? `<div style="font-size:20px;width:28px;text-align:center;flex-shrink:0;">${medals[i]}</div>`
+    : `<div style="width:28px;text-align:center;font-size:10px;color:#444;font-family:'Arial Black',sans-serif;flex-shrink:0;">#${i+1}</div>`;
+
+  // Score
+  const tab = opts.tab || 'wings';
+  const scoreVal = tab==='level' ? ('Lv.'+p.level) : tab==='clicks' ? formatNum(p.totalSips||p.sips||0) : formatNum(p.wings||0);
+  const scoreLabel = tab==='level' ? '⭐' : tab==='clicks' ? '☕' : '🪶';
+
+  // Tags
+  const youTag = isMe ? `<span style="background:var(--neon-green);color:#000;font-size:7px;border-radius:8px;padding:1px 5px;margin-left:4px;font-family:'Arial Black',sans-serif;">TÚ</span>` : '';
+  const prestigeTag = p.prestige>0 ? `<span style="background:#6c3483;color:#fff;font-size:7px;border-radius:8px;padding:1px 5px;margin-left:3px;">✨P${p.prestige}</span>` : '';
+
+  return `<div style="display:flex;align-items:center;gap:8px;padding:9px 10px;margin-bottom:5px;background:${bgColor};border:1px solid ${accentColor};border-radius:10px;transition:all 0.2s;">
+    ${badge}
+    ${avatar}
+    <div style="flex:1;min-width:0;">
+      <div style="font-size:11px;color:${isMe?'var(--neon-green)':'#ddd'};font-family:'Arial Black',sans-serif;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p.name||'Player'}${youTag}${prestigeTag}</div>
+      <div style="font-size:9px;color:#555;font-family:sans-serif;">Nv.${p.level||1}${p.prestige>0?' • ✨ Prestige':''}</div>
+    </div>
+    <div style="text-align:right;flex-shrink:0;">
+      <div style="font-size:13px;color:${isMe?'var(--neon-green)':'var(--neon-blue)'};font-family:'Arial Black',sans-serif;">${scoreVal}</div>
+      <div style="font-size:8px;color:#444;">${scoreLabel}</div>
+    </div>
+  </div>`;
+}
+
 // ── Global Ranking ─────────────────────────────────────
 async function loadGlobalRankingInto(containerId){
   const box=document.getElementById(containerId);
@@ -5404,28 +5723,20 @@ async function loadGlobalRankingInto(containerId){
         wings:parseInt(d.fields?.wings?.integerValue||0),
         level:parseInt(d.fields?.level?.integerValue||1),
         prestige:parseInt(d.fields?.prestige?.integerValue||0),
+        sips:parseInt(d.fields?.sips?.integerValue||0),
         photo:d.fields?.photo?.stringValue||'',
         code:d.fields?.code?.stringValue||''
       }))
-      .sort((a,b)=>b.wings-a.wings)
+      .sort((a,b)=>{
+        if(_currentRankTab==='level') return b.level-a.level||b.wings-a.wings;
+        if(_currentRankTab==='clicks') return b.sips-a.sips;
+        return b.wings-a.wings; // default: wings
+      })
       .slice(0,20);
     if(!docs.length){box.innerHTML='<div style="color:#555;text-align:center;font-family:sans-serif;font-size:11px;padding:20px;">Sin jugadores aún.</div>';return;}
-    const medals=['🥇','🥈','🥉'];
     box.innerHTML=docs.map((p,i)=>{
-      const isMe=p.code===myCode;
-      const avatar=p.photo?`<img src="${p.photo}" style="width:32px;height:32px;border-radius:50%;object-fit:cover;border:2px solid ${isMe?'var(--neon-green)':'#333'};">`:`<div style="width:32px;height:32px;border-radius:50%;background:#1a1a1a;display:flex;align-items:center;justify-content:center;font-size:14px;border:2px solid ${isMe?'var(--neon-green)':'#222'};">👤</div>`;
-      return `<div style="display:flex;align-items:center;gap:8px;padding:8px;margin-bottom:4px;background:${isMe?'rgba(0,60,0,0.3)':'rgba(15,15,15,0.8)'};border:1px solid ${isMe?'var(--neon-green)':'#1a1a1a'};border-radius:8px;">
-        <div style="font-size:${i<3?'18px':'11px'};color:${i<3?'var(--gold)':'#444'};width:24px;text-align:center;font-family:'Arial Black',sans-serif;">${medals[i]||('#'+(i+1))}</div>
-        ${avatar}
-        <div style="flex:1;min-width:0;">
-          <div style="font-size:11px;color:${isMe?'var(--neon-green)':'#ddd'};font-family:'Arial Black',sans-serif;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p.name}${isMe?' ★':''}</div>
-          <div style="font-size:9px;color:#555;font-family:sans-serif;">Nv.${p.level}${p.prestige>0?' • ✨'+p.prestige+' Prestige':''}</div>
-        </div>
-        <div style="text-align:right;flex-shrink:0;">
-          <div style="font-size:12px;color:var(--neon-blue);font-family:'Arial Black',sans-serif;">${(p.wings||0).toLocaleString()}</div>
-          <div style="font-size:8px;color:#444;">🪶 wings</div>
-        </div>
-      </div>`;
+      const entry={...p, isMe:p.code===myCode, totalSips:p.sips||0};
+      return _buildRankCard(entry,i,{tab:_currentRankTab});
     }).join('');
   }catch(e){box.innerHTML='<div style="color:#555;text-align:center;font-family:sans-serif;font-size:11px;padding:20px;">Sin conexión.</div>';}
 }
@@ -5519,17 +5830,11 @@ document.addEventListener('DOMContentLoaded', function(){
   }
 });
 
-// ── Patch renderFriendsList to show cloud photos ───────
+// Cloud photos are now handled directly in renderFriendsList (built-in)
+// This patch only triggers a re-render to pick up any newly loaded photos
 const _origRenderFriendsList = renderFriendsList;
 renderFriendsList = function(){
   _origRenderFriendsList();
-  // Replace avatars with cloud photos
-  state.friends && state.friends.forEach((f,i)=>{
-    if(f.cloudPhoto){
-      const imgs = document.querySelectorAll('.friend-avatar');
-      if(imgs[i]) imgs[i].src = f.cloudPhoto;
-    }
-  });
 };
 
 // Auto-upload profile when save syncs
