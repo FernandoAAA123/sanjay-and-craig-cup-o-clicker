@@ -703,24 +703,30 @@ input:checked+.toggle-slider::before{transform:translateX(20px);}
 <!-- ======== MODALES ======== -->
 <!-- EVENT MODAL -->
 <div id="event-modal" class="modal">
-  <div class="modal-content" style="border-color:var(--neon-pink)">
-    <div class="event-banner">
-      <img class="banner-bg" src="https://files.catbox.moe/vnruw9.png">
-      <div class="event-banner-content">
-        <h1 style="color:var(--neon-pink);margin:0;font-size:26px;" id="event-title-text">FRYCADE</h1>
-        <p style="font-family:sans-serif;font-size:12px;margin:5px 0;" id="event-sub-text">Get exclusive items!</p>
+  <div class="modal-content" id="event-modal-content" style="border-color:var(--neon-pink);padding:0;overflow:hidden;">
+    <div id="event-banner-dynamic" style="position:relative;padding:20px;text-align:center;background:linear-gradient(135deg,#1a0015,#0d0020);border-bottom:2px solid var(--neon-pink);">
+      <img id="event-banner-icon" src="https://img.icons8.com/fluency/48/confetti.png" style="width:52px;height:52px;border-radius:50%;border:2px solid var(--neon-pink);margin-bottom:8px;display:block;margin-left:auto;margin-right:auto;object-fit:cover;">
+      <h1 id="event-title-text" style="color:var(--neon-pink);margin:0;font-size:20px;text-shadow:0 0 20px var(--neon-pink);">EVENTO</h1>
+      <p id="event-sub-text" style="font-family:sans-serif;font-size:11px;margin:4px 0 10px;color:#aaa;"></p>
+      <div id="event-countdown" style="background:rgba(0,0,0,0.5);border:1px solid var(--neon-pink);border-radius:8px;padding:6px 14px;display:inline-flex;gap:14px;align-items:center;">
+        <span style="font-size:8px;color:#888;text-transform:uppercase;letter-spacing:1px;" id="ev-cd-label">Termina en</span>
+        <span id="ev-cd-days" style="font-size:16px;color:var(--neon-pink);font-family:'Arial Black',sans-serif;">--d</span>
+        <span id="ev-cd-hours" style="font-size:16px;color:var(--neon-pink);font-family:'Arial Black',sans-serif;">--h</span>
+        <span id="ev-cd-mins" style="font-size:16px;color:var(--neon-pink);font-family:'Arial Black',sans-serif;">--m</span>
       </div>
     </div>
-    <div id="event-tokens-bar" style="background:#1a0015;border:1px solid var(--neon-pink);border-radius:10px;padding:8px 14px;margin-bottom:14px;display:flex;align-items:center;gap:10px;">
-      <img src="https://img.icons8.com/fluency/48/confetti.png" style="width:20px;height:20px;">
-      <span style="font-size:10px;color:var(--neon-pink);text-transform:uppercase;letter-spacing:1px;" id="ev-tokens-lbl">EVENT TOKENS</span>
-      <span style="margin-left:auto;font-size:18px;font-weight:bold;color:var(--neon-pink);font-family:'Arial Black',sans-serif;" id="ev-tokens-val">0</span>
+    <div style="padding:14px;">
+      <div id="event-tokens-bar" style="background:#1a0015;border:1px solid var(--neon-pink);border-radius:10px;padding:8px 14px;margin-bottom:14px;display:flex;align-items:center;gap:10px;">
+        <img src="https://img.icons8.com/fluency/48/confetti.png" style="width:20px;height:20px;">
+        <span style="font-size:10px;color:var(--neon-pink);text-transform:uppercase;letter-spacing:1px;" id="ev-tokens-lbl">EVENT TOKENS</span>
+        <span style="margin-left:auto;font-size:18px;font-weight:bold;color:var(--neon-pink);font-family:'Arial Black',sans-serif;" id="ev-tokens-val">0</span>
+      </div>
+      <h3 style="color:var(--neon-pink);text-align:left;margin-bottom:10px;display:flex;align-items:center;gap:8px;">
+        <img src="https://img.icons8.com/fluency/48/confetti.png" style="width:18px;height:18px;"><span id="event-store-title">EVENT STORE</span>
+      </h3>
+      <div id="event-items-container"></div>
+      <button class="s-btn close-btn" onclick="closeModal('event-modal')" id="btn-leave-event">LEAVE EVENT</button>
     </div>
-    <h3 style="color:var(--neon-pink);text-align:left;margin-bottom:10px;display:flex;align-items:center;gap:8px;">
-      <img src="https://img.icons8.com/fluency/48/confetti.png" style="width:18px;height:18px;"><span id="event-store-title">EVENT STORE</span>
-    </h3>
-    <div id="event-items-container"></div>
-    <button class="s-btn close-btn" onclick="closeModal('event-modal')" id="btn-leave-event">LEAVE EVENT</button>
   </div>
 </div>
 
@@ -964,39 +970,46 @@ input:checked+.toggle-slider::before{transform:translateX(20px);}
 
 <!-- SOCIAL MODAL -->
 <div id="friends-modal" class="modal">
-  <div class="modal-content" style="border-color:var(--friend-color);width:620px;max-width:98vw;">
-    <h2 style="color:var(--friend-color);display:flex;align-items:center;gap:10px;justify-content:center;margin-bottom:12px;">
-      <img src="https://img.icons8.com/fluency/48/conference-call.png" style="width:24px;height:24px;">
-      <span id="friends-modal-title">SOCIAL</span>
-    </h2>
-    <!-- TABS -->
-    <div style="display:flex;gap:6px;margin-bottom:14px;">
-      <button id="stab-friends" onclick="socialTab('friends')" style="flex:1;padding:8px;background:var(--friend-color);border:none;border-radius:8px;color:#000;font-size:9px;font-family:'Arial Black',sans-serif;cursor:pointer;">👥 AMIGOS</button>
-      <button id="stab-clubs" onclick="socialTab('clubs')" style="flex:1;padding:8px;background:#111;border:1px solid #444;border-radius:8px;color:#888;font-size:9px;font-family:'Arial Black',sans-serif;cursor:pointer;">🏆 CLUBES</button>
+  <div class="modal-content" style="border-color:var(--friend-color);width:640px;max-width:98vw;padding:0;overflow:hidden;">
+    <!-- Header -->
+    <div style="background:linear-gradient(135deg,#001a0d,#000d1a);padding:16px 20px;border-bottom:2px solid var(--friend-color);">
+      <h2 style="color:var(--friend-color);display:flex;align-items:center;gap:10px;justify-content:center;margin:0 0 12px;">
+        <img src="https://img.icons8.com/fluency/48/conference-call.png" style="width:24px;height:24px;">
+        <span id="friends-modal-title">SOCIAL</span>
+      </h2>
+      <!-- TABS -->
+      <div style="display:flex;gap:6px;">
+        <button id="stab-friends" onclick="socialTab('friends')" style="flex:1;padding:9px;background:var(--friend-color);border:none;border-radius:8px;color:#000;font-size:9px;font-family:'Arial Black',sans-serif;cursor:pointer;letter-spacing:1px;">👥 AMIGOS</button>
+        <button id="stab-clubs" onclick="socialTab('clubs')" style="flex:1;padding:9px;background:#111;border:1px solid #333;border-radius:8px;color:#666;font-size:9px;font-family:'Arial Black',sans-serif;cursor:pointer;letter-spacing:1px;">🏆 CLUBES</button>
+        <button id="stab-ranking" onclick="socialTab('ranking')" style="flex:1;padding:9px;background:#111;border:1px solid #333;border-radius:8px;color:#666;font-size:9px;font-family:'Arial Black',sans-serif;cursor:pointer;letter-spacing:1px;">🌍 RANKING</button>
+      </div>
     </div>
+
+    <div style="padding:14px;">
 
     <!-- ── FRIENDS TAB ── -->
     <div id="social-panel-friends">
-      <!-- My code -->
+      <!-- Mi código -->
       <div style="background:#0a1a0a;border:1px solid var(--friend-color);border-radius:10px;padding:10px;margin-bottom:12px;">
-        <div style="font-size:9px;color:#888;font-family:sans-serif;margin-bottom:4px;" id="my-friend-code-hint">Tu código — compártelo para que te agreguen</div>
+        <div style="font-size:8px;color:#888;font-family:sans-serif;margin-bottom:4px;" id="my-friend-code-hint">Tu código — compártelo para que te agreguen</div>
         <div style="display:flex;gap:8px;align-items:center;">
-          <div id="friends-my-code-display" onclick="copyMyCode()" style="flex:1;background:#111;border:1px solid var(--friend-color);border-radius:8px;padding:8px 14px;font-size:18px;color:var(--friend-color);letter-spacing:4px;cursor:pointer;font-family:monospace;text-align:center;font-weight:bold;">----</div>
+          <div id="friends-my-code-display" onclick="copyMyCode()" style="flex:1;background:#111;border:1px solid var(--friend-color);border-radius:8px;padding:8px 14px;font-size:16px;color:var(--friend-color);letter-spacing:4px;cursor:pointer;font-family:monospace;text-align:center;font-weight:bold;">----</div>
           <button class="s-btn" style="border-color:var(--friend-color);color:var(--friend-color);font-size:9px;padding:6px 10px;white-space:nowrap;" onclick="copyMyCode()"><img src="https://img.icons8.com/fluency/48/copy.png" class="icon-small"> COPY</button>
         </div>
       </div>
-      <!-- Add friend -->
+      <!-- Agregar amigo -->
       <div style="display:flex;gap:8px;align-items:center;margin-bottom:14px;">
-        <input type="text" id="friend-code-input" class="input-field" placeholder="Código del amigo (XXXX-XXXX)" style="margin-top:0;flex:1;text-transform:uppercase;letter-spacing:2px;">
+        <input type="text" id="friend-code-input" class="input-field" placeholder="Código del amigo..." style="margin-top:0;flex:1;text-transform:uppercase;letter-spacing:2px;">
         <button class="s-btn" style="border-color:var(--friend-color);color:var(--friend-color);white-space:nowrap;" onclick="addFriendByCode()" id="add-friend-btn">
           <img src="https://img.icons8.com/fluency/48/add-user-male.png" class="icon-btn"><span id="add-friend-title">ADD</span>
         </button>
       </div>
-      <!-- Friends list -->
-      <div class="section-title" id="friends-list-title" style="margin-top:4px;margin-bottom:8px;">
-        <img src="https://img.icons8.com/fluency/48/conference-call.png">
-        <span>MIS AMIGOS</span>
-        <span id="friends-count-badge" style="background:var(--friend-color);color:#000;border-radius:20px;padding:1px 8px;font-size:9px;margin-left:5px;">0</span>
+      <!-- Lista de amigos -->
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+        <img src="https://img.icons8.com/fluency/48/conference-call.png" style="width:16px;height:16px;">
+        <span style="font-size:10px;color:var(--friend-color);font-family:'Arial Black',sans-serif;letter-spacing:1px;" id="friends-list-title">MIS AMIGOS</span>
+        <span id="friends-count-badge" style="background:var(--friend-color);color:#000;border-radius:20px;padding:1px 8px;font-size:8px;">0</span>
+        <button class="s-btn" style="margin-left:auto;font-size:8px;padding:4px 10px;border-color:#444;color:#666;" onclick="refreshAllFriendsFromCloud()">🔄 ACTUALIZAR</button>
       </div>
       <div id="friends-list-container">
         <p style="color:#555;font-size:12px;font-family:sans-serif;" id="no-friends-text">Sin amigos aún.</p>
@@ -1005,88 +1018,78 @@ input:checked+.toggle-slider::before{transform:translateX(20px);}
 
     <!-- ── CLUBS TAB ── -->
     <div id="social-panel-clubs" style="display:none;">
-      <!-- My club status -->
-      <div id="club-my-panel">
-        <!-- filled by JS -->
-      </div>
-      <!-- Create / Join -->
+      <div id="club-my-panel"></div>
+      <!-- Sin club -->
       <div id="club-no-panel" style="display:none;">
-        <div style="display:flex;gap:8px;margin-bottom:10px;">
-          <button class="s-btn" style="flex:1;border-color:var(--neon-blue);color:var(--neon-blue);" onclick="showCreateClub()">🏆 CREAR CLUB</button>
+        <div style="display:flex;gap:8px;margin-bottom:12px;">
+          <button class="s-btn" style="flex:1;border-color:#4a90d9;color:#4a90d9;" onclick="showCreateClub()">🏆 CREAR CLUB</button>
           <button class="s-btn" style="flex:1;border-color:var(--gold);color:var(--gold);" onclick="showJoinClub()">🔑 UNIRSE</button>
         </div>
-        <div id="club-create-form" style="display:none;background:#0a0a1a;border:1px solid var(--neon-blue);border-radius:10px;padding:12px;margin-bottom:10px;">
-          <div style="font-size:9px;color:var(--neon-blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">CREAR CLUB</div>
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
-            <div id="club-photo-preview-create" style="width:48px;height:48px;border-radius:10px;background:#111;border:2px dashed #333;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;overflow:hidden;cursor:pointer;" onclick="document.getElementById('club-photo-file-create').click()">🏆</div>
-            <div style="flex:1;">
-              <div style="font-size:8px;color:#888;font-family:sans-serif;margin-bottom:4px;">Foto del club (opcional)</div>
-              <button class="s-btn" style="font-size:8px;padding:4px 8px;border-color:#555;color:#aaa;" onclick="document.getElementById('club-photo-file-create').click()">📷 SUBIR FOTO</button>
-              <input id="club-photo-file-create" type="file" accept="image/*" style="display:none;" onchange="previewClubPhoto(this,'club-photo-preview-create')">
-            </div>
-          </div>
-          <input id="club-name-input" type="text" class="input-field" placeholder="Nombre del club..." style="margin-top:0;margin-bottom:6px;" maxlength="24">
-          <input id="club-desc-input" type="text" class="input-field" placeholder="Descripción..." style="margin-top:0;margin-bottom:6px;" maxlength="80">
-          <input id="club-announce-input" type="text" class="input-field" placeholder="📢 Anuncio del club (opcional)..." style="margin-top:0;margin-bottom:8px;" maxlength="120">
-          <button class="s-btn" style="width:100%;border-color:var(--neon-blue);color:var(--neon-blue);" onclick="createClub()">✅ CREAR</button>
+        <!-- Form crear -->
+        <div id="club-create-form" style="display:none;background:#0a0a1a;border:1px solid #4a90d9;border-radius:12px;padding:14px;margin-bottom:10px;">
+          <div style="font-size:9px;color:#4a90d9;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">🏆 CREAR NUEVO CLUB</div>
+          <input id="club-name-input" type="text" class="input-field" placeholder="Nombre del club..." style="margin-top:0;margin-bottom:8px;" maxlength="24">
+          <input id="club-desc-input" type="text" class="input-field" placeholder="Descripción..." style="margin-top:0;margin-bottom:8px;" maxlength="80">
+          <select id="club-tag-input" style="width:100%;background:#111;border:1px solid #333;color:#aaa;padding:10px;border-radius:8px;font-family:sans-serif;font-size:12px;margin-bottom:8px;">
+            <option value="🎮">🎮 Gaming</option>
+            <option value="🏆">🏆 Competitivo</option>
+            <option value="😎">😎 Casual</option>
+            <option value="🌍">🌍 Internacional</option>
+            <option value="🔥">🔥 Pro</option>
+          </select>
+          <button class="s-btn" style="width:100%;border-color:#4a90d9;color:#4a90d9;" onclick="createClub()">✅ CREAR CLUB</button>
         </div>
-        <div id="club-join-form" style="display:none;background:#0a1a0a;border:1px solid var(--gold);border-radius:10px;padding:12px;">
-          <div style="font-size:9px;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">UNIRSE A CLUB</div>
-          <input id="club-invite-input" type="text" class="input-field" placeholder="Código de invitación..." style="margin-top:0;margin-bottom:8px;text-transform:uppercase;">
+        <!-- Form unirse -->
+        <div id="club-join-form" style="display:none;background:#0a1a0a;border:1px solid var(--gold);border-radius:12px;padding:14px;">
+          <div style="font-size:9px;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">🔑 UNIRSE A CLUB</div>
+          <input id="club-invite-input" type="text" class="input-field" placeholder="Código de 8 letras..." style="margin-top:0;margin-bottom:8px;text-transform:uppercase;letter-spacing:3px;text-align:center;">
           <button class="s-btn" style="width:100%;border-color:var(--gold);color:var(--gold);" onclick="joinClub()">🔑 UNIRSE</button>
         </div>
       </div>
-      <!-- Club chat -->
+      <!-- En un club -->
       <div id="club-chat-panel" style="display:none;">
-        <!-- Club header with photo -->
-        <div id="club-header-card" style="background:#0a0a0a;border:1px solid #222;border-radius:10px;padding:10px;margin-bottom:8px;display:flex;gap:10px;align-items:center;">
-          <div id="club-photo-display" style="width:52px;height:52px;border-radius:10px;background:#111;border:2px solid #333;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;overflow:hidden;cursor:pointer;"></div>
-          <div style="flex:1;min-width:0;">
-            <div id="club-info-bar" style="font-size:11px;color:var(--gold);font-family:'Arial Black',sans-serif;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></div>
-            <div id="club-desc-bar" style="font-size:9px;color:#888;font-family:sans-serif;margin-bottom:2px;"></div>
-            <div id="club-members-bar" style="font-size:9px;color:#555;font-family:sans-serif;"></div>
-          </div>
-          <button id="club-edit-btn" style="display:none;background:#0a0a1a;border:1px solid var(--neon-blue);border-radius:6px;padding:5px 8px;cursor:pointer;color:var(--neon-blue);font-size:12px;flex-shrink:0;" onclick="openClubEditPanel()">✏️</button>
+        <!-- Info del club -->
+        <div style="background:#0a0a0a;border:1px solid #222;border-radius:10px;padding:12px;margin-bottom:10px;">
+          <div id="club-info-bar" style="font-size:13px;color:var(--gold);font-family:'Arial Black',sans-serif;margin-bottom:4px;"></div>
+          <div id="club-desc-bar" style="font-size:10px;color:#666;font-family:sans-serif;margin-bottom:6px;"></div>
+          <div id="club-members-bar" style="font-size:9px;color:#555;font-family:sans-serif;display:flex;flex-wrap:wrap;gap:4px;"></div>
         </div>
-        <!-- Announcement bar -->
-        <div id="club-announce-bar" style="display:none;background:#1a1400;border:1px solid #3a3000;border-radius:8px;padding:8px 12px;margin-bottom:8px;font-size:10px;color:#ffcc44;font-family:sans-serif;"></div>
-        <!-- Owner edit panel -->
-        <div id="club-edit-panel" style="display:none;background:#0a0a1a;border:1px solid var(--neon-blue);border-radius:10px;padding:12px;margin-bottom:8px;">
-          <div style="font-size:9px;color:var(--neon-blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">✏️ EDITAR CLUB</div>
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
-            <div id="club-photo-preview-edit" style="width:48px;height:48px;border-radius:10px;background:#111;border:2px dashed #333;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;overflow:hidden;cursor:pointer;" onclick="document.getElementById('club-photo-file-edit').click()">🏆</div>
-            <div>
-              <div style="font-size:8px;color:#888;font-family:sans-serif;margin-bottom:4px;">Foto del club</div>
-              <button class="s-btn" style="font-size:8px;padding:4px 8px;border-color:#555;color:#aaa;" onclick="document.getElementById('club-photo-file-edit').click()">📷 CAMBIAR</button>
-              <input id="club-photo-file-edit" type="file" accept="image/*" style="display:none;" onchange="previewClubPhoto(this,'club-photo-preview-edit')">
-            </div>
-          </div>
-          <input id="club-edit-name" type="text" class="input-field" placeholder="Nombre del club..." style="margin-top:0;margin-bottom:6px;" maxlength="24">
-          <input id="club-edit-desc" type="text" class="input-field" placeholder="Descripción..." style="margin-top:0;margin-bottom:6px;" maxlength="80">
-          <input id="club-edit-announce" type="text" class="input-field" placeholder="📢 Anuncio del club..." style="margin-top:0;margin-bottom:8px;" maxlength="120">
-          <div style="display:flex;gap:6px;">
-            <button class="s-btn" style="flex:1;border-color:var(--neon-green);color:var(--neon-green);font-size:9px;" onclick="saveClubEdit()">✅ GUARDAR</button>
-            <button class="s-btn" style="border-color:#555;color:#888;font-size:9px;" onclick="document.getElementById('club-edit-panel').style.display='none'">✖</button>
-          </div>
+        <!-- Invite code -->
+        <div style="background:#0a0f00;border:1px solid #333;border-radius:8px;padding:8px 12px;margin-bottom:10px;display:flex;align-items:center;gap:8px;">
+          <span style="font-size:9px;color:#555;font-family:sans-serif;">Código invitación:</span>
+          <span id="club-invite-display" style="font-size:13px;color:var(--gold);font-family:monospace;letter-spacing:3px;flex:1;text-align:center;"></span>
+          <button class="s-btn" style="font-size:8px;padding:4px 10px;border-color:var(--gold);color:var(--gold);white-space:nowrap;" onclick="copyClubInvite()">COPIAR</button>
         </div>
-        <!-- Members list (collapsible) -->
-        <div id="club-members-panel" style="display:none;background:#050505;border:1px solid #1a1a1a;border-radius:10px;padding:8px;margin-bottom:8px;max-height:130px;overflow-y:auto;">
-          <div id="club-members-list" style="display:flex;flex-direction:column;gap:5px;"></div>
-        </div>
-        <button id="club-toggle-members-btn" class="s-btn" style="width:100%;border-color:#333;color:#666;font-size:8px;margin-bottom:8px;" onclick="toggleClubMembers()">👥 VER MIEMBROS</button>
         <!-- Chat -->
-        <div id="club-chat-messages" style="background:#050505;border:1px solid #1a1a1a;border-radius:10px;padding:10px;height:190px;overflow-y:auto;margin-bottom:8px;display:flex;flex-direction:column;gap:6px;">
+        <div id="club-chat-messages" style="background:#050505;border:1px solid #1a1a1a;border-radius:10px;padding:10px;height:200px;overflow-y:auto;margin-bottom:8px;display:flex;flex-direction:column;gap:6px;">
           <div style="color:#444;font-size:10px;font-family:sans-serif;text-align:center;">Cargando mensajes...</div>
         </div>
-        <div style="display:flex;gap:6px;">
+        <div style="display:flex;gap:6px;margin-bottom:8px;">
           <input id="club-chat-input" type="text" class="input-field" placeholder="Escribe un mensaje..." style="margin-top:0;flex:1;" maxlength="200" onkeydown="if(event.key==='Enter')sendClubMessage()">
-          <button class="s-btn" style="border-color:var(--friend-color);color:var(--friend-color);white-space:nowrap;" onclick="sendClubMessage()">ENVIAR</button>
+          <button class="s-btn" style="border-color:var(--friend-color);color:var(--friend-color);white-space:nowrap;" onclick="sendClubMessage()">📤</button>
         </div>
-        <button class="s-btn" style="width:100%;margin-top:8px;border-color:#c0392b;color:#c0392b;font-size:8px;" onclick="leaveClub()">🚪 SALIR DEL CLUB</button>
+        <div style="display:flex;gap:6px;">
+          <button class="s-btn" style="flex:1;font-size:8px;border-color:#444;color:#666;" onclick="renderClubPanel()">🔄 ACTUALIZAR</button>
+          <button class="s-btn" style="flex:1;font-size:8px;border-color:#c0392b;color:#c0392b;" onclick="leaveClub()">🚪 SALIR DEL CLUB</button>
+        </div>
       </div>
     </div>
 
-    <button class="s-btn close-btn" onclick="closeModal('friends-modal')" id="btn-close-friends">CERRAR</button>
+    <!-- ── RANKING TAB ── -->
+    <div id="social-panel-ranking" style="display:none;">
+      <div style="text-align:center;margin-bottom:12px;">
+        <div style="font-size:9px;color:#555;font-family:sans-serif;">Top jugadores globales por Wings totales</div>
+      </div>
+      <div id="ranking-list" style="display:flex;flex-direction:column;gap:6px;max-height:340px;overflow-y:auto;">
+        <div style="color:#444;font-size:11px;text-align:center;font-family:sans-serif;padding:20px;">Cargando ranking...</div>
+      </div>
+      <button class="s-btn" style="width:100%;margin-top:10px;border-color:#444;color:#666;font-size:9px;" onclick="loadGlobalRanking()">🔄 ACTUALIZAR RANKING</button>
+    </div>
+
+    </div><!-- /padding -->
+    <div style="padding:0 14px 14px;">
+      <button class="s-btn close-btn" onclick="closeModal('friends-modal')" id="btn-close-friends">CERRAR</button>
+    </div>
   </div>
 </div>
 
@@ -3296,11 +3299,62 @@ function getTreeStageData(){
   for(const st of TREE_STAGES){if((state.treeHarvestCount||0)>=st.harvestMin)s=st;}
   return s;
 }
-function getActiveEventItems(){
-  return shopItems.event.filter(i=>{
-    const stateOverride=state.eventItemsEnabled[i.id];
-    if(stateOverride!==undefined)return stateOverride;
-    return i.active!==false;
+// ══════════════════════════════════════════════════════
+//  EVENTO — CONFIGURACIÓN FÁCIL
+//  Para cambiar el evento solo edita este bloque:
+// ══════════════════════════════════════════════════════
+const CURRENT_EVENT = {
+  // ─── DATOS DEL EVENTO ───────────────────────────────
+  active: true,                          // true = evento activo, false = sin evento
+  id: 'max_d_event',                     // ID único del evento (no cambiar si hay jugadores)
+  name_es: '¡El Evento de Maximum Dennis!', // Nombre en español
+  name_en: 'Maximum Dennis Event!',      // Nombre en inglés
+  desc_es: 'Items exclusivos de Maximum Dennis por tiempo limitado.',
+  desc_en: 'Exclusive Maximum Dennis items for a limited time.',
+  icon: 'https://files.catbox.moe/42eaji.jpg', // Imagen del evento
+  color: '#ff6b35',                      // Color del evento
+  // ─── FECHAS (dejar vacío para sin límite) ───────────
+  startDate: '',                         // Ej: '2025-06-01' o '' para ya
+  endDate:   '',                         // Ej: '2025-08-31' o '' para sin fin
+  // ─── ITEMS ACTIVOS EN ESTE EVENTO ───────────────────
+  // Pon los IDs de shopItems.event que quieres mostrar:
+  itemIds: ['max_d', 'maximum_dennis', 'laser_cup', 'bg_cyber_frycade'],
+  // ─── RECOMPENSAS EXCLUSIVAS DEL EVENTO ──────────────
+  loginBonus: { type: 'eventTokens', amount: 10 }, // Bonus al entrar durante el evento
+};
+
+function getEventTimeLeft() {
+  if (!CURRENT_EVENT.active) return null;
+  if (!CURRENT_EVENT.endDate) return null;
+  const end = new Date(CURRENT_EVENT.endDate + 'T23:59:59');
+  const now = new Date();
+  const diff = end - now;
+  if (diff <= 0) return null;
+  const d = Math.floor(diff / 86400000);
+  const h = Math.floor((diff % 86400000) / 3600000);
+  const m = Math.floor((diff % 3600000) / 60000);
+  return { d, h, m, total: diff };
+}
+
+function isEventActive() {
+  if (!CURRENT_EVENT.active) return false;
+  const now = new Date();
+  if (CURRENT_EVENT.startDate && now < new Date(CURRENT_EVENT.startDate)) return false;
+  if (CURRENT_EVENT.endDate && now > new Date(CURRENT_EVENT.endDate + 'T23:59:59')) return false;
+  return true;
+}
+
+function getActiveEventItems() {
+  if (!isEventActive()) return [];
+  return shopItems.event.filter(i => {
+    // Si hay lista específica en CURRENT_EVENT, usarla
+    if (CURRENT_EVENT.itemIds && CURRENT_EVENT.itemIds.length) {
+      return CURRENT_EVENT.itemIds.includes(i.id);
+    }
+    // Fallback: usar el campo active del item
+    const stateOverride = state.eventItemsEnabled[i.id];
+    if (stateOverride !== undefined) return stateOverride;
+    return i.active !== false;
   });
 }
 function updateBerryTree(){
@@ -3897,6 +3951,46 @@ function updateEventTokensDisplay(){
   const el=document.getElementById('ev-tokens-val');
   if(el)el.textContent=formatNum(state.eventTokens||0);
 }
+
+function updateEventCountdown(){
+  const cd=document.getElementById('event-countdown');
+  if(!cd)return;
+  const t=getEventTimeLeft();
+  if(!t){cd.style.display='none';return;}
+  cd.style.display='inline-flex';
+  document.getElementById('ev-cd-days').textContent=t.d+'d';
+  document.getElementById('ev-cd-hours').textContent=t.h+'h';
+  document.getElementById('ev-cd-mins').textContent=t.m+'m';
+}
+
+function renderEventBanner(){
+  const ev=CURRENT_EVENT;
+  const color=ev.color||'var(--neon-pink)';
+  // Banner
+  const banner=document.getElementById('event-banner-dynamic');
+  if(banner)banner.style.borderBottomColor=color;
+  const icon=document.getElementById('event-banner-icon');
+  if(icon&&ev.icon){icon.src=ev.icon;icon.style.borderColor=color;}
+  const title=document.getElementById('event-title-text');
+  if(title){title.textContent=lang==='es'?ev.name_es:ev.name_en;title.style.color=color;title.style.textShadow=`0 0 20px ${color}`;}
+  const sub=document.getElementById('event-sub-text');
+  if(sub)sub.textContent=lang==='es'?ev.desc_es:ev.desc_en;
+  // Modal border color
+  const mc=document.getElementById('event-modal-content');
+  if(mc)mc.style.borderColor=color;
+  // Tokens bar
+  const tb=document.getElementById('event-tokens-bar');
+  if(tb)tb.style.borderColor=color;
+  const tl=document.getElementById('ev-tokens-lbl');
+  if(tl)tl.style.color=color;
+  const tv=document.getElementById('ev-tokens-val');
+  if(tv)tv.style.color=color;
+  // Countdown label
+  const cdl=document.getElementById('ev-cd-label');
+  if(cdl)cdl.textContent=lang==='es'?'Termina en':'Ends in';
+  updateEventCountdown();
+}
+
 function renderEventStoreItems(){
   const c=document.getElementById('event-items-container');c.innerHTML='';
   const active=getActiveEventItems();
@@ -3909,25 +4003,30 @@ function renderEventStoreItems(){
     document.getElementById('btn-event').classList.add('disabled-btn');return;
   }
   document.getElementById('btn-event').classList.remove('disabled-btn');
+  const color=CURRENT_EVENT.color||'var(--neon-pink)';
   active.forEach(i=>{
     const owned=state.inventory.some(x=>x.id===i.id);
     const iconImg=i.currency==='bills'?ICONS.bill:ICONS.wing;
-    c.innerHTML+=`<div class="item-row" style="border-color:var(--neon-pink)">
+    c.innerHTML+=`<div class="item-row" style="border-color:${color}">
       <img src="${iIcon(i)}" class="item-icon-badge" style="width:48px;height:48px;border-radius:10px;">
       <div class="item-info">
-        <div class="item-title-row"><span class="item-name" style="color:var(--neon-pink)">${iName(i)}</span><span class="bonus-tag">+${i.multi}</span></div>
+        <div class="item-title-row"><span class="item-name" style="color:${color}">${iName(i)}</span><span class="bonus-tag">+${i.multi}</span></div>
         <span class="item-desc">${iDesc(i)}</span>
         <div class="item-cost">${i.cost} <img src="${iconImg}" class="icon-small"></div>
       </div>
-      <button class="s-btn ${owned?'btn-owned-gray':'btn-buy-pink'}" onclick="buyItem('event','${i.id}')" ${owned?'disabled':''}>${owned?t('OWNED'):t('BUY')}</button>
+      <button class="s-btn ${owned?'btn-owned-gray':''}" style="${owned?'':'border-color:'+color+';color:'+color}" onclick="buyItem('event','${i.id}')" ${owned?'disabled':''}>${owned?t('OWNED'):t('BUY')}</button>
     </div>`;
   });
 }
 
 function openEvent(){
   updateEventTokensDisplay();
+  renderEventBanner();
   renderEventStoreItems();
   openModal('event-modal');
+  // Actualizar cuenta regresiva cada minuto
+  if(window._cdInterval)clearInterval(window._cdInterval);
+  window._cdInterval=setInterval(updateEventCountdown,60000);
 }
 
 // ══════════════════════════════════════════════════════
@@ -4987,20 +5086,27 @@ async function refreshAllFriendsFromCloud(){
 
 // ── Social tabs ────────────────────────────────────────
 function socialTab(tab){
-  const fp = document.getElementById('social-panel-friends');
-  const cp = document.getElementById('social-panel-clubs');
-  const tb = document.getElementById('stab-friends');
-  const tc = document.getElementById('stab-clubs');
+  const fp=document.getElementById('social-panel-friends');
+  const cp=document.getElementById('social-panel-clubs');
+  const rp=document.getElementById('social-panel-ranking');
+  const tb=document.getElementById('stab-friends');
+  const tc=document.getElementById('stab-clubs');
+  const tr=document.getElementById('stab-ranking');
+  // Reset all tabs
+  [fp,cp,rp].forEach(p=>{if(p)p.style.display='none';});
+  [tb,tc,tr].forEach(b=>{if(b){b.style.background='#111';b.style.color='#666';b.style.border='1px solid #333';}});
   if(tab==='friends'){
-    fp.style.display=''; cp.style.display='none';
-    tb.style.background='var(--friend-color)'; tb.style.color='#000'; tb.style.border='none';
-    tc.style.background='#111'; tc.style.color='#888'; tc.style.border='1px solid #444';
+    if(fp)fp.style.display='';
+    if(tb){tb.style.background='var(--friend-color)';tb.style.color='#000';tb.style.border='none';}
     renderFriendsList();
-  } else {
-    fp.style.display='none'; cp.style.display='';
-    tc.style.background='var(--gold)'; tc.style.color='#000'; tc.style.border='none';
-    tb.style.background='#111'; tb.style.color='#888'; tb.style.border='1px solid #444';
+  } else if(tab==='clubs'){
+    if(cp)cp.style.display='';
+    if(tc){tc.style.background='var(--gold)';tc.style.color='#000';tc.style.border='none';}
     renderClubPanel();
+  } else if(tab==='ranking'){
+    if(rp)rp.style.display='';
+    if(tr){tr.style.background='#c0392b';tr.style.color='#fff';tr.style.border='none';}
+    loadGlobalRanking();
   }
 }
 
@@ -5025,27 +5131,25 @@ function _genClubCode(){
 async function createClub(){
   const name = (document.getElementById('club-name-input').value||'').trim();
   const desc = (document.getElementById('club-desc-input').value||'').trim();
-  const announce = (document.getElementById('club-announce-input')?.value||'').trim();
+  const tag = (document.getElementById('club-tag-input')?.value||'🎮');
+  const announce = '';
   if(!name){ notify(lang==='es'?'Pon un nombre al club':'Enter a club name','CLUB',ICONS.error,true); return; }
   const inviteCode = _genClubCode();
   const myCode = (state.accountVaultCode||_generateVaultCode()).replace(/-/g,'').toUpperCase();
   const clubId = myCode + '_' + inviteCode;
   const url = `${_FB_CLUBS}/${clubId}?key=${_FB_CONFIG.apiKey}`;
   const myName = state.userName || 'Player';
-  // Get club photo if selected
   let clubPhoto = '';
-  const previewEl = document.getElementById('club-photo-preview-create');
-  const imgEl = previewEl?.querySelector('img');
-  if(imgEl) { try{ clubPhoto = await _resizePhoto(imgEl.src, 80); }catch(e){} }
   const body = JSON.stringify({ fields:{
     name:       { stringValue: name },
     desc:       { stringValue: desc },
+    tag:        { stringValue: tag },
     announce:   { stringValue: announce },
     photo:      { stringValue: clubPhoto },
     invite:     { stringValue: inviteCode },
     owner:      { stringValue: myCode },
     ownerName:  { stringValue: myName },
-    members:    { stringValue: JSON.stringify([{code:myCode,name:myName,level:getCurrentLevel?getCurrentLevel(state.totalSips):1,wings:Math.floor(state.wings||0)}]) },
+    members:    { stringValue: JSON.stringify([{code:myCode,name:myName,level:getCurrentLevel?getCurrentLevel(state.totalSips):1,wings:Math.floor(state.wings||0),role:'owner'}]) },
     createdAt:  { stringValue: new Date().toISOString() }
   }});
   try{
@@ -5148,25 +5252,17 @@ async function renderClubPanel(){
       else { photoEl.textContent='🏆'; }
     }
 
-    // Header info
     const info = document.getElementById('club-info-bar');
     const descBar = document.getElementById('club-desc-bar');
     const mbar = document.getElementById('club-members-bar');
-    if(info) info.innerHTML = `${f.name?.stringValue||'Club'} <span style="color:#555;font-size:8px;font-weight:normal;">• Código: <span style="color:var(--gold)">${f.invite?.stringValue||''}</span></span>`;
-    if(descBar){ const d=f.desc?.stringValue||''; descBar.textContent=d; descBar.style.display=d?'':'none'; }
-    if(mbar) mbar.textContent = `👥 ${members.length} miembro${members.length!==1?'s':''}`;
-
-    // Owner edit button
-    const editBtn = document.getElementById('club-edit-btn');
-    if(editBtn) editBtn.style.display = isOwner?'':'none';
-
-    // Announcement
-    const announceBar = document.getElementById('club-announce-bar');
-    const announceText = f.announce?.stringValue||'';
-    if(announceBar){
-      if(announceText){ announceBar.style.display=''; announceBar.innerHTML=`📢 ${announceText}`; }
-      else { announceBar.style.display='none'; }
-    }
+    const inviteDisplay = document.getElementById('club-invite-display');
+    if(info) info.innerHTML = `${f.tag?.stringValue||'🏆'} ${f.name?.stringValue||'Club'}`;
+    if(descBar){ descBar.textContent=f.desc?.stringValue||''; }
+    if(mbar) mbar.innerHTML = members.map(m=>{
+      const isOwnerM=m.code===f.owner?.stringValue;
+      return `<span style="background:#111;border:1px solid #222;border-radius:12px;padding:2px 8px;font-size:8px;color:${isOwnerM?'var(--gold)':'#888'};">${isOwnerM?'👑 ':' '}${m.name}</span>`;
+    }).join('');
+    if(inviteDisplay) inviteDisplay.textContent=f.invite?.stringValue||'';
 
     // Members list (detailed)
     const membersList = document.getElementById('club-members-list');
@@ -5283,6 +5379,56 @@ function toggleClubMembers(){
   const open = panel.style.display==='none';
   panel.style.display = open ? '' : 'none';
   if(btn) btn.textContent = open ? '👥 OCULTAR MIEMBROS' : '👥 VER MIEMBROS';
+}
+
+function copyClubInvite(){
+  const code=state.clubInvite||'';
+  if(!code)return;
+  try{navigator.clipboard.writeText(code);}catch(e){}
+  notify(lang==='es'?`Código "${code}" copiado`:`Code "${code}" copied`,'CLUB',ICONS.friends,false,true);
+}
+
+// ── Global Ranking ─────────────────────────────────────
+async function loadGlobalRanking(){
+  const box=document.getElementById('ranking-list');
+  if(!box)return;
+  box.innerHTML='<div style="color:#444;font-size:11px;text-align:center;font-family:sans-serif;padding:20px;">Cargando...</div>';
+  try{
+    const url=`${_FB_PROFILES}?key=${_FB_CONFIG.apiKey}&pageSize=50`;
+    const r=await fetch(url);
+    if(!r.ok){box.innerHTML='<div style="color:#555;text-align:center;font-family:sans-serif;font-size:11px;padding:20px;">Error al cargar ranking.</div>';return;}
+    const data=await r.json();
+    const docs=(data.documents||[])
+      .map(d=>({
+        name:d.fields?.name?.stringValue||'Player',
+        wings:parseInt(d.fields?.wings?.integerValue||0),
+        level:parseInt(d.fields?.level?.integerValue||1),
+        prestige:parseInt(d.fields?.prestige?.integerValue||0),
+        photo:d.fields?.photo?.stringValue||'',
+        code:d.fields?.code?.stringValue||''
+      }))
+      .sort((a,b)=>b.wings-a.wings)
+      .slice(0,20);
+    if(!docs.length){box.innerHTML='<div style="color:#555;text-align:center;font-family:sans-serif;font-size:11px;padding:20px;">Sin jugadores aún.</div>';return;}
+    const myCode=(state.accountVaultCode||'').replace(/-/g,'').toUpperCase();
+    const medals=['🥇','🥈','🥉'];
+    box.innerHTML=docs.map((p,i)=>{
+      const isMe=p.code===myCode;
+      const avatar=p.photo?`<img src="${p.photo}" style="width:32px;height:32px;border-radius:50%;object-fit:cover;border:2px solid ${isMe?'var(--neon-green)':'#333'};">`:`<div style="width:32px;height:32px;border-radius:50%;background:#1a1a1a;display:flex;align-items:center;justify-content:center;font-size:14px;border:2px solid ${isMe?'var(--neon-green)':'#222'};">👤</div>`;
+      return `<div style="display:flex;align-items:center;gap:8px;padding:8px;background:${isMe?'rgba(0,60,0,0.3)':'rgba(15,15,15,0.8)'};border:1px solid ${isMe?'var(--neon-green)':'#1a1a1a'};border-radius:8px;">
+        <div style="font-size:${i<3?'18px':'12px'};color:${i<3?'var(--gold)':'#555'};width:24px;text-align:center;font-family:'Arial Black',sans-serif;">${medals[i]||('#'+(i+1))}</div>
+        ${avatar}
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:11px;color:${isMe?'var(--neon-green)':'#ddd'};font-family:'Arial Black',sans-serif;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p.name}${isMe?' ★':''}</div>
+          <div style="font-size:9px;color:#555;font-family:sans-serif;">Nv.${p.level}${p.prestige>0?' • ✨'+p.prestige+' Prestige':''}</div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;">
+          <div style="font-size:12px;color:var(--neon-blue);font-family:'Arial Black',sans-serif;">${(p.wings||0).toLocaleString()}</div>
+          <div style="font-size:8px;color:#444;">🪶 wings</div>
+        </div>
+      </div>`;
+    }).join('');
+  }catch(e){box.innerHTML='<div style="color:#555;text-align:center;font-family:sans-serif;font-size:11px;padding:20px;">Sin conexión.</div>';}
 }
 
 // ── Club Chat ──────────────────────────────────────────
