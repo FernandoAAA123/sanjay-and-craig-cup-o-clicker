@@ -1815,7 +1815,9 @@ function _idbLoad(){
 }
 
 let _saveTimer=null;
+let _gameLoaded=false; // Bloquea saves hasta que loadGame confirme carga
 function saveGame(immediate){
+  if(!_gameLoaded&&!window._saveDisabled)return; // No guardar hasta que el juego cargue
   const data=JSON.stringify(state);
   const _doSave=()=>{
     if(window._saveDisabled)return;
@@ -1931,6 +1933,8 @@ function _applyLoadedState(loaded){
   updateScene();updateHUD();
   // FIX: Reset level tracking to current level to avoid missing future level-up notifications
   _lastLevel = getCurrentLevel(state.totalSips);
+  // Permitir saves ahora que el estado está cargado
+  _gameLoaded=true;
 }
 
 // Nueva loadGame: localStorage → sessionStorage → IndexedDB
@@ -1949,8 +1953,10 @@ function loadGame(){
     try{loaded=JSON.parse(raw);}catch(e){}
     _applyLoadedState(loaded);
     _idbSave(raw);
-    // Sync inicial a Firebase — solo si NO venimos de un restore
-    setTimeout(()=>{if(typeof _fbAutoSync==='function')_fbAutoSync();},5000);
+    // Sync a Firebase solo si hay progreso real
+    setTimeout(()=>{
+      if(typeof _fbAutoSync==='function' && state.totalSips>0)_fbAutoSync();
+    },5000);
     return;
   }
   // 3) Fallback: IndexedDB (async)
@@ -4315,6 +4321,8 @@ async function fbManualSync(){
 // Auto-sync al guardar (debounced)
 let _fbSyncTimer=null;
 function _fbAutoSync(){
+  if(!_gameLoaded)return; // No subir hasta que el juego esté cargado
+  if(!state.totalSips && !state.wings && !state.bills)return; // No subir estado vacío
   if(_fbSyncTimer)clearTimeout(_fbSyncTimer);
   _fbSyncTimer=setTimeout(async()=>{
     _fbSyncTimer=null;
@@ -4358,11 +4366,17 @@ async function vaultRestoreFromCloud(rawCode){
           if(window._saveTimer){clearTimeout(window._saveTimer);window._saveTimer=null;}
           if(window._fbSyncTimer){clearTimeout(window._fbSyncTimer);window._fbSyncTimer=null;}
           if(window._profileSyncTimer){clearTimeout(window._profileSyncTimer);window._profileSyncTimer=null;}
+          // Conservar el código de cuenta del dispositivo destino
+          const _myCode=state.accountVaultCode||'';
+          // Parsear el save restaurado y reemplazar su código con el nuestro
+          let restoreData=JSON.parse(saveStr);
+          if(_myCode)restoreData.accountVaultCode=_myCode;
+          const finalStr=JSON.stringify(restoreData);
           // Borrar save actual y escribir el restaurado
           localStorage.removeItem(SAVE_KEY);
-          localStorage.setItem(SAVE_KEY,saveStr);
-          sessionStorage.setItem(SAVE_KEY,saveStr);
-          _idbSave(saveStr);
+          localStorage.setItem(SAVE_KEY,finalStr);
+          sessionStorage.setItem(SAVE_KEY,finalStr);
+          _idbSave(finalStr);
           // Verificar que se escribió bien antes de recargar
           const check=localStorage.getItem(SAVE_KEY);
           if(!check||check.length<10){
