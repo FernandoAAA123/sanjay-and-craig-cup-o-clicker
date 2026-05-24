@@ -1545,6 +1545,7 @@ function getSipsForLevel(lvl){return(lvl-1)*(lvl-1)*300;} // Era 75, ahora 4x m�
 function getCurrentLevel(totalSips){let lvl=1;while(getSipsForLevel(lvl+1)<=totalSips)lvl++;return lvl;}
 function getLevelBonus(lvl){return 1+(lvl-1)*0.015;} // Era 0.025, reducido
 const PRESTIGE_UNLOCK_WINGS=500000;
+const MAX_PRESTIGE=10;
 
 // ══════════════════════════════════════════════════════
 //  DAILY BONUS CONFIG
@@ -1915,7 +1916,6 @@ function _applyLoadedState(loaded){
     if(state.missionsCompleted===undefined)state.missionsCompleted=0;
     if(state.dailyStreak===undefined)state.dailyStreak=0;
     if(state.lastDailyDate===undefined)state.lastDailyDate='';
-    if(state.lastMissionsDate===undefined)state.lastMissionsDate='';
     if(state.comboCount===undefined)state.comboCount=0;
     if(state.lastClickTime===undefined)state.lastClickTime=0;
     if(state.realClicks===undefined)state.realClicks=0;
@@ -1983,7 +1983,6 @@ function _applyLoadedState(loaded){
   }
   checkPrestigeUnlock();
   checkDailyBonus();
-  checkMissionsReset();
   updateMissionsBadge();
   updateBerryTree();
   updateRankingSidebarBtn();
@@ -3290,16 +3289,6 @@ function checkDailyBonus(){
   else badge.classList.remove('claimed');
 }
 
-function checkMissionsReset(){
-  if(state.lastMissionsDate!==getTodayStr()){
-    state.completedMissions=[];
-    state.missionsCompleted=0;
-    state.lastMissionsDate=getTodayStr();
-    saveGame();
-    updateMissionsBadge();
-  }
-}
-
 function openDailyBonus(){renderDailyGrid();openModal('daily-modal');}
 
 function renderDailyGrid(){
@@ -3731,13 +3720,19 @@ function getPrestigeMulti(){return Math.max(1,(state.prestigeLevel||0)*2)||1;}
 
 function openPrestigeModal(){
   const cost=getPrestigeCost();const info=document.getElementById('prestige-info');
-  const can=state.wings>=cost;
+  const isMax=state.prestigeLevel>=MAX_PRESTIGE;
+  const can=!isMax&&state.wings>=cost;
   info.innerHTML=`
     <div class="prestige-info-box">
       <p style="font-size:10px;color:#aaa;margin:0 0 6px 0;font-family:sans-serif;">${t('PRESTIGE_LEVEL_LBL')}:</p>
-      <p style="font-size:28px;color:var(--prestige-color);margin:0;font-weight:bold;">${state.prestigeLevel}</p>
+      <p style="font-size:28px;color:var(--prestige-color);margin:0;font-weight:bold;">${state.prestigeLevel}${isMax?` <span style="font-size:14px;color:var(--gold);">MAX</span>`:''}/${MAX_PRESTIGE}</p>
       <p style="font-size:11px;color:var(--gold);margin:4px 0 0 0;">${t('PERM_MULTI')}: x${getPrestigeMulti()}</p>
     </div>
+    ${isMax?`
+    <div class="prestige-next-box">
+      <p style="font-size:14px;color:var(--gold);margin:0;text-align:center;">🏆 ${lang==='es'?'¡Prestigio máximo alcanzado!':'Max prestige reached!'}</p>
+      <p style="font-size:11px;color:#aaa;margin:8px 0 0 0;font-family:sans-serif;text-align:center;">${lang==='es'?'Multiplicador permanente':'Permanent multiplier'}: <b style="color:var(--prestige-color);">x${getPrestigeMulti()}</b></p>
+    </div>`:`
     <div class="prestige-next-box">
       <p style="font-size:12px;color:#ccc;margin:0 0 5px 0;font-family:sans-serif;">${t('NEXT_PRESTIGE')}:</p>
       <p style="font-size:14px;color:white;margin:0;">${t('COST')}: <span style="color:var(--prestige-color);font-size:18px;">${formatNum(cost)}</span> ${t('WINGS')}</p>
@@ -3751,10 +3746,11 @@ function openPrestigeModal(){
     <button class="s-btn btn-prestige" style="width:100%;padding:16px;font-size:13px;margin-top:8px;${can?'':'opacity:0.4;cursor:not-allowed;'}" onclick="doPrestige()" ${can?'':'disabled'}>
       <img src="${ICONS.diamond}" class="icon-btn">
       ${can?t('PRESTIGE_BTN'):`${t('NEEDS_MORE')} ${formatNum(cost-Math.floor(state.wings))} ${t('MORE_LBL')}`}
-    </button>`;
+    </button>`}`;
 }
 function getPrestigeCost(){return PRESTIGE_UNLOCK_WINGS*Math.pow(2,state.prestigeLevel);}
 function doPrestige(){
+  if(state.prestigeLevel>=MAX_PRESTIGE)return;
   const cost=getPrestigeCost();if(state.wings<cost)return;
   state.prestigeLevel++;
   state.wings=0;state.bills=0;state.blueberries=0;state.sauce=0;
@@ -4586,7 +4582,7 @@ function claimCode(){
     'LEVELUP':()=>{state.totalSips+=getSipsForLevel(getCurrentLevel(state.totalSips)+2);checkLevelUp();notify(t('LEVEL_UP'),t('ACTIVATED'),ICONS.star);},
     'ARBOLITO':()=>{state.treeHarvestCount+=1;state.blueberries+=50;notify('+50 '+t('BLUEBERRIES'),t('ACTIVATED'),ICONS.berry_tree);},
     'DIARIO':()=>{state.lastDailyDate='';checkDailyBonus();notify(lang==='es'?'Bonus diario reiniciado':'Daily reset',t('ACTIVATED'),ICONS.calendar);},
-    'MISIONES':()=>{state.completedMissions=[];state.missionsCompleted=0;state.lastMissionsDate='';notify(lang==='es'?'Misiones reiniciadas':'Missions reset',t('ACTIVATED'),ICONS.task);},
+    'MISIONES':()=>{state.completedMissions=[];state.missionsCompleted=0;notify(lang==='es'?'Misiones reiniciadas':'Missions reset',t('ACTIVATED'),ICONS.task);},
     'COMBO10':()=>{state.comboCount=10;state.maxCombo=Math.max(state.maxCombo||0,10);updateComboDisplay();notify('COMBO x10!',t('ACTIVATED'),ICONS.lightning);},
     'BORRARTODO':()=>{showConfirm(lang==='es'?'¿Borrar TODO el progreso?':'Delete ALL progress?',lang==='es'?'Esta acción es irreversible.':'This action is irreversible.',()=>{localStorage.clear();location.reload();});},
     'RESETALL':()=>{showConfirm(lang==='es'?'¿Borrar TODO el progreso?':'Delete ALL progress?',lang==='es'?'Esta acción es irreversible.':'This action is irreversible.',()=>{localStorage.clear();location.reload();});},
