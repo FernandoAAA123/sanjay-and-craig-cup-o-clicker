@@ -748,8 +748,7 @@ input:checked+.toggle-slider::before{transform:translateX(20px);}
       <!-- Text content -->
       <div class="event-banner-content">
         <div class="event-banner-badges">
-          <span class="event-banner-badge" id="ev-badge-live" style="background:rgba(255,0,0,0.2);color:#ff4444;border:1px solid #ff4444;">🔴 LIVE</span>
-          <span class="event-banner-badge" id="ev-badge-exclusive" style="background:rgba(255,215,0,0.15);color:var(--gold);border:1px solid var(--gold);">⭐ EXCLUSIVE</span>
+
         </div>
         <h1 id="event-title-text" class="event-banner-title" style="color:var(--neon-pink);text-shadow:0 0 20px var(--neon-pink);margin:0;">EVENTO</h1>
         <p id="event-sub-text" class="event-banner-desc" style="margin:0;"></p>
@@ -780,7 +779,7 @@ input:checked+.toggle-slider::before{transform:translateX(20px);}
           <div style="font-size:8px;color:#888;text-transform:uppercase;letter-spacing:1px;font-family:sans-serif;" id="ev-tokens-lbl">EVENT TOKENS</div>
           <div style="font-size:20px;font-weight:bold;color:var(--neon-pink);font-family:'Arial Black',sans-serif;line-height:1;" id="ev-tokens-val">0</div>
         </div>
-        <div style="font-size:8px;color:#555;text-align:right;font-family:sans-serif;">${lang==='es'?'Gana tokens<br>haciendo clic':'Earn tokens<br>by clicking'}</div>
+
       </div>
       <h3 style="color:var(--neon-pink);text-align:left;margin-bottom:10px;display:flex;align-items:center;gap:8px;">
         <img src="https://img.icons8.com/fluency/48/confetti.png" style="width:18px;height:18px;"><span id="event-store-title">EVENT STORE</span>
@@ -1794,7 +1793,7 @@ const shopItems={
     {id:'bg_cyber_frycade',active:true,name_es:'Ciber Fritolandia',name_en:'Cyber Frycade',cost:20000,multi:5000,desc_es:'Fondo exclusivo.',desc_en:'Exclusive background.',img:'https://cdn.discordapp.com/attachments/1376584136491405384/1469486078908956756/1000.png',filter:'hue-rotate(280deg)',type:'bg',currency:'wings',icon:ICONS.galaxy},
     {id:'laser_cup',active:true,name_es:'Vaso Laser',name_en:'Laser Cup',cost:250,multi:25000,desc_es:'Poder puro.',desc_en:'Pure power.',img:ICONS.cup,filter:'hue-rotate(320deg) saturate(5)',type:'cup',currency:'bills',icon:ICONS.power},
     {id:'stinkboy',active:false,name_es:'Chico Apestoso',name_en:'Stinkboy',cost:7500,multi:90,desc_es:'Olor insoportable.',desc_en:'Unbearable smell.',img:'https://chibi.iitranq.co.uk/qykvcIrDM4OK.png',type:'variant',currency:'bills',icon:ICONS.star},
-    {id:'street_dogg',active:false,name_es:'Street Dogg',name_en:'Street Dogg',cost:1500,multi:250,desc_es:'El rapero mas cool.',desc_en:'The coolest rapper.',img:'https://static.wikia.nocookie.net/sanjayandcraig/images/0/0e/Street_dogg.png',type:'char',currency:'bills',icon:ICONS.guitar},
+    {id:'street_dogg',active:true,name_es:'Street Dogg',name_en:'Street Dogg',cost:1500,multi:250,desc_es:'El rapero mas cool.',desc_en:'The coolest rapper.',img:'https://static.wikia.nocookie.net/sanjayandcraig/images/0/0e/Street_dogg.png',type:'char',currency:'bills',icon:ICONS.guitar},
     {id:'megan_verano',active:false,name_es:'Megan Verano',name_en:'Summer Megan',cost:2500,multi:6000,desc_es:'Que calor!',desc_en:'So hot!',img:'https://static.wikia.nocookie.net/sanjayandcraig/images/7/77/Megan_Sparkles.png',filter:'sepia(0.5) saturate(2)',type:'variant',currency:'bills',icon:ICONS.fire},
     {id:'galaxy_sanjay',active:false,name_es:'Sanjay Galactico',name_en:'Galaxy Sanjay',cost:6000,multi:18000,desc_es:'Modelo SR-3000.',desc_en:'Model SR-3000.',img:'https://static.wikia.nocookie.net/sanjayandcraig/images/0/07/Sanjay_Patel.png',filter:'hue-rotate(180deg) contrast(1.5)',type:'variant',currency:'bills',icon:ICONS.galaxy},
     {id:'galaxy_craig',active:false,name_es:'Craig Galactico',name_en:'Galaxy Craig',cost:6000,multi:18000,desc_es:'Modelo SR-3000.',desc_en:'Model SR-3000.',img:'https://static.wikia.nocookie.net/sanjayandcraig/images/0/07/Sanjay_Patel.png',filter:'hue-rotate(180deg) contrast(1.5)',type:'variant',currency:'bills',icon:ICONS.rocket},
@@ -1829,7 +1828,7 @@ const defaultState={
   spicyTimer:0,prestigeLevel:0,prestigeUnlocked:false,
   totalFrenzies:0,eventItemsEnabled:{},berryTreeTimer:0,treeHarvestCount:0,
   treeStage:0,treeLastHarvestDate:'',
-  startMusicPlayed:false,lastDailyDate:'',dailyStreak:0,completedMissions:[],
+  startMusicPlayed:false,lastDailyDate:'',lastMissionsDate:'',dailyStreak:0,completedMissions:[],
   missionsCompleted:0,comboCount:0,lastClickTime:0,maxCombo:0,giftsSent:0,
   sauceUpgrades:{},totalSpins:0,maxClickStreak:0,tempMultiBonus:0,tempMultiTimer:0,
   completedChallenges:[],totalChallenges:0,boxesOpened:{},totalBoxesOpened:0,
@@ -1916,6 +1915,7 @@ function _applyLoadedState(loaded){
     if(state.missionsCompleted===undefined)state.missionsCompleted=0;
     if(state.dailyStreak===undefined)state.dailyStreak=0;
     if(state.lastDailyDate===undefined)state.lastDailyDate='';
+    if(state.lastMissionsDate===undefined)state.lastMissionsDate='';
     if(state.comboCount===undefined)state.comboCount=0;
     if(state.lastClickTime===undefined)state.lastClickTime=0;
     if(state.realClicks===undefined)state.realClicks=0;
@@ -1983,6 +1983,7 @@ function _applyLoadedState(loaded){
   }
   checkPrestigeUnlock();
   checkDailyBonus();
+  checkMissionsReset();
   updateMissionsBadge();
   updateBerryTree();
   updateRankingSidebarBtn();
@@ -3289,6 +3290,16 @@ function checkDailyBonus(){
   else badge.classList.remove('claimed');
 }
 
+function checkMissionsReset(){
+  if(state.lastMissionsDate!==getTodayStr()){
+    state.completedMissions=[];
+    state.missionsCompleted=0;
+    state.lastMissionsDate=getTodayStr();
+    saveGame();
+    updateMissionsBadge();
+  }
+}
+
 function openDailyBonus(){renderDailyGrid();openModal('daily-modal');}
 
 function renderDailyGrid(){
@@ -3411,19 +3422,19 @@ function getTreeStageData(){
 const CURRENT_EVENT = {
   // ─── DATOS DEL EVENTO ───────────────────────────────
   active: true,                          // true = evento activo, false = sin evento
-  id: 'max_d_event',                     // ID único del evento (no cambiar si hay jugadores)
-  name_es: '¡El Evento de Maximum Dennis!', // Nombre en español
-  name_en: 'Maximum Dennis Event!',      // Nombre en inglés
-  desc_es: 'Items exclusivos de Maximum Dennis por tiempo limitado.',
-  desc_en: 'Exclusive Maximum Dennis items for a limited time.',
-  icon: 'https://files.catbox.moe/42eaji.jpg', // Imagen del evento
-  color: '#ff6b35',                      // Color del evento
+  id: 'street_dogg_event',              // ID único del evento (no cambiar si hay jugadores)
+  name_es: '¡Evento Street Dogg!',      // Nombre en español
+  name_en: 'Street Dogg Event!',        // Nombre en inglés
+  desc_es: 'Items exclusivos de Street Dogg por tiempo limitado.',
+  desc_en: 'Exclusive Street Dogg items for a limited time.',
+  icon: 'https://static.wikia.nocookie.net/sanjayandcraig/images/0/0e/Street_dogg.png', // Imagen del evento
+  color: '#9b59b6',                     // Color del evento (morado)
   // ─── FECHAS (dejar vacío para sin límite) ───────────
-  startDate: '',                         // Ej: '2025-06-01' o '' para ya
-  endDate:   '',                         // Ej: '2025-08-31' o '' para sin fin
+  startDate: '',                        // Ej: '2025-06-01' o '' para ya
+  endDate:   '',                        // Ej: '2025-08-31' o '' para sin fin
   // ─── ITEMS ACTIVOS EN ESTE EVENTO ───────────────────
   // Pon los IDs de shopItems.event que quieres mostrar:
-  itemIds: ['max_d', 'maximum_dennis', 'laser_cup', 'bg_cyber_frycade'],
+  itemIds: ['street_dogg'],
   // ─── RECOMPENSAS EXCLUSIVAS DEL EVENTO ──────────────
   loginBonus: { type: 'eventTokens', amount: 10 }, // Bonus al entrar durante el evento
 };
@@ -4101,11 +4112,6 @@ function renderEventBanner(){
   // Sub
   const sub=document.getElementById('event-sub-text');
   if(sub)sub.textContent=lang==='es'?ev.desc_es:ev.desc_en;
-  // Badges
-  const badgeLive=document.getElementById('ev-badge-live');
-  if(badgeLive){badgeLive.textContent='🔴 '+(lang==='es'?'EN VIVO':'LIVE');}
-  const badgeEx=document.getElementById('ev-badge-exclusive');
-  if(badgeEx){badgeEx.textContent='⭐ '+(lang==='es'?'EXCLUSIVO':'EXCLUSIVE');}
   // Modal border color
   const mc=document.getElementById('event-modal-content');
   if(mc)mc.style.borderColor=color;
@@ -4175,7 +4181,7 @@ function renderEventStoreItems(){
         </div>
         <div style="display:flex;gap:4px;margin-bottom:5px;flex-wrap:wrap;">
           <span style="font-size:7px;background:#151515;border:1px solid #2a2a2a;color:#777;border-radius:4px;padding:1px 5px;font-family:'Arial Black',sans-serif;">${typeLabel}</span>
-          ${multiVal>0?`<span style="font-size:7px;background:${rarityColor}18;border:1px solid ${rarityColor}44;color:${rarityColor};border-radius:4px;padding:1px 5px;font-family:'Arial Black',sans-serif;">${rarityLabel}</span>`:''}
+          ${i.multi>0?`<span style="font-size:7px;background:${rarityColor}18;border:1px solid ${rarityColor}44;color:${rarityColor};border-radius:4px;padding:1px 5px;font-family:'Arial Black',sans-serif;">${rarityLabel}</span>`:''}
           <span style="font-size:7px;background:${color}15;border:1px solid ${color}44;color:${color};border-radius:4px;padding:1px 5px;font-family:'Arial Black',sans-serif;">⭐ EVENTO</span>
           ${owned?`<span style="font-size:7px;background:rgba(46,204,113,0.15);border:1px solid #2ecc71;color:#2ecc71;border-radius:4px;padding:1px 5px;font-family:'Arial Black',sans-serif;">✓ ${t('OWNED')}</span>`:''}
         </div>
@@ -4309,7 +4315,7 @@ function switchShop(tab){
         <!-- Type + Rarity chips -->
         <div style="display:flex;gap:4px;margin-bottom:5px;flex-wrap:wrap;">
           <span style="font-size:7px;background:#151515;border:1px solid #2a2a2a;color:#777;border-radius:4px;padding:1px 5px;font-family:'Arial Black',sans-serif;letter-spacing:0.5px;">${typeLabel}</span>
-          ${multiVal>0?`<span style="font-size:7px;background:${rarityColor}18;border:1px solid ${rarityColor}44;color:${rarityColor};border-radius:4px;padding:1px 5px;font-family:'Arial Black',sans-serif;">${rarityLabel}</span>`:''}
+          ${i.multi>0?`<span style="font-size:7px;background:${rarityColor}18;border:1px solid ${rarityColor}44;color:${rarityColor};border-radius:4px;padding:1px 5px;font-family:'Arial Black',sans-serif;">${rarityLabel}</span>`:''}
           ${owned?`<span style="font-size:7px;background:rgba(46,204,113,0.15);border:1px solid #2ecc71;color:#2ecc71;border-radius:4px;padding:1px 5px;font-family:'Arial Black',sans-serif;">✓ ${t('OWNED')}</span>`:''}
         </div>
         <!-- Description -->
@@ -4320,7 +4326,7 @@ function switchShop(tab){
           <span style="font-size:12px;font-weight:bold;color:${owned?'#555':canAfford?'#fff':'#e74c3c'};font-family:'Arial Black',sans-serif;">${i.cost.toLocaleString()}</span>
           <span style="font-size:8px;color:#555;font-family:sans-serif;">${curName}</span>
           ${!owned&&!canAfford?`<span style="font-size:8px;color:#e74c3c;background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:4px;padding:1px 5px;margin-left:2px;">${lang==='es'?'Insuf.':'Insuff.'}</span>`:''}
-          ${!owned&&canAfford?`<span style="font-size:8px;color:${accentColor};background:${accentColor}15;border:1px solid ${accentColor}33;border-radius:4px;padding:1px 5px;margin-left:2px;">✓</span>`:''}
+          ${!owned&&canAfford?`<span style="font-size:8px;color:${rarityColor};background:${rarityColor}15;border:1px solid ${rarityColor}33;border-radius:4px;padding:1px 5px;margin-left:2px;">✓</span>`:''}
         </div>
       </div>
       <!-- Buy button area -->
@@ -4516,7 +4522,7 @@ function switchInventory(tab){
           ${multiVal?`<span style="font-size:7px;background:${accentColor}22;border:1px solid ${accentColor}55;color:${accentColor};border-radius:4px;padding:1px 6px;font-family:'Arial Black',sans-serif;">+${multiVal}</span>`:''}
         </div>
         <div style="display:flex;gap:4px;margin-bottom:4px;flex-wrap:wrap;">
-          ${multiVal>0?`<span style="font-size:7px;background:${rarityColor}18;border:1px solid ${rarityColor}44;color:${rarityColor};border-radius:4px;padding:1px 5px;font-family:'Arial Black',sans-serif;">${rarityLabel}</span>`:''}
+          ${i.multi>0?`<span style="font-size:7px;background:${rarityColor}18;border:1px solid ${rarityColor}44;color:${rarityColor};border-radius:4px;padding:1px 5px;font-family:'Arial Black',sans-serif;">${rarityLabel}</span>`:''}
         </div>
         ${invDesc?`<div style="font-size:10px;color:#666;font-family:sans-serif;line-height:1.3;margin-bottom:4px;">${invDesc}</div>`:''}
         ${tab==='chars'||tab==='variants'?upgradeUI:''}
@@ -4580,7 +4586,7 @@ function claimCode(){
     'LEVELUP':()=>{state.totalSips+=getSipsForLevel(getCurrentLevel(state.totalSips)+2);checkLevelUp();notify(t('LEVEL_UP'),t('ACTIVATED'),ICONS.star);},
     'ARBOLITO':()=>{state.treeHarvestCount+=1;state.blueberries+=50;notify('+50 '+t('BLUEBERRIES'),t('ACTIVATED'),ICONS.berry_tree);},
     'DIARIO':()=>{state.lastDailyDate='';checkDailyBonus();notify(lang==='es'?'Bonus diario reiniciado':'Daily reset',t('ACTIVATED'),ICONS.calendar);},
-    'MISIONES':()=>{state.completedMissions=[];state.missionsCompleted=0;notify(lang==='es'?'Misiones reiniciadas':'Missions reset',t('ACTIVATED'),ICONS.task);},
+    'MISIONES':()=>{state.completedMissions=[];state.missionsCompleted=0;state.lastMissionsDate='';notify(lang==='es'?'Misiones reiniciadas':'Missions reset',t('ACTIVATED'),ICONS.task);},
     'COMBO10':()=>{state.comboCount=10;state.maxCombo=Math.max(state.maxCombo||0,10);updateComboDisplay();notify('COMBO x10!',t('ACTIVATED'),ICONS.lightning);},
     'BORRARTODO':()=>{showConfirm(lang==='es'?'¿Borrar TODO el progreso?':'Delete ALL progress?',lang==='es'?'Esta acción es irreversible.':'This action is irreversible.',()=>{localStorage.clear();location.reload();});},
     'RESETALL':()=>{showConfirm(lang==='es'?'¿Borrar TODO el progreso?':'Delete ALL progress?',lang==='es'?'Esta acción es irreversible.':'This action is irreversible.',()=>{localStorage.clear();location.reload();});},
