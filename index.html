@@ -325,7 +325,7 @@ body.mobile-mode #daily-badge img,body.mobile-mode #missions-badge img{width:14p
 /* FRIEND CARD - MEJORADA */
 .friend-card{background:#0d1a0d;border:1px solid var(--friend-color);border-radius:16px;padding:14px 16px;margin:10px 0;display:flex;align-items:flex-start;gap:14px;text-align:left;transition:box-shadow 0.2s,border-color 0.2s;}
 .friend-card:hover{box-shadow:0 0 14px rgba(46,204,113,0.3);border-color:#4ae585;}
-.friend-avatar{width:60px;height:60px;border-radius:50%;object-fit:cover;background:#222;border:2px solid var(--friend-color);flex-shrink:0;box-shadow:0 0 8px rgba(46,204,113,0.4);}
+.friend-avatar{width:56px;height:56px;border-radius:10px;object-fit:cover;background:#222;border:2px solid var(--friend-color);flex-shrink:0;box-shadow:0 0 8px rgba(46,204,113,0.4);}
 .friend-avatar-online{border-color:var(--neon-green);box-shadow:0 0 10px var(--neon-green);}
 
 /* RANKING */
@@ -485,6 +485,19 @@ input:checked+.toggle-slider::before{transform:translateX(20px);}
 .rarity-rare .lootbox-rarity-tag{background:#0a1a3a;color:#4f86f7;}
 .rarity-epic .lootbox-rarity-tag{background:#1a0a2e;color:#9b59b6;}
 .rarity-legendary .lootbox-rarity-tag{background:#1a1400;color:var(--gold);}
+/* ── Item rarity colors ─────────────────────────────── */
+.rarity-border-common  { border-color: #888 !important; }
+.rarity-border-rare    { border-color: #4f86f7 !important; box-shadow: 0 0 6px rgba(79,134,247,0.3); }
+.rarity-border-epic    { border-color: #9b59b6 !important; box-shadow: 0 0 8px rgba(155,89,182,0.35); }
+.rarity-border-mythic  { border-color: #e74c3c !important; box-shadow: 0 0 10px rgba(231,76,60,0.4); }
+.rarity-border-legendary { border-color: var(--gold) !important; box-shadow: 0 0 12px rgba(255,215,0,0.5); animation: legendary-pulse 2s infinite alternate; }
+.rarity-tag { font-size:7px; font-weight:bold; border-radius:6px; padding:2px 6px; text-transform:uppercase; letter-spacing:0.5px; margin-left:4px; }
+.rarity-tag-common   { background:#222; color:#aaa; }
+.rarity-tag-rare     { background:#0a1a3a; color:#4f86f7; }
+.rarity-tag-epic     { background:#1a0a2e; color:#9b59b6; }
+.rarity-tag-mythic   { background:#2a0505; color:#e74c3c; }
+.rarity-tag-legendary{ background:#1a1400; color:var(--gold); }
+
 .lootbox-open-anim{animation:lootbox-shake 0.5s ease-in-out;}
 @keyframes lootbox-shake{0%,100%{transform:rotate(0deg) scale(1);}20%{transform:rotate(-12deg) scale(1.08);}40%{transform:rotate(12deg) scale(1.15);}60%{transform:rotate(-8deg) scale(1.1);}80%{transform:rotate(6deg) scale(1.06);}}
 .reward-reveal{animation:reward-pop 0.55s cubic-bezier(0.175,0.885,0.32,1.275) forwards;}
@@ -1529,9 +1542,9 @@ function t(k){return(TR[lang]||TR.en)[k]||k;}
 // ══════════════════════════════════════════════════════
 //  LEVEL SYSTEM
 // ══════════════════════════════════════════════════════
-function getSipsForLevel(lvl){return(lvl-1)*(lvl-1)*75;}
+function getSipsForLevel(lvl){return(lvl-1)*(lvl-1)*300;} // Era 75, ahora 4x más lento
 function getCurrentLevel(totalSips){let lvl=1;while(getSipsForLevel(lvl+1)<=totalSips)lvl++;return lvl;}
-function getLevelBonus(lvl){return 1+(lvl-1)*0.025;}
+function getLevelBonus(lvl){return 1+(lvl-1)*0.015;} // Era 0.025, reducido
 const PRESTIGE_UNLOCK_WINGS=500000;
 
 // ══════════════════════════════════════════════════════
@@ -3773,11 +3786,15 @@ function getFullMulti(){
   const objBonus=state.inventory.filter(i=>i.type==='blue').reduce((s,item)=>s+(item.multi||0),0);
   const bgData=[...shopItems.bgs,...shopItems.event].find(b=>b.id===state.currentBgId);
   const bgBonus=bgData?(bgData.multi||0):0;
-  let comboBonus=state.comboCount>1?1+(state.comboCount-1)*0.1:1;
+  let comboBonus=state.comboCount>1?1+(state.comboCount-1)*0.08:1;
   const tempBonus=1+(state.tempMultiBonus||0);
   let final=(total+objBonus+bgBonus)*getPrestigeMulti()*comboBonus*tempBonus;
-  if(state.isFrenzy)return Math.floor(final*5);
-  return Math.max(1,Math.floor(final));
+  // Cap: personajes lo suben, prestige lo escala con sqrt (no exponencial), techo duro 50M
+  const prestigeScale=Math.sqrt(Math.max(1,getPrestigeMulti()));
+  const charCap=Math.max(100000, basePower*10)*prestigeScale;
+  const effectiveCap=Math.min(charCap, 50000000);
+  if(state.isFrenzy)return Math.floor(Math.min(final*5, effectiveCap*3));
+  return Math.max(1,Math.floor(Math.min(final, effectiveCap)));
 }
 
 // ══════════════════════════════════════════════════════
@@ -3816,14 +3833,14 @@ function sip(e){
   state.realClicks=(state.realClicks||0)+1;
   _cpsClicksThisSec++;
   const power=getFullMulti();const gain=Math.max(1,Math.floor(power));
-  state.sips+=gain;state.totalSips+=gain;state.wings+=Math.max(1,power);
+  state.sips+=gain;state.totalSips+=gain;state.wings+=Math.max(1,Math.floor(power*0.5)); // Reducido 50%
   const cx=e.clientX||(window.innerWidth/2);const cy=e.clientY||(window.innerHeight/2);
   state.clickCounterBlue+=power;
-  if(state.clickCounterBlue>=100){state.blueberries+=1;state.clickCounterBlue=0;createParticle(cx,cy,ICONS.berry);}
+  if(state.clickCounterBlue>=300){state.blueberries+=1;state.clickCounterBlue=0;createParticle(cx,cy,ICONS.berry);} // Era 100
   state.clickCounterBills+=power;
-  if(state.clickCounterBills>=500){state.bills+=1;state.clickCounterBills=0;createParticle(cx,cy,ICONS.bill);}
+  if(state.clickCounterBills>=1500){state.bills+=1;state.clickCounterBills=0;createParticle(cx,cy,ICONS.bill);} // Era 500
   state.clickCounterSauce+=power;
-  if(state.clickCounterSauce>=1000){
+  if(state.clickCounterSauce>=3000){ // Era 1000
     state.sauce+=1;state.clickCounterSauce=0;state.spicyTimer=30;
     document.getElementById('sauce-val').classList.add('spicy-active');
     try{const snd=document.getElementById('snd-spicy');snd.currentTime=0;snd.play().catch(()=>{});}catch(err){}
@@ -4132,8 +4149,9 @@ function renderEventStoreItems(){
     const typeKey=i.type||'';
     const typeLabel=typeKey==='char'||typeKey==='variant'?(lang==='es'?'PERSONAJE':'CHARACTER'):typeKey==='cup'?(lang==='es'?'VASO':'CUP'):typeKey==='bg'?(lang==='es'?'FONDO':'BACKGROUND'):(lang==='es'?'OBJETO':'ITEM');
     const multiVal=i.multi||0;
-    const rarityColor=multiVal>=5000?'#ffd700':multiVal>=500?'#9b59b6':multiVal>=50?'#4f86f7':'#888';
-    const rarityLabel=multiVal>=5000?(lang==='es'?'LEGENDARIO':'LEGENDARY'):multiVal>=500?(lang==='es'?'ÉPICO':'EPIC'):multiVal>=50?(lang==='es'?'RARO':'RARE'):(lang==='es'?'COMÚN':'COMMON');
+    const rarity=getItemRarity(i);
+    const rarityColor=_RARITY_COLORS[rarity]||'#888';
+    const rarityLabel=getRarityName(rarity);
     c.innerHTML+=`
     <div style="
       background:linear-gradient(135deg,${color}08,rgba(10,10,10,0.95));
@@ -4199,6 +4217,26 @@ function openEvent(){
 // ══════════════════════════════════════════════════════
 //  SHOP
 // ══════════════════════════════════════════════════════
+// ── Item Rarity System ─────────────────────────────────
+function getItemRarity(item){
+  if(item.rarity && item.rarity !== 'common') return item.rarity;
+  const m = item.multi || 0;
+  const cur = item.currency || 'wings';
+  // Bills items: normalize by cost to rate efficiency
+  const score = cur === 'bills' ? m / Math.max(1, item.cost||1) * 200 : m;
+  if(score >= 3000 || m >= 40000) return 'legendary';
+  if(score >= 800  || m >= 5000)  return 'mythic';
+  if(score >= 150  || m >= 800)   return 'epic';
+  if(score >= 20   || m >= 100)   return 'rare';
+  return 'common';
+}
+const _RARITY_COLORS={common:'#888',rare:'#4f86f7',epic:'#9b59b6',mythic:'#e74c3c',legendary:'#ffd700'};
+const _RARITY_LABELS2={
+  common:{es:'Común',en:'Common'},rare:{es:'Raro',en:'Rare'},
+  epic:{es:'Épico',en:'Epic'},mythic:{es:'Mítico',en:'Mythic'},legendary:{es:'Legendario',en:'Legendary'}
+};
+function getRarityName(r){return lang==='es'?(_RARITY_LABELS2[r]||_RARITY_LABELS2.common).es:(_RARITY_LABELS2[r]||_RARITY_LABELS2.common).en;}
+
 function openShop(){switchShop('chars');openModal('shop-modal');}
 function switchShop(tab){
   const c=document.getElementById('shop-items-container');c.innerHTML='';
@@ -4237,26 +4275,26 @@ function switchShop(tab){
     // Type badge
     const typeKey=i.type||tab;
     const typeLabel=typeKey==='char'||typeKey==='variant'?(lang==='es'?'PERSONAJE':'CHARACTER'):typeKey==='cup'?(lang==='es'?'VASO':'CUP'):typeKey==='bg'?(lang==='es'?'FONDO':'BACKGROUND'):typeKey==='blue'?(lang==='es'?'OBJETO':'ITEM'):(lang==='es'?'OBJETO':'ITEM');
-    // Rarity hint based on cost/multi
-    const multiVal=i.multi||0;
-    const rarityColor=multiVal>=5000?'#ffd700':multiVal>=500?'#9b59b6':multiVal>=50?'#4f86f7':'#888';
-    const rarityLabel=multiVal>=5000?(lang==='es'?'LEGENDARIO':'LEGENDARY'):multiVal>=500?(lang==='es'?'ÉPICO':'EPIC'):multiVal>=50?(lang==='es'?'RARO':'RARE'):(lang==='es'?'COMÚN':'COMMON');
+    // Rarity system (5 tiers)
+    const rarity=getItemRarity(i);
+    const rarityColor=_RARITY_COLORS[rarity]||'#888';
+    const rarityLabel=getRarityName(rarity);
     c.innerHTML+=`
     <div class="shop-item-card" style="
-      background:linear-gradient(135deg,${glowBg},rgba(10,10,10,0.95));
-      border:1px solid ${owned?'#2ecc71':canAfford?accentColor+'88':'#2a2a2a'};
+      background:linear-gradient(135deg,${rarityColor}08,rgba(10,10,10,0.95));
+      border:1px solid ${owned?'#2ecc71':canAfford?rarityColor+'99':'#2a2a2a'};
       border-radius:14px;padding:0;margin:8px 0;display:flex;align-items:stretch;
       overflow:hidden;position:relative;transition:border-color 0.2s,box-shadow 0.2s;
-      ${owned?'box-shadow:0 0 10px rgba(46,204,113,0.15);':canAfford?`box-shadow:0 0 8px ${accentColor}22;`:''}
-    " onmouseenter="this.style.boxShadow='0 0 18px ${accentColor}44'" onmouseleave="this.style.boxShadow='${owned?'0 0 10px rgba(46,204,113,0.15)':canAfford?'0 0 8px '+accentColor+'22':''}'">
+      ${owned?'box-shadow:0 0 10px rgba(46,204,113,0.15);':canAfford?`box-shadow:0 0 8px ${rarityColor}33;`:''}
+    " onmouseenter="this.style.boxShadow='0 0 18px ${rarityColor}55'" onmouseleave="this.style.boxShadow='${owned?'0 0 10px rgba(46,204,113,0.15)':canAfford?'0 0 8px '+rarityColor+'33':''}'">
       <!-- Top accent line -->
-      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,${owned?'#2ecc71':accentColor},transparent);pointer-events:none;"></div>
+      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,${owned?'#2ecc71':rarityColor},transparent);pointer-events:none;"></div>
       <!-- Left color bar -->
-      <div style="width:4px;background:linear-gradient(180deg,${owned?'#2ecc71':accentColor},transparent);flex-shrink:0;"></div>
+      <div style="width:4px;background:linear-gradient(180deg,${owned?'#2ecc71':rarityColor},transparent);flex-shrink:0;"></div>
       <!-- Icon area -->
       <div style="width:72px;min-height:72px;display:flex;align-items:center;justify-content:center;padding:10px;flex-shrink:0;">
         <div style="position:relative;">
-          <img src="${iIcon(i)}" style="width:52px;height:52px;border-radius:10px;object-fit:contain;background:#111;border:1px solid ${accentColor}33;padding:4px;display:block;" onerror="this.style.opacity='0.3'">
+          <img src="${iIcon(i)}" style="width:52px;height:52px;border-radius:10px;object-fit:contain;background:#111;border:1px solid ${rarityColor}33;padding:4px;display:block;" onerror="this.style.opacity='0.3'">
           ${owned?`<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(46,204,113,0.25);border-radius:10px;"><img src="${ICONS.check}" style="width:20px;height:20px;"></div>`:''}
         </div>
       </div>
@@ -4264,8 +4302,8 @@ function switchShop(tab){
       <div style="flex:1;padding:10px 8px;min-width:0;">
         <!-- Name + badges row -->
         <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-bottom:4px;">
-          <span style="font-size:13px;font-weight:bold;color:${owned?'#2ecc71':accentColor};font-family:'Arial Black',sans-serif;letter-spacing:0.3px;">${iName(i)}</span>
-          ${i.multi?`<span style="font-size:7px;background:${accentColor}22;border:1px solid ${accentColor}55;color:${accentColor};border-radius:4px;padding:1px 6px;font-family:'Arial Black',sans-serif;font-weight:bold;">+${i.multi}</span>`:''}
+          <span style="font-size:13px;font-weight:bold;color:${owned?'#2ecc71':rarityColor};font-family:'Arial Black',sans-serif;letter-spacing:0.3px;">${iName(i)}</span>
+          ${i.multi?`<span style="font-size:7px;background:${rarityColor}22;border:1px solid ${rarityColor}55;color:${rarityColor};border-radius:4px;padding:1px 6px;font-family:'Arial Black',sans-serif;font-weight:bold;">+${i.multi}</span>`:''}
           ${i.cps?`<span style="font-size:7px;background:rgba(0,255,0,0.1);border:1px solid #0f0;color:#0f0;border-radius:4px;padding:1px 6px;font-family:'Arial Black',sans-serif;">+${i.cps} CPS</span>`:''}
         </div>
         <!-- Type + Rarity chips -->
@@ -4288,16 +4326,16 @@ function switchShop(tab){
       <!-- Buy button area -->
       <div style="display:flex;align-items:center;padding:10px 12px;flex-shrink:0;">
         <button style="
-          border:2px solid ${owned?'#333':canAfford?accentColor:'#555'};
-          color:${owned?'#555':canAfford?accentColor:'#555'};
-          background:${owned?'transparent':canAfford?accentColor+'15':'transparent'};
+          border:2px solid ${owned?'#333':canAfford?rarityColor:'#555'};
+          color:${owned?'#555':canAfford?rarityColor:'#555'};
+          background:${owned?'transparent':canAfford?rarityColor+'15':'transparent'};
           border-radius:8px;padding:9px 16px;cursor:${owned?'not-allowed':'pointer'};
           font-size:10px;font-family:'Arial Black',sans-serif;font-weight:bold;
           letter-spacing:1px;transition:all 0.15s;white-space:nowrap;
-          ${canAfford&&!owned?'box-shadow:0 0 10px '+accentColor+'44;':''}"
+          ${canAfford&&!owned?'box-shadow:0 0 10px '+rarityColor+'44;':''}"
           onclick="buyItem('${tab}','${i.id}')" ${owned?'disabled':''}
-          onmouseenter="if(!${owned})this.style.background='${accentColor}30'"
-          onmouseleave="if(!${owned})this.style.background='${accentColor}15'"
+          onmouseenter="if(!${owned})this.style.background='${rarityColor}30'"
+          onmouseleave="if(!${owned})this.style.background='${rarityColor}15'"
         >${owned?t('OWNED'):t('BUY')}</button>
       </div>
     </div>`;
@@ -4456,8 +4494,9 @@ function switchInventory(tab){
     }
     const invDesc=lang==='es'?(inv.desc_es||''):(inv.desc_en||'');
     const multiVal=inv.multi||0;
-    const rarityColor=multiVal>=5000?'#ffd700':multiVal>=500?'#9b59b6':multiVal>=50?'#4f86f7':'#888';
-    const rarityLabel=multiVal>=5000?(lang==='es'?'LEGENDARIO':'LEGENDARY'):multiVal>=500?(lang==='es'?'ÉPICO':'EPIC'):multiVal>=50?(lang==='es'?'RARO':'RARE'):(lang==='es'?'COMÚN':'COMMON');
+    const rarity=getItemRarity(inv);
+    const rarityColor=_RARITY_COLORS[rarity]||'#888';
+    const rarityLabel=getRarityName(rarity);
     c.innerHTML+=`
     <div style="
       background:linear-gradient(135deg,${accentColor}06,rgba(10,10,10,0.95));
