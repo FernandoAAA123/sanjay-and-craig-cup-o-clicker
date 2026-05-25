@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Sanjay and Craig: Cup O'Clicker</title>
 
 <!-- ── Open Graph (Discord, WhatsApp, Facebook, Telegram) ── -->
@@ -67,7 +67,7 @@
   --mission-color:#c678dd;--combo-color:#e5c07b;
 }
 *{box-sizing:border-box;user-select:none;-webkit-tap-highlight-color:transparent;}
-body{margin:0;padding:0;background-size:cover;background-position:center;background-attachment:fixed;background-color:#050505;color:white;font-family:'Arial Black',sans-serif;height:100vh;overflow:hidden;display:flex;justify-content:center;align-items:center;transition:background 0.5s ease,filter 0.3s ease;}
+body{margin:0;padding:0;background-size:cover;background-position:center;background-attachment:fixed;background-color:#050505;color:white;font-family:'Arial Black',sans-serif;height:100vh;height:100dvh;overflow:hidden;display:flex;justify-content:center;align-items:center;transition:background 0.5s ease,filter 0.3s ease;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom);padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right);box-sizing:border-box;}
 body.frenzy-active{filter:saturate(3) contrast(1.2) brightness(1.1);animation:frenzy-shake 0.2s infinite;}
 @keyframes frenzy-shake{0%{transform:translate(0,0);}25%{transform:translate(1px,1px);}50%{transform:translate(-1px,-1px);}75%{transform:translate(1px,-1px);}100%{transform:translate(0,0);}}
 img{image-rendering:auto;max-width:100%;}
@@ -153,7 +153,7 @@ img{image-rendering:auto;max-width:100%;}
 #missions-badge img{width:18px;height:18px;flex-shrink:0;}
 
 /* MAIN SCENE */
-#main-container{position:relative;width:820px;height:460px;display:flex;justify-content:center;align-items:center;transition:transform 0.2s ease-out;}
+#main-container{position:relative;width:820px;height:460px;display:flex;justify-content:center;align-items:center;transition:transform 0.2s ease-out;max-width:100vw;}
 #cup-wrapper{width:310px;z-index:150;cursor:pointer;position:relative;user-select:none;}
 #cup-wrapper:active{transform:scale(0.88);}
 .char-container{position:absolute;z-index:110;width:220px;bottom:10px;cursor:pointer;}
@@ -201,29 +201,29 @@ img{image-rendering:auto;max-width:100%;}
 .snake-best-val{font-size:14px;font-family:'Arial Black',sans-serif;color:var(--gold);}
 #snake-start-overlay{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;background:rgba(0,0,0,0.85);border-radius:8px;gap:14px;}
 #snake-start-overlay p{color:#e91e63;font-size:13px;font-family:'Arial Black',sans-serif;margin:0;text-shadow:0 0 10px #e91e63;}
-body.mobile-mode #cup-wrapper{width:220px;}
-body.mobile-mode .char-container{width:150px;}
-body.mobile-mode #char-left{left:115px;}
-body.mobile-mode #char-right{right:115px;}
+body.mobile-mode #cup-wrapper{width:170px;}
+body.mobile-mode .char-container{width:110px;}
+body.mobile-mode #char-left{left:60px;}
+body.mobile-mode #char-right{right:60px;}
 /* Right controls: single row, tiny buttons */
-body.mobile-mode .controls{bottom:5px;right:3px;gap:2px;display:flex;flex-direction:column;width:auto;}
+body.mobile-mode .controls{bottom:calc(5px + env(safe-area-inset-bottom));right:calc(3px + env(safe-area-inset-right));gap:2px;display:flex;flex-direction:column;width:auto;}
 body.mobile-mode .controls .s-btn{padding:5px 7px;font-size:7px;gap:2px;border-radius:5px;border-width:1px;}
 body.mobile-mode .controls .s-btn .icon-btn{width:11px;height:11px;margin-right:2px;}
 /* Stat cards smaller */
 body.mobile-mode .stat-card{min-width:64px;padding:1px 4px;}
 body.mobile-mode .stat-card span{font-size:10px;}
 body.mobile-mode .stat-label{font-size:7px;}
-body.mobile-mode #top-bar{top:3px;left:5px;right:5px;}
+body.mobile-mode #top-bar{top:calc(3px + env(safe-area-inset-top));left:calc(5px + env(safe-area-inset-left));right:calc(5px + env(safe-area-inset-right));}
 body.mobile-mode .user-card{padding:3px 6px;height:50px;gap:5px;}
 body.mobile-mode #user-avatar{width:32px;height:32px;}
 /* Left sidebar mobile: smaller buttons, same flex column */
-body.mobile-mode .left-controls{bottom:5px;left:3px;gap:3px;}
+body.mobile-mode .left-controls{bottom:calc(5px + env(safe-area-inset-bottom));left:calc(3px + env(safe-area-inset-left));gap:3px;}
 body.mobile-mode .sidebar-btn{min-width:62px;width:62px;padding:5px 7px;font-size:8px;border-radius:5px;border-width:1px;}
 body.mobile-mode #streak-badge{min-width:62px;width:62px;padding:5px 7px;font-size:8px;border-radius:5px;border-width:1px;}
 body.mobile-mode #streak-badge img{width:12px;height:12px;}
 /* Daily/Missions badges smaller */
-body.mobile-mode #daily-badge{top:55px;right:5px;padding:4px 8px;font-size:9px;min-width:90px;}
-body.mobile-mode #missions-badge{top:83px;right:5px;padding:4px 8px;font-size:9px;min-width:90px;}
+body.mobile-mode #daily-badge{top:calc(55px + env(safe-area-inset-top));right:calc(5px + env(safe-area-inset-right));padding:4px 8px;font-size:9px;min-width:90px;}
+body.mobile-mode #missions-badge{top:calc(83px + env(safe-area-inset-top));right:calc(5px + env(safe-area-inset-right));padding:4px 8px;font-size:9px;min-width:90px;}
 body.mobile-mode #daily-badge img,body.mobile-mode #missions-badge img{width:14px;height:14px;}
 /* End mobile adjustments */
 .controls{position:fixed;bottom:20px;right:20px;display:flex;flex-direction:column;gap:7px;z-index:1000;}
@@ -240,7 +240,34 @@ body.mobile-mode #daily-badge img,body.mobile-mode #missions-badge img{width:14p
 .btn-event.disabled-btn{opacity:0.45;cursor:not-allowed;}
 
 /* MODALS */
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:2000;justify-content:center;align-items:center;backdrop-filter:blur(12px);}
+.modal{display:none;position:fixed;inset:0;z-index:2000;justify-content:center;align-items:flex-start;overflow-y:auto;padding:20px 0;padding-top:calc(20px + env(safe-area-inset-top));padding-bottom:calc(20px + env(safe-area-inset-bottom));-webkit-overflow-scrolling:touch;}
+/* ── Per-modal backdrops ─────────────────────────────────────────────
+   Para cambiar un fondo: reemplaza la URL entre url("...") de cada modal
+   ─────────────────────────────────────────────────────────────────── */
+#inv-modal        { background: url("https://chibi.iitranq.co.uk/vb7gOgHXPKwY.png")  center/cover no-repeat fixed; }
+#shop-modal       { background: url("https://chibi.iitranq.co.uk/DHv64qQo7Xr4.png")  center/cover no-repeat fixed; }
+#friends-modal    { background: url("https://picsum.photos/seed/social/1200/800")     center/cover no-repeat fixed; }
+#event-modal      { background: url("https://picsum.photos/seed/event/1200/800")      center/cover no-repeat fixed; }
+#ranking-modal    { background: url("https://picsum.photos/seed/ranking/1200/800")    center/cover no-repeat fixed; }
+#settings-modal   { background: url("https://picsum.photos/seed/settings/1200/800")   center/cover no-repeat fixed; }
+#lootbox-modal    { background: url("https://picsum.photos/seed/mystery/1200/800")    center/cover no-repeat fixed; }
+#vault-modal      { background: url("https://picsum.photos/seed/vault/1200/800")      center/cover no-repeat fixed; }
+#profile-modal    { background: url("https://chibi.iitranq.co.uk/vPMfjBh1xVbX.png")  center/cover no-repeat fixed; }
+#daily-modal      { background: url("https://chibi.iitranq.co.uk/oR5HHWNMNgVZ.png")  center/cover no-repeat fixed; }
+#missions-modal   { background: url("https://picsum.photos/seed/missions/1200/800")   center/cover no-repeat fixed; }
+#challenges-modal { background: url("https://chibi.iitranq.co.uk/j06WZLxRp8gt.png")  center/cover no-repeat fixed; }
+#prestige-modal   { background: url("https://picsum.photos/seed/prestige/1200/800")   center/cover no-repeat fixed; }
+#berry-tree-modal { background: url("https://chibi.iitranq.co.uk/98G26vsZbdkF.png")  center/cover no-repeat fixed; }
+#ach-modal        { background: url("https://picsum.photos/seed/trophy/1200/800")     center/cover no-repeat fixed; }
+#snake-modal      { background: url("https://chibi.iitranq.co.uk/6EP3HuN7SCNV.png")  center/cover no-repeat fixed; }
+/* overlay oscuro compartido por todos los modales */
+#inv-modal::before,#shop-modal::before,#friends-modal::before,#event-modal::before,
+#ranking-modal::before,#settings-modal::before,#lootbox-modal::before,#vault-modal::before,
+#profile-modal::before,#daily-modal::before,#missions-modal::before,#challenges-modal::before,
+#prestige-modal::before,#berry-tree-modal::before,#ach-modal::before,#snake-modal::before{
+  content:"";position:fixed;inset:0;background:rgba(0,0,0,0.82);backdrop-filter:blur(8px);z-index:-1;
+}
+
 .modal-content{background:#0a0a0a;padding:25px;border-radius:20px;width:620px;text-align:center;border:2px solid white;max-height:88vh;overflow-y:auto;scrollbar-width:thin;scrollbar-color:#333 #0a0a0a;}
 .input-field{width:100%;padding:12px;font-size:14px;border-radius:10px;background:#151515;color:white;border:2px solid #333;margin-top:10px;box-sizing:border-box;text-align:center;font-family:sans-serif;outline:none;}
 .input-field:focus{border-color:var(--neon-blue);}
@@ -325,7 +352,7 @@ body.mobile-mode #daily-badge img,body.mobile-mode #missions-badge img{width:14p
 /* FRIEND CARD - MEJORADA */
 .friend-card{background:#0d1a0d;border:1px solid var(--friend-color);border-radius:16px;padding:14px 16px;margin:10px 0;display:flex;align-items:flex-start;gap:14px;text-align:left;transition:box-shadow 0.2s,border-color 0.2s;}
 .friend-card:hover{box-shadow:0 0 14px rgba(46,204,113,0.3);border-color:#4ae585;}
-.friend-avatar{width:56px;height:56px;border-radius:10px;object-fit:cover;background:#222;border:2px solid var(--friend-color);flex-shrink:0;box-shadow:0 0 8px rgba(46,204,113,0.4);}
+.friend-avatar{width:68px;height:68px;border-radius:12px;object-fit:cover;background:#222;border:2.5px solid var(--friend-color);flex-shrink:0;box-shadow:0 0 14px rgba(46,204,113,0.35);}
 .friend-avatar-online{border-color:var(--neon-green);box-shadow:0 0 10px var(--neon-green);}
 
 /* RANKING */
@@ -518,7 +545,91 @@ input:checked+.toggle-slider::before{transform:translateX(20px);}
 .gift-option{background:#111;border:1px solid #333;border-radius:10px;padding:12px;margin:6px 0;display:flex;align-items:center;gap:10px;cursor:pointer;transition:border-color 0.2s;}
 .gift-option:hover{border-color:var(--gold);}
 .gift-option img{width:32px;height:32px;}
+
+
+/* ── RESPONSIVE MOBILE: vaso y personajes ──────────────────────────── */
+@media screen and (max-width: 500px){
+  body.mobile-mode #main-container{
+    width:100vw !important;
+    height:auto !important;
+    min-height:260px;
+  }
+  body.mobile-mode #cup-wrapper{
+    width:clamp(130px, 38vw, 175px) !important;
+  }
+  body.mobile-mode .char-container{
+    width:clamp(80px, 24vw, 115px) !important;
+  }
+  body.mobile-mode #char-left{
+    left:clamp(30px, 8vw, 65px) !important;
+  }
+  body.mobile-mode #char-right{
+    right:clamp(30px, 8vw, 65px) !important;
+  }
+}
+@media screen and (max-width: 380px){
+  body.mobile-mode #cup-wrapper{
+    width:clamp(110px, 35vw, 145px) !important;
+  }
+  body.mobile-mode .char-container{
+    width:clamp(65px, 20vw, 95px) !important;
+  }
+  body.mobile-mode #char-left{
+    left:clamp(20px, 5vw, 45px) !important;
+  }
+  body.mobile-mode #char-right{
+    right:clamp(20px, 5vw, 45px) !important;
+  }
+}
+
+/* ── MOBILE VIEWPORT FIXES ─────────────────────────────────────────
+   Fixes barra del navegador en Chrome/Safari móvil
+   dvh = dynamic viewport height (descuenta la barra del nav)
+   safe-area-inset = espacio para el notch / home indicator
+─────────────────────────────────────────────────────────────────── */
+@supports (height: 100dvh){
+  body{ height:100dvh !important; }
+  .modal{ max-height:100dvh; }
+  #orientation-warning,#loading-screen,#black-shroud,#game-cover,#start-menu{
+    height:100dvh !important;
+  }
+}
+/* Fallback para navegadores sin dvh: usa la variable JS --dvh */
+@supports not (height: 100dvh){
+  body{ height:calc(var(--dvh, 100vh) * 1px) !important; }
+}
+/* Modal content max-height adaptada al viewport real */
+.modal-content{
+  max-height:calc(100dvh - 40px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+}
+/* Scroll suave en iOS */
+.modal,.modal-content,.shop-grid,.inv-grid{
+  -webkit-overflow-scrolling:touch;
+}
+/* Previene zoom accidental en inputs iOS */
+input,select,textarea{
+  font-size:max(16px,1em) !important;
+}
+/* Orientation landscape en móvil — reducir elementos */
+@media screen and (max-height:450px) and (orientation:landscape){
+  body.mobile-mode #cup-wrapper{width:120px;}
+  body.mobile-mode .char-container{width:80px;}
+  body.mobile-mode #top-bar{display:none;}
+  body.mobile-mode .stat-card{min-width:52px;padding:1px 3px;}
+  body.mobile-mode .stat-card span{font-size:8px;}
+}
 </style>
+<script>
+  // ── Mobile viewport height fix (accounts for browser chrome bar) ──
+  function _setVH(){
+    const vh=window.innerHeight*0.01;
+    document.documentElement.style.setProperty('--vh',''+vh+'px');
+    document.documentElement.style.setProperty('--dvh',''+window.innerHeight+'px');
+  }
+  _setVH();
+  window.addEventListener('resize',_setVH);
+  window.addEventListener('orientationchange',()=>{setTimeout(_setVH,150);});
+</script>
 </head>
 <body>
 
@@ -741,15 +852,9 @@ input:checked+.toggle-slider::before{transform:translateX(20px);}
     <div id="event-banner-dynamic" class="event-banner" style="border-radius:0;border:none;border-bottom:2px solid var(--neon-pink);margin-bottom:0;">
       <!-- BG image overlay -->
       <img id="event-banner-bg-img" class="banner-bg" src="" alt="">
-      <!-- Character / icon side -->
-      <div class="event-banner-side-img" id="event-banner-side">
-        <img id="event-banner-icon" src="https://img.icons8.com/fluency/48/confetti.png" style="width:110px;height:110px;object-fit:contain;">
-      </div>
       <!-- Text content -->
-      <div class="event-banner-content">
-        <div class="event-banner-badges">
+      <div class="event-banner-content" style="padding:20px 22px;">
 
-        </div>
         <h1 id="event-title-text" class="event-banner-title" style="color:var(--neon-pink);text-shadow:0 0 20px var(--neon-pink);margin:0;">EVENTO</h1>
         <p id="event-sub-text" class="event-banner-desc" style="margin:0;"></p>
         <!-- Countdown -->
@@ -781,11 +886,13 @@ input:checked+.toggle-slider::before{transform:translateX(20px);}
         </div>
 
       </div>
+      <div id="event-store-section">
       <h3 style="color:var(--neon-pink);text-align:left;margin-bottom:10px;display:flex;align-items:center;gap:8px;">
         <img src="https://img.icons8.com/fluency/48/confetti.png" style="width:18px;height:18px;"><span id="event-store-title">EVENT STORE</span>
       </h3>
       <div id="event-items-container"></div>
       <button class="s-btn close-btn" onclick="closeModal('event-modal')" id="btn-leave-event">LEAVE EVENT</button>
+      </div>
     </div>
   </div>
 </div>
@@ -1705,106 +1812,112 @@ const avatarData=[
 // ══════════════════════════════════════════════════════
 const shopItems={
   chars:[
-    {id:'hector_and_megan',name_es:'Hector y Megan',name_en:'Hector & Megan',desc_es:'El duo dinamico.',desc_en:'The dynamic duo.',img:"https://web.archive.org/web/20260416222459if_/https://files.catbox.moe/5ih2jk.png",icon:'https://chibi.iitranq.co.uk/BeKgShXZIkqT.jpg',type:'char',multi:0.5,cost:0},
-    {id:'sanjay_and_craig',name_es:'Sanjay y Craig',name_en:'Sanjay & Craig',desc_es:'Hacen cosas muy alocadas!',desc_en:'The stuff they get to was insane!',img:"https://web.archive.org/web/20260422005428if_/https://files.catbox.moe/3cdyrt.png",icon:'https://chibi.iitranq.co.uk/vfTnLWEEe7dO.jpg',type:'char',multi:0.5,cost:0},
-    {id:'leslie_noodman',name_es:'Sr. Noodman',name_en:'Mr. Noodman',cost:250,multi:5,desc_es:'Odia las Serpientes.',desc_en:'Hates Snakes.',img:'https://web.archive.org/web/20260423204322if_/https://files.catbox.moe/hazgo5.png',icon:'https://chibi.iitranq.co.uk/Au1z9fiyWtow.jpg',type:'char'},
-    {id:'booger_johnson',name_es:'Moco Johnson',name_en:'Booger Johnson',cost:500,multi:10,desc_es:'Tierno.',desc_en:'Cute.',img:'https://chibi.iitranq.co.uk/Gsz3U9A5oknH.png',icon:ICONS.heart,type:'char'},
-    {id:'darlene_and_vijay',name_es:'Darlene y Vijay',name_en:'Darlene & Vijay',cost:1000,multi:15,desc_es:'Los Padres de Sanjay.',desc_en:"Sanjay's parents.",img:'https://chibi.iitranq.co.uk/tiw61RjNIbgf.png',icon:ICONS.heart,type:'char'},
-    {id:'barfy',name_es:'Barfy',name_en:'Barfy',cost:3500,multi:20,desc_es:'Guau! Guau!',desc_en:'Woof! Woof!',img:'https://uploads.onecompiler.io/447259qgx/44cxpnfu9/Barfy.png',icon:ICONS.star,type:'char'},
-    {id:'tyson',name_es:'Tyson',name_en:'Tyson',cost:10250,multi:30,desc_es:'El rival mas britanico.',desc_en:'The most British rival.',img:'https://uploads.onecompiler.io/447259qgx/44cxpnfu9/Tyson.png',icon:ICONS.crown,type:'char'},
-    {id:'the_dicksons',name_es:'Los Dicksons',name_en:'The Dicksons',cost:15000,multi:40,desc_es:'Scabs, Sandy y Richard.',desc_en:'Scabs, Sandy and Richard.',img:'https://uploads.onecompiler.io/447259qgx/44cxpnfu9/Los%20Dickson.png',icon:ICONS.group,type:'char'},
-    {id:'chicken_chuck',name_es:'Pollo Chuck',name_en:'Chicken Chuck',cost:25000,multi:50,desc_es:'El doctor del rock.',desc_en:'The rock doctor.',img:'https://static.wikia.nocookie.net/sanjayandcraig/images/0/07/Sanjay_Patel.png',icon:ICONS.guitar,type:'char'},
-    {id:'belle_pepper',name_es:'Belle Pepper',name_en:'Belle Pepper',cost:50000,multi:75,desc_es:'Trabajadora de Fritolandia.',desc_en:'Frycade employee.',img:'https://uploads.onecompiler.io/447259qgx/44cxpnfu9/Belle%20Pepper.png',icon:ICONS.fire,type:'char'},
-    {id:'penny_pepper',name_es:'Penny Pepper',name_en:'Penny Pepper',cost:75000,multi:100,desc_es:'Padre de Belle y dueno de Fritolandia.',desc_en:"Belle's father and Frycade owner.",img:'https://static.wikia.nocookie.net/nick-sanjayandcraig/images/5/57/Penny_Pepper.png/revision/latest?cb=20241025234021',icon:ICONS.money,type:'char'},
-    {id:'remington_tufflips',name_es:'Remington Tufflips',name_en:'Remington Tufflips',cost:99999999,multi:999,desc_es:'HEROE DE PELICULAS DE ACCION!',desc_en:'ACTION MOVIE HERO!',img:'https://uploads.onecompiler.io/447259qgx/44cxpnfu9/Remington%20Tufflips.png',icon:ICONS.rocket,type:'char'},
+    // ── RAREZA: 'common' | 'rare' | 'epic' | 'mythic' | 'legendary' ──
+    {id:'hector_and_megan',  rarity:'common',    name_es:'Hector y Megan',       name_en:'Hector & Megan',        desc_es:'El duo dinamico.',                     desc_en:'The dynamic duo.',                  img:"https://web.archive.org/web/20260416222459if_/https://files.catbox.moe/5ih2jk.png",icon:'https://chibi.iitranq.co.uk/BeKgShXZIkqT.jpg',type:'char',multi:0.5,cost:0},
+    {id:'sanjay_and_craig',  rarity:'common',    name_es:'Sanjay y Craig',        name_en:'Sanjay & Craig',        desc_es:'Hacen cosas muy alocadas!',            desc_en:'The stuff they get to was insane!',  img:"https://web.archive.org/web/20260422005428if_/https://files.catbox.moe/3cdyrt.png",icon:'https://chibi.iitranq.co.uk/vfTnLWEEe7dO.jpg',type:'char',multi:0.5,cost:0},
+    {id:'leslie_noodman',    rarity:'common',    name_es:'Sr. Noodman',           name_en:'Mr. Noodman',           desc_es:'Odia las Serpientes.',                 desc_en:'Hates Snakes.',                     img:'https://web.archive.org/web/20260423204322if_/https://files.catbox.moe/hazgo5.png',icon:'https://chibi.iitranq.co.uk/Au1z9fiyWtow.jpg',type:'char',cost:250,multi:5},
+    {id:'booger_johnson',    rarity:'common',    name_es:'Moco Johnson',          name_en:'Booger Johnson',        desc_es:'Tierno.',                              desc_en:'Cute.',                             img:'https://chibi.iitranq.co.uk/Gsz3U9A5oknH.png',icon:ICONS.heart,type:'char',cost:500,multi:10},
+    {id:'darlene_and_vijay', rarity:'rare',      name_es:'Darlene y Vijay',       name_en:'Darlene & Vijay',       desc_es:'Los Padres de Sanjay.',                desc_en:"Sanjay's parents.",                 img:'https://chibi.iitranq.co.uk/tiw61RjNIbgf.png',icon:ICONS.heart,type:'char',cost:1000,multi:15},
+    {id:'barfy',             rarity:'rare',      name_es:'Barfy',                 name_en:'Barfy',                 desc_es:'Guau! Guau!',                          desc_en:'Woof! Woof!',                       img:'https://uploads.onecompiler.io/447259qgx/44cxpnfu9/Barfy.png',icon:ICONS.star,type:'char',cost:3500,multi:20},
+    {id:'tyson',             rarity:'epic',      name_es:'Tyson',                 name_en:'Tyson',                 desc_es:'El rival mas britanico.',              desc_en:'The most British rival.',           img:'https://uploads.onecompiler.io/447259qgx/44cxpnfu9/Tyson.png',icon:ICONS.crown,type:'char',cost:10250,multi:30},
+    {id:'the_dicksons',      rarity:'epic',      name_es:'Los Dicksons',          name_en:'The Dicksons',          desc_es:'Scabs, Sandy y Richard.',              desc_en:'Scabs, Sandy and Richard.',         img:'https://uploads.onecompiler.io/447259qgx/44cxpnfu9/Los%20Dickson.png',icon:ICONS.group,type:'char',cost:15000,multi:40},
+    {id:'chicken_chuck',     rarity:'epic',      name_es:'Pollo Chuck',           name_en:'Chicken Chuck',         desc_es:'El doctor del rock.',                  desc_en:'The rock doctor.',                  img:'https://static.wikia.nocookie.net/sanjayandcraig/images/0/07/Sanjay_Patel.png',icon:ICONS.guitar,type:'char',cost:25000,multi:50},
+    {id:'belle_pepper',      rarity:'mythic',    name_es:'Belle Pepper',          name_en:'Belle Pepper',          desc_es:'Trabajadora de Fritolandia.',          desc_en:'Frycade employee.',                 img:'https://uploads.onecompiler.io/447259qgx/44cxpnfu9/Belle%20Pepper.png',icon:ICONS.fire,type:'char',cost:50000,multi:75},
+    {id:'penny_pepper',      rarity:'mythic',    name_es:'Penny Pepper',          name_en:'Penny Pepper',          desc_es:'Padre de Belle y dueno de Fritolandia.',desc_en:"Belle's father and Frycade owner.", img:'https://static.wikia.nocookie.net/nick-sanjayandcraig/images/5/57/Penny_Pepper.png/revision/latest?cb=20241025234021',icon:ICONS.money,type:'char',cost:75000,multi:100},
+    {id:'remington_tufflips',rarity:'legendary', name_es:'Remington Tufflips',    name_en:'Remington Tufflips',    desc_es:'HEROE DE PELICULAS DE ACCION!',         desc_en:'ACTION MOVIE HERO!',                img:'https://uploads.onecompiler.io/447259qgx/44cxpnfu9/Remington%20Tufflips.png',icon:ICONS.rocket,type:'char',cost:99999999,multi:999},
   ],
   variants:[
-    {id:'sanjay_ninja',name_es:'Sanjay Ninja',name_en:'Ninja Sanjay',cost:25,multi:150,desc_es:'Sigiloso.',desc_en:'Stealthy.',img:'https://static.wikia.nocookie.net/sanjayandcraig/images/b/b2/Ninja_Sanjay.png',icon:ICONS.sword,type:'variant',currency:'bills'},
-    {id:'craig_robot',name_es:'Craig Robot',name_en:'Robot Craig',cost:50,multi:350,desc_es:'Robotizacion.',desc_en:'Robotized.',img:'https://static.wikia.nocookie.net/sanjayandcraig/images/0/07/Robot_Craig.png',icon:ICONS.power,type:'variant',currency:'bills'},
-    {id:'megan_cazadora',name_es:'Megan Cazadora',name_en:'Hunter Megan',cost:30,multi:200,desc_es:'Me gusta cuando corren.',desc_en:'I like when they run.',img:'https://static.wikia.nocookie.net/sanjayandcraig/images/3/36/Megan_Princess.png',icon:ICONS.run,type:'variant',currency:'bills'},
-    {id:'hector_wolf',name_es:'Hector y Lobo',name_en:'Hector & Wolf',cost:40,multi:280,desc_es:'Sabias que los lobos...',desc_en:'Did you know wolves...',img:'https://static.wikia.nocookie.net/sanjayandcraig/images/8/84/Hector.png',icon:ICONS.shield,type:'variant',currency:'bills'},
-    {id:'craig_azul',name_es:'Craig Galactico',name_en:'Galactic Craig',cost:100000,multi:500,desc_es:'Poder cosmico.',desc_en:'Cosmic power.',img:'https://static.wikia.nocookie.net/sanjayandcraig/images/0/07/Robot_Craig.png',icon:ICONS.galaxy,type:'variant',currency:'wings'},
-    {id:'sanjay_dorado',name_es:'Sanjay de Oro',name_en:'Golden Sanjay',cost:500,multi:2000,desc_es:'Millonario.',desc_en:'Millionaire.',img:'https://uploads.onecompiler.io/447259qgx/44cxpnfu9/Sanjay%20y%20Craig.png',icon:ICONS.money,type:'variant',currency:'bills'},
-    {id:'sanjay_futuro',name_es:'Sanjay Futuro',name_en:'Future Sanjay',cost:750,multi:3500,desc_es:'Viene del ano 3000.',desc_en:'From the year 3000.',img:'https://static.wikia.nocookie.net/sanjayandcraig/images/b/b2/Ninja_Sanjay.png',icon:ICONS.rocket,type:'variant',currency:'bills'},
-    {id:'craig_maestro',name_es:'Craig Chef',name_en:'Chef Craig',cost:200,multi:1200,desc_es:'Maestro de las alitas.',desc_en:'Wings master chef.',img:'https://static.wikia.nocookie.net/sanjayandcraig/images/a/a2/Craig_Slithers.png',icon:ICONS.fire,type:'variant',currency:'bills'},
-    {id:'megan_bruja',name_es:'Megan Bruja',name_en:'Witch Megan',cost:300,multi:1800,desc_es:'Hechiza tus puntos.',desc_en:'Bewitches your points.',img:'https://static.wikia.nocookie.net/sanjayandcraig/images/7/77/Megan_Sparkles.png',icon:ICONS.crystal,type:'variant',currency:'bills'},
-    {id:'sanjay_pirata',name_es:'Sanjay Pirata',name_en:'Pirate Sanjay',cost:350,multi:2200,desc_es:'Arrr, yo ho ho!',desc_en:'Arrr, yo ho ho!',img:'https://static.wikia.nocookie.net/sanjayandcraig/images/0/07/Sanjay_Patel.png',icon:ICONS.map,type:'variant',currency:'bills'},
-    {id:'craig_caballero',name_es:'Craig Caballero',name_en:'Knight Craig',cost:450,multi:2800,desc_es:'Honor y gloria.',desc_en:'Honor and glory.',img:'https://static.wikia.nocookie.net/sanjayandcraig/images/a/a2/Craig_Slithers.png',icon:ICONS.shield,type:'variant',currency:'bills'},
-    {id:'hector_astronauta',name_es:'Hector Astronauta',name_en:'Astronaut Hector',cost:600,multi:3200,desc_es:'Al infinito...',desc_en:'To infinity...',img:'https://static.wikia.nocookie.net/sanjayandcraig/images/8/84/Hector.png',icon:ICONS.rocket,type:'variant',currency:'bills'},
-    {id:'megan_superheroe',name_es:'Megan Superheroe',name_en:'Superhero Megan',cost:800,multi:4000,desc_es:'Salva el dia.',desc_en:'Saves the day.',img:'https://static.wikia.nocookie.net/sanjayandcraig/images/7/77/Megan_Sparkles.png',icon:ICONS.crown,type:'variant',currency:'bills'},
-    {id:'craig_vikingo',name_es:'Craig Vikingo',name_en:'Viking Craig',cost:950,multi:5000,desc_es:'VIKINGO!',desc_en:'VIKING!',img:'https://static.wikia.nocookie.net/sanjayandcraig/images/a/a2/Craig_Slithers.png',icon:ICONS.sword,type:'variant',currency:'bills'},
-    {id:'sanjay_detective',name_es:'Sanjay Detective',name_en:'Detective Sanjay',cost:1200,multi:6500,desc_es:'Resuelve misterios.',desc_en:'Solves mysteries.',img:'https://static.wikia.nocookie.net/sanjayandcraig/images/0/07/Sanjay_Patel.png',icon:ICONS.compass,type:'variant',currency:'bills'},
-    {id:'craig_chef',name_es:'Craig Chef',name_en:'Chef Craig',cost:1500,multi:8000,desc_es:'Maestro cocinero.',desc_en:'Master chef.',img:'https://static.wikia.nocookie.net/sanjayandcraig/images/a/a2/Craig_Slithers.png',icon:ICONS.fire,type:'variant',currency:'bills'}
+    // ── RAREZA: 'common' | 'rare' | 'epic' | 'mythic' | 'legendary' ──
+    {id:'sanjay_ninja',       rarity:'rare',      name_es:'Sanjay Ninja',          name_en:'Ninja Sanjay',          desc_es:'Sigiloso.',                  desc_en:'Stealthy.',                 img:'https://static.wikia.nocookie.net/sanjayandcraig/images/b/b2/Ninja_Sanjay.png',icon:ICONS.sword,type:'variant',cost:25,multi:150,currency:'bills'},
+    {id:'craig_robot',        rarity:'rare',      name_es:'Craig Robot',           name_en:'Robot Craig',           desc_es:'Robotizacion.',              desc_en:'Robotized.',                img:'https://static.wikia.nocookie.net/sanjayandcraig/images/0/07/Robot_Craig.png',icon:ICONS.power,type:'variant',cost:50,multi:350,currency:'bills'},
+    {id:'megan_cazadora',     rarity:'rare',      name_es:'Megan Cazadora',        name_en:'Hunter Megan',          desc_es:'Me gusta cuando corren.',    desc_en:'I like when they run.',     img:'https://static.wikia.nocookie.net/sanjayandcraig/images/3/36/Megan_Princess.png',icon:ICONS.run,type:'variant',cost:30,multi:200,currency:'bills'},
+    {id:'hector_wolf',        rarity:'rare',      name_es:'Hector y Lobo',         name_en:'Hector & Wolf',         desc_es:'Sabias que los lobos...',    desc_en:'Did you know wolves...',    img:'https://static.wikia.nocookie.net/sanjayandcraig/images/8/84/Hector.png',icon:ICONS.shield,type:'variant',cost:40,multi:280,currency:'bills'},
+    {id:'craig_azul',         rarity:'epic',      name_es:'Craig Galactico',       name_en:'Galactic Craig',        desc_es:'Poder cosmico.',             desc_en:'Cosmic power.',             img:'https://static.wikia.nocookie.net/sanjayandcraig/images/0/07/Robot_Craig.png',icon:ICONS.galaxy,type:'variant',cost:100000,multi:500,currency:'wings'},
+    {id:'sanjay_dorado',      rarity:'epic',      name_es:'Sanjay de Oro',         name_en:'Golden Sanjay',         desc_es:'Millonario.',                desc_en:'Millionaire.',              img:'https://uploads.onecompiler.io/447259qgx/44cxpnfu9/Sanjay%20y%20Craig.png',icon:ICONS.money,type:'variant',cost:500,multi:2000,currency:'bills'},
+    {id:'sanjay_futuro',      rarity:'epic',      name_es:'Sanjay Futuro',         name_en:'Future Sanjay',         desc_es:'Viene del ano 3000.',        desc_en:'From the year 3000.',       img:'https://static.wikia.nocookie.net/sanjayandcraig/images/b/b2/Ninja_Sanjay.png',icon:ICONS.rocket,type:'variant',cost:750,multi:3500,currency:'bills'},
+    {id:'craig_maestro',      rarity:'epic',      name_es:'Craig Chef',            name_en:'Chef Craig',            desc_es:'Maestro de las alitas.',     desc_en:'Wings master chef.',        img:'https://static.wikia.nocookie.net/sanjayandcraig/images/a/a2/Craig_Slithers.png',icon:ICONS.fire,type:'variant',cost:200,multi:1200,currency:'bills'},
+    {id:'megan_bruja',        rarity:'epic',      name_es:'Megan Bruja',           name_en:'Witch Megan',           desc_es:'Hechiza tus puntos.',        desc_en:'Bewitches your points.',    img:'https://static.wikia.nocookie.net/sanjayandcraig/images/7/77/Megan_Sparkles.png',icon:ICONS.crystal,type:'variant',cost:300,multi:1800,currency:'bills'},
+    {id:'sanjay_pirata',      rarity:'epic',      name_es:'Sanjay Pirata',         name_en:'Pirate Sanjay',         desc_es:'Arrr, yo ho ho!',            desc_en:'Arrr, yo ho ho!',           img:'https://static.wikia.nocookie.net/sanjayandcraig/images/0/07/Sanjay_Patel.png',icon:ICONS.map,type:'variant',cost:350,multi:2200,currency:'bills'},
+    {id:'craig_caballero',    rarity:'mythic',    name_es:'Craig Caballero',       name_en:'Knight Craig',          desc_es:'Honor y gloria.',            desc_en:'Honor and glory.',          img:'https://static.wikia.nocookie.net/sanjayandcraig/images/a/a2/Craig_Slithers.png',icon:ICONS.shield,type:'variant',cost:450,multi:2800,currency:'bills'},
+    {id:'hector_astronauta',  rarity:'mythic',    name_es:'Hector Astronauta',     name_en:'Astronaut Hector',      desc_es:'Al infinito...',             desc_en:'To infinity...',            img:'https://static.wikia.nocookie.net/sanjayandcraig/images/8/84/Hector.png',icon:ICONS.rocket,type:'variant',cost:600,multi:3200,currency:'bills'},
+    {id:'megan_superheroe',   rarity:'mythic',    name_es:'Megan Superheroe',      name_en:'Superhero Megan',       desc_es:'Salva el dia.',              desc_en:'Saves the day.',            img:'https://static.wikia.nocookie.net/sanjayandcraig/images/7/77/Megan_Sparkles.png',icon:ICONS.crown,type:'variant',cost:800,multi:4000,currency:'bills'},
+    {id:'craig_vikingo',      rarity:'mythic',    name_es:'Craig Vikingo',         name_en:'Viking Craig',          desc_es:'VIKINGO!',                   desc_en:'VIKING!',                   img:'https://static.wikia.nocookie.net/sanjayandcraig/images/a/a2/Craig_Slithers.png',icon:ICONS.sword,type:'variant',cost:950,multi:5000,currency:'bills'},
+    {id:'sanjay_detective',   rarity:'legendary', name_es:'Sanjay Detective',      name_en:'Detective Sanjay',      desc_es:'Resuelve misterios.',        desc_en:'Solves mysteries.',         img:'https://static.wikia.nocookie.net/sanjayandcraig/images/0/07/Sanjay_Patel.png',icon:ICONS.compass,type:'variant',cost:1200,multi:6500,currency:'bills'},
+    {id:'craig_chef',         rarity:'legendary', name_es:'Craig Chef',            name_en:'Chef Craig',            desc_es:'Maestro cocinero.',          desc_en:'Master chef.',              img:'https://static.wikia.nocookie.net/sanjayandcraig/images/a/a2/Craig_Slithers.png',icon:ICONS.fire,type:'variant',cost:1500,multi:8000,currency:'bills'}
   ],
   blue:[
-    {id:'obj_fries',name_es:'Papas Fritas',name_en:'Fries',cost:1000,multi:2,desc_es:'Bonus: +2 Multi.',desc_en:'Bonus: +2 Multi.',type:'blue',currency:'wings',img:ICONS.fries,icon:ICONS.fries},
-    {id:'obj_snake',name_es:'Serpiente',name_en:'Snake',cost:5000,multi:5,desc_es:'Bonus: +5 Multi.',desc_en:'Bonus: +5 Multi.',type:'blue',currency:'wings',img:ICONS.snake,icon:ICONS.gem},
-    {id:'obj_shredder',name_es:'Trituradora',name_en:'Shredder',cost:20000,multi:15,desc_es:'Bonus: +15 Multi.',desc_en:'Bonus: +15 Multi.',type:'blue',currency:'wings',img:ICONS.shredder,icon:ICONS.power},
-    {id:'obj_guitar',name_es:'Guitarra de Scabs',name_en:"Scabs' Guitar",cost:50000,multi:35,desc_es:'Bonus: +35 Multi.',desc_en:'Bonus: +35 Multi.',type:'blue',currency:'wings',img:ICONS.guitar,icon:ICONS.medal},
-    {id:'obj_trophy',name_es:'Trofeo',name_en:'Trophy',cost:100,multi:80,desc_es:'Bonus: +80 Multi.',desc_en:'Bonus: +80 Multi.',type:'blue',currency:'bills',img:ICONS.trophy,icon:ICONS.badge},
-    {id:'obj_butt',name_es:'Trofeo de Oro',name_en:'Gold Trophy',cost:1000,multi:500,desc_es:'Bonus: +500 Multi.',desc_en:'Bonus: +500 Multi.',type:'blue',currency:'bills',img:ICONS.trophy,icon:ICONS.crown},
-    {id:'obj_crown',name_es:'Corona',name_en:'Crown',cost:2000,multi:1500,desc_es:'Bonus: +1500 Multi.',desc_en:'Bonus: +1500 Multi.',type:'blue',currency:'bills',img:ICONS.crown,icon:ICONS.gem},
-    {id:'obj_pizza',name_es:'Pizza',name_en:'Pizza',cost:3000,multi:3000,desc_es:'Extra queso!',desc_en:'Extra cheese!',type:'blue',currency:'bills',img:ICONS.pizza,icon:ICONS.fire},
-    {id:'obj_rocket',name_es:'Cohete',name_en:'Rocket',cost:5000,multi:8000,desc_es:'Al espacio.',desc_en:'To space.',type:'blue',currency:'bills',img:ICONS.rocket,icon:ICONS.star},
-    {id:'obj_diamond_ring',name_es:'Diamante',name_en:'Diamond',cost:150000,multi:50000,desc_es:'Ultra raro.',desc_en:'Ultra rare.',type:'blue',currency:'wings',img:ICONS.ring,icon:ICONS.gem},
-    {id:'obj_lightning',name_es:'Rayo',name_en:'Lightning',cost:10000,multi:15000,desc_es:'Poder puro.',desc_en:'Pure power.',type:'blue',currency:'bills',img:ICONS.lightning,icon:ICONS.power},
-    {id:'obj_galaxy',name_es:'Galaxia',name_en:'Galaxy',cost:25000,multi:40000,desc_es:'Poder cosmico.',desc_en:'Cosmic power.',type:'blue',currency:'bills',img:ICONS.galaxy,icon:ICONS.crystal},
-    {id:'obj_skateboard',name_es:'Patineta',name_en:'Skateboard',cost:8000,multi:6000,desc_es:'Tabla epica.',desc_en:'Epic board.',type:'blue',currency:'wings',img:ICONS.skateboard,icon:ICONS.run},
-    {id:'obj_burger',name_es:'Hamburguesa',name_en:'Burger',cost:15000,multi:12000,desc_es:'Extra jugosa.',desc_en:'Extra juicy.',type:'blue',currency:'wings',img:ICONS.burger,icon:ICONS.heart},
-    {id:'obj_soda',name_es:'Refresco',name_en:'Soda',cost:30000,multi:25000,desc_es:'Dulce y burbujeante.',desc_en:'Sweet and fizzy.',type:'blue',currency:'wings',img:ICONS.soda,icon:ICONS.potion},
-    {id:'obj_potion',name_es:'Pocion Magica',name_en:'Magic Potion',cost:7500,multi:4500,desc_es:'Magia pura.',desc_en:'Pure magic.',type:'blue',currency:'bills',img:ICONS.potion,icon:ICONS.crystal},
-    {id:'obj_shield',name_es:'Escudo',name_en:'Shield',cost:4500,multi:2500,desc_es:'Proteccion total.',desc_en:'Full protection.',type:'blue',currency:'bills',img:ICONS.shield,icon:ICONS.badge},
-    {id:'obj_compass',name_es:'Brujula',name_en:'Compass',cost:12000,multi:9000,desc_es:'Rumbo al exito.',desc_en:'Heading to success.',type:'blue',currency:'bills',img:ICONS.compass,icon:ICONS.map},
-    {id:'obj_gem',name_es:'Gema Rara',name_en:'Rare Gem',cost:75000,multi:30000,desc_es:'Ultra rara.',desc_en:'Ultra rare.',type:'blue',currency:'wings',img:ICONS.gem,icon:ICONS.gem},
-    {id:'obj_medal',name_es:'Medalla Epica',name_en:'Epic Medal',cost:20000,multi:18000,desc_es:'Orgullo total.',desc_en:'Total pride.',type:'blue',currency:'bills',img:ICONS.medal,icon:ICONS.medal},
-    {id:'obj_crown2',name_es:'Corona Celestial',name_en:'Celestial Crown',cost:200000,multi:75000,desc_es:'Mas alla de los cielos.',desc_en:'Beyond the skies.',type:'blue',currency:'wings',img:ICONS.crown,icon:ICONS.infinity},
-    {id:'obj_crystal',name_es:'Cristal Magico',name_en:'Magic Crystal',cost:9000,multi:7000,desc_es:'Magia antigua.',desc_en:'Ancient magic.',type:'blue',currency:'bills',img:ICONS.crystal,icon:ICONS.crystal},
-    {id:'obj_map',name_es:'Mapa del Tesoro',name_en:'Treasure Map',cost:6500,multi:5500,desc_es:'Aventura garantizada.',desc_en:'Adventure guaranteed.',type:'blue',currency:'bills',img:ICONS.map,icon:ICONS.compass}
+    // ── RAREZA: 'common' | 'rare' | 'epic' | 'mythic' | 'legendary' ──
+    {id:'obj_fries',rarity:'common',name_es:'Papas Fritas',name_en:'Fries',cost:1000,multi:2,desc_es:'Bonus: +2 Multi.',desc_en:'Bonus: +2 Multi.',type:'blue',currency:'wings',img:ICONS.fries,icon:ICONS.fries},
+    {id:'obj_snake',rarity:'common',name_es:'Serpiente',name_en:'Snake',cost:5000,multi:5,desc_es:'Bonus: +5 Multi.',desc_en:'Bonus: +5 Multi.',type:'blue',currency:'wings',img:ICONS.snake,icon:ICONS.gem},
+    {id:'obj_shredder',rarity:'rare',name_es:'Trituradora',name_en:'Shredder',cost:20000,multi:15,desc_es:'Bonus: +15 Multi.',desc_en:'Bonus: +15 Multi.',type:'blue',currency:'wings',img:ICONS.shredder,icon:ICONS.power},
+    {id:'obj_guitar',rarity:'rare',name_es:'Guitarra de Scabs',name_en:"Scabs' Guitar",cost:50000,multi:35,desc_es:'Bonus: +35 Multi.',desc_en:'Bonus: +35 Multi.',type:'blue',currency:'wings',img:ICONS.guitar,icon:ICONS.medal},
+    {id:'obj_trophy',rarity:'rare',name_es:'Trofeo',name_en:'Trophy',cost:100,multi:80,desc_es:'Bonus: +80 Multi.',desc_en:'Bonus: +80 Multi.',type:'blue',currency:'bills',img:ICONS.trophy,icon:ICONS.badge},
+    {id:'obj_butt',rarity:'epic',name_es:'Trofeo de Oro',name_en:'Gold Trophy',cost:1000,multi:500,desc_es:'Bonus: +500 Multi.',desc_en:'Bonus: +500 Multi.',type:'blue',currency:'bills',img:ICONS.trophy,icon:ICONS.crown},
+    {id:'obj_crown',rarity:'epic',name_es:'Corona',name_en:'Crown',cost:2000,multi:1500,desc_es:'Bonus: +1500 Multi.',desc_en:'Bonus: +1500 Multi.',type:'blue',currency:'bills',img:ICONS.crown,icon:ICONS.gem},
+    {id:'obj_pizza',rarity:'epic',name_es:'Pizza',name_en:'Pizza',cost:3000,multi:3000,desc_es:'Extra queso!',desc_en:'Extra cheese!',type:'blue',currency:'bills',img:ICONS.pizza,icon:ICONS.fire},
+    {id:'obj_rocket',rarity:'epic',name_es:'Cohete',name_en:'Rocket',cost:5000,multi:8000,desc_es:'Al espacio.',desc_en:'To space.',type:'blue',currency:'bills',img:ICONS.rocket,icon:ICONS.star},
+    {id:'obj_diamond_ring',rarity:'legendary',name_es:'Diamante',name_en:'Diamond',cost:150000,multi:50000,desc_es:'Ultra raro.',desc_en:'Ultra rare.',type:'blue',currency:'wings',img:ICONS.ring,icon:ICONS.gem},
+    {id:'obj_lightning',rarity:'mythic',name_es:'Rayo',name_en:'Lightning',cost:10000,multi:15000,desc_es:'Poder puro.',desc_en:'Pure power.',type:'blue',currency:'bills',img:ICONS.lightning,icon:ICONS.power},
+    {id:'obj_galaxy',rarity:'legendary',name_es:'Galaxia',name_en:'Galaxy',cost:25000,multi:40000,desc_es:'Poder cosmico.',desc_en:'Cosmic power.',type:'blue',currency:'bills',img:ICONS.galaxy,icon:ICONS.crystal},
+    {id:'obj_skateboard',rarity:'epic',name_es:'Patineta',name_en:'Skateboard',cost:8000,multi:6000,desc_es:'Tabla epica.',desc_en:'Epic board.',type:'blue',currency:'wings',img:ICONS.skateboard,icon:ICONS.run},
+    {id:'obj_burger',rarity:'epic',name_es:'Hamburguesa',name_en:'Burger',cost:15000,multi:12000,desc_es:'Extra jugosa.',desc_en:'Extra juicy.',type:'blue',currency:'wings',img:ICONS.burger,icon:ICONS.heart},
+    {id:'obj_soda',rarity:'mythic',name_es:'Refresco',name_en:'Soda',cost:30000,multi:25000,desc_es:'Dulce y burbujeante.',desc_en:'Sweet and fizzy.',type:'blue',currency:'wings',img:ICONS.soda,icon:ICONS.potion},
+    {id:'obj_potion',rarity:'epic',name_es:'Pocion Magica',name_en:'Magic Potion',cost:7500,multi:4500,desc_es:'Magia pura.',desc_en:'Pure magic.',type:'blue',currency:'bills',img:ICONS.potion,icon:ICONS.crystal},
+    {id:'obj_shield',rarity:'rare',name_es:'Escudo',name_en:'Shield',cost:4500,multi:2500,desc_es:'Proteccion total.',desc_en:'Full protection.',type:'blue',currency:'bills',img:ICONS.shield,icon:ICONS.badge},
+    {id:'obj_compass',rarity:'epic',name_es:'Brujula',name_en:'Compass',cost:12000,multi:9000,desc_es:'Rumbo al exito.',desc_en:'Heading to success.',type:'blue',currency:'bills',img:ICONS.compass,icon:ICONS.map},
+    {id:'obj_gem',rarity:'legendary',name_es:'Gema Rara',name_en:'Rare Gem',cost:75000,multi:30000,desc_es:'Ultra rara.',desc_en:'Ultra rare.',type:'blue',currency:'wings',img:ICONS.gem,icon:ICONS.gem},
+    {id:'obj_medal',rarity:'mythic',name_es:'Medalla Epica',name_en:'Epic Medal',cost:20000,multi:18000,desc_es:'Orgullo total.',desc_en:'Total pride.',type:'blue',currency:'bills',img:ICONS.medal,icon:ICONS.medal},
+    {id:'obj_crown2',rarity:'legendary',name_es:'Corona Celestial',name_en:'Celestial Crown',cost:200000,multi:75000,desc_es:'Mas alla de los cielos.',desc_en:'Beyond the skies.',type:'blue',currency:'wings',img:ICONS.crown,icon:ICONS.infinity},
+    {id:'obj_crystal',rarity:'epic',name_es:'Cristal Magico',name_en:'Magic Crystal',cost:9000,multi:7000,desc_es:'Magia antigua.',desc_en:'Ancient magic.',type:'blue',currency:'bills',img:ICONS.crystal,icon:ICONS.crystal},
+    {id:'obj_map',rarity:'rare',name_es:'Mapa del Tesoro',name_en:'Treasure Map',cost:6500,multi:5500,desc_es:'Aventura garantizada.',desc_en:'Adventure guaranteed.',type:'blue',currency:'bills',img:ICONS.map,icon:ICONS.compass}
   ],
   cups:[
-    {id:'vaso_default',name_es:'Vaso Clasico',name_en:'Classic Cup',desc_es:'El original.',desc_en:'The original.',filter:'none',type:'cup',multi:1,cost:0,img:"https://files.catbox.moe/sujqhl.png",realImg:"https://files.catbox.moe/sujqhl.png",icon:ICONS.cup},
-    {id:'vaso_neon',name_es:'Vaso Neon',name_en:'Neon Cup',cost:1000,multi:10,filter:'hue-rotate(90deg) brightness(1.5)',type:'cup',desc_es:'Bonus x10.',desc_en:'Bonus x10.',img:ICONS.cup,icon:ICONS.lightning},
-    {id:'vaso_dark',name_es:'Vaso Gotico',name_en:'Gothic Cup',cost:3000,multi:25,filter:'grayscale(1) contrast(1.5)',type:'cup',desc_es:'Bonus x25.',desc_en:'Bonus x25.',img:ICONS.cup,icon:ICONS.shield},
-    {id:'vaso_fire',name_es:'Vaso Fuego',name_en:'Fire Cup',cost:12000,multi:100,filter:'sepia(1) saturate(20) hue-rotate(-30deg)',type:'cup',desc_es:'Bonus x100.',desc_en:'Bonus x100.',img:ICONS.cup,icon:ICONS.fire},
-    {id:'vaso_gold',name_es:'Vaso Oro',name_en:'Gold Cup',cost:25000,multi:250,filter:'sepia(1) saturate(10) brightness(1.2)',type:'cup',desc_es:'Bonus x250.',desc_en:'Bonus x250.',img:ICONS.cup,icon:ICONS.crown},
-    {id:'vaso_ghost',name_es:'Vaso Espectro',name_en:'Specter Cup',cost:100,multi:500,filter:'invert(1) opacity(0.7)',type:'cup',desc_es:'Bonus x500.',desc_en:'Bonus x500.',currency:'bills',img:ICONS.cup,icon:ICONS.star},
-    {id:'vaso_ice',name_es:'Vaso de Hielo',name_en:'Ice Cup',cost:50000,multi:800,filter:'hue-rotate(180deg) brightness(1.2)',type:'cup',desc_es:'Bonus x800.',desc_en:'Bonus x800.',img:ICONS.cup,icon:ICONS.crystal},
-    {id:'vaso_radio',name_es:'Vaso Radiactivo',name_en:'Radioactive Cup',cost:150000,multi:1500,filter:'contrast(2) brightness(1.5)',type:'cup',desc_es:'Bonus x1500.',desc_en:'Bonus x1500.',img:ICONS.cup,icon:ICONS.power},
-    {id:'vaso_rainbow',name_es:'Vaso Arcoiris',name_en:'Rainbow Cup',cost:500,multi:5000,class:'v-rainbow',type:'cup',desc_es:'Bonus x5000.',desc_en:'Bonus x5000.',currency:'bills',img:ICONS.cup,icon:ICONS.infinity},
-    {id:'vaso_glitch',name_es:'Vaso GLITCH',name_en:'GLITCH Cup',cost:1500,multi:15000,class:'v-glitch',type:'cup',desc_es:'Bonus x15000.',desc_en:'Bonus x15000.',currency:'bills',img:ICONS.cup,icon:ICONS.flash},
-    {id:'vaso_void',name_es:'Vaso del Vacio',name_en:'Void Cup',cost:5000,multi:40000,filter:'invert(1)',type:'cup',desc_es:'Bonus x40000.',desc_en:'Bonus x40000.',currency:'bills',img:ICONS.cup,icon:ICONS.galaxy},
-    {id:'vaso_diamond',name_es:'Vaso de Diamante',name_en:'Diamond Cup',cost:500000,multi:100000,filter:'brightness(3) saturate(0)',type:'cup',desc_es:'Bonus x100000.',desc_en:'Bonus x100000.',currency:'wings',img:ICONS.cup,icon:ICONS.gem},
-    {id:'vaso_spin',name_es:'Vaso Giratorio',name_en:'Spinning Cup',cost:2000,multi:20000,class:'v-spin',type:'cup',desc_es:'Bonus x20000.',desc_en:'Bonus x20000.',currency:'bills',img:ICONS.cup,icon:ICONS.tornado},
-    {id:'vaso_pulse',name_es:'Vaso Pulsante',name_en:'Pulse Cup',cost:3500,multi:30000,class:'v-pulse',type:'cup',desc_es:'Bonus x30000.',desc_en:'Bonus x30000.',currency:'bills',img:ICONS.cup,icon:ICONS.heart},
-    {id:'vaso_float',name_es:'Vaso Flotante',name_en:'Float Cup',cost:4500,multi:35000,class:'v-float',type:'cup',desc_es:'Bonus x35000.',desc_en:'Bonus x35000.',currency:'bills',img:ICONS.cup,icon:ICONS.rocket}
+    // ── RAREZA: 'common' | 'rare' | 'epic' | 'mythic' | 'legendary' ──
+    {id:'vaso_default',rarity:'common',name_es:'Vaso Clasico',name_en:'Classic Cup',desc_es:'El original.',desc_en:'The original.',filter:'none',type:'cup',multi:1,cost:0,img:"https://files.catbox.moe/sujqhl.png",realImg:"https://files.catbox.moe/sujqhl.png",icon:ICONS.cup},
+    {id:'vaso_neon',rarity:'common',name_es:'Vaso Neon',name_en:'Neon Cup',cost:1000,multi:10,filter:'hue-rotate(90deg) brightness(1.5)',type:'cup',desc_es:'Bonus x10.',desc_en:'Bonus x10.',img:ICONS.cup,icon:ICONS.lightning},
+    {id:'vaso_dark',rarity:'common',name_es:'Vaso Gotico',name_en:'Gothic Cup',cost:3000,multi:25,filter:'grayscale(1) contrast(1.5)',type:'cup',desc_es:'Bonus x25.',desc_en:'Bonus x25.',img:ICONS.cup,icon:ICONS.shield},
+    {id:'vaso_fire',rarity:'rare',name_es:'Vaso Fuego',name_en:'Fire Cup',cost:12000,multi:100,filter:'sepia(1) saturate(20) hue-rotate(-30deg)',type:'cup',desc_es:'Bonus x100.',desc_en:'Bonus x100.',img:ICONS.cup,icon:ICONS.fire},
+    {id:'vaso_gold',rarity:'rare',name_es:'Vaso Oro',name_en:'Gold Cup',cost:25000,multi:250,filter:'sepia(1) saturate(10) brightness(1.2)',type:'cup',desc_es:'Bonus x250.',desc_en:'Bonus x250.',img:ICONS.cup,icon:ICONS.crown},
+    {id:'vaso_ghost',rarity:'rare',name_es:'Vaso Espectro',name_en:'Specter Cup',cost:100,multi:500,filter:'invert(1) opacity(0.7)',type:'cup',desc_es:'Bonus x500.',desc_en:'Bonus x500.',currency:'bills',img:ICONS.cup,icon:ICONS.star},
+    {id:'vaso_ice',rarity:'epic',name_es:'Vaso de Hielo',name_en:'Ice Cup',cost:50000,multi:800,filter:'hue-rotate(180deg) brightness(1.2)',type:'cup',desc_es:'Bonus x800.',desc_en:'Bonus x800.',img:ICONS.cup,icon:ICONS.crystal},
+    {id:'vaso_radio',rarity:'epic',name_es:'Vaso Radiactivo',name_en:'Radioactive Cup',cost:150000,multi:1500,filter:'contrast(2) brightness(1.5)',type:'cup',desc_es:'Bonus x1500.',desc_en:'Bonus x1500.',img:ICONS.cup,icon:ICONS.power},
+    {id:'vaso_rainbow',rarity:'epic',name_es:'Vaso Arcoiris',name_en:'Rainbow Cup',cost:500,multi:5000,class:'v-rainbow',type:'cup',desc_es:'Bonus x5000.',desc_en:'Bonus x5000.',currency:'bills',img:ICONS.cup,icon:ICONS.infinity},
+    {id:'vaso_glitch',rarity:'mythic',name_es:'Vaso GLITCH',name_en:'GLITCH Cup',cost:1500,multi:15000,class:'v-glitch',type:'cup',desc_es:'Bonus x15000.',desc_en:'Bonus x15000.',currency:'bills',img:ICONS.cup,icon:ICONS.flash},
+    {id:'vaso_void',rarity:'mythic',name_es:'Vaso del Vacio',name_en:'Void Cup',cost:5000,multi:40000,filter:'invert(1)',type:'cup',desc_es:'Bonus x40000.',desc_en:'Bonus x40000.',currency:'bills',img:ICONS.cup,icon:ICONS.galaxy},
+    {id:'vaso_diamond',rarity:'legendary',name_es:'Vaso de Diamante',name_en:'Diamond Cup',cost:500000,multi:100000,filter:'brightness(3) saturate(0)',type:'cup',desc_es:'Bonus x100000.',desc_en:'Bonus x100000.',currency:'wings',img:ICONS.cup,icon:ICONS.gem},
+    {id:'vaso_spin',rarity:'mythic',name_es:'Vaso Giratorio',name_en:'Spinning Cup',cost:2000,multi:20000,class:'v-spin',type:'cup',desc_es:'Bonus x20000.',desc_en:'Bonus x20000.',currency:'bills',img:ICONS.cup,icon:ICONS.tornado},
+    {id:'vaso_pulse',rarity:'mythic',name_es:'Vaso Pulsante',name_en:'Pulse Cup',cost:3500,multi:30000,class:'v-pulse',type:'cup',desc_es:'Bonus x30000.',desc_en:'Bonus x30000.',currency:'bills',img:ICONS.cup,icon:ICONS.heart},
+    {id:'vaso_float',rarity:'legendary',name_es:'Vaso Flotante',name_en:'Float Cup',cost:4500,multi:35000,class:'v-float',type:'cup',desc_es:'Bonus x35000.',desc_en:'Bonus x35000.',currency:'bills',img:ICONS.cup,icon:ICONS.rocket}
   ],
   bgs:[
-    {id:'bg_classic',name_es:'Fondo Clasico',name_en:'Classic Background',desc_es:'Clasico.',desc_en:'Classic.',multi:0,cost:0,img:'https://uploads.onecompiler.io/447259qgx/44enzwetf/Universo.jpg',type:'bg',icon:ICONS.star},
-    {id:'bg_sanjay_house',name_es:'Casa de Sanjay',name_en:"Sanjay's House",cost:150,multi:15,desc_es:'Bonus: +15 Multi.',desc_en:'Bonus: +15 Multi.',img:'https://uploads.onecompiler.io/447259qgx/44enzwetf/Universo.jpg',type:'bg',icon:ICONS.heart},
-    {id:'bg_park',name_es:'El Parque',name_en:'Unnamed Lundgren Park',cost:400,multi:40,desc_es:'Bonus: +40 Multi.',desc_en:'Bonus: +40 Multi.',img:'https://cdn.discordapp.com/attachments/1376584136491405384/1469503379817500702/9F27E399-57D0-4471-99DC-756372816414.png',type:'bg',icon:ICONS.tree},
-    {id:'bg_frycade',name_es:'Fritolandia',name_en:'Frycade',cost:1000,multi:100,desc_es:'Bonus: +100 Multi.',desc_en:'Bonus: +100 Multi.',img:'https://cdn.discordapp.com/attachments/1376584136491405384/1469486078908956756/1000.png',type:'bg',icon:ICONS.fries},
-    {id:'bg_lake',name_es:'Lago de Lundgren',name_en:'Lundgren Lake',cost:2500,multi:250,desc_es:'Bonus: +250 Multi.',desc_en:'Bonus: +250 Multi.',img:'https://static.wikia.nocookie.net/sanjayandcraig/images/1/14/Lake_Lundgren.png',type:'bg',icon:ICONS.compass},
-    {id:'bg_neon_city',name_es:'Ciudad Neon',name_en:'Neon City',cost:800,multi:5000,desc_es:'Bonus: +5000 Multi.',desc_en:'Bonus: +5000 Multi.',img:'https://uploads.onecompiler.io/447259qgx/44j4gx75g/Galaxia.png',type:'bg',currency:'bills',filter:'hue-rotate(270deg)',icon:ICONS.lightning},
-    {id:'bg_playa',name_es:'Playa',name_en:'Beach',cost:600,multi:2000,desc_es:'Bonus: +2000 Multi.',desc_en:'Bonus: +2000 Multi.',img:'https://cdn.discordapp.com/attachments/1376584136491405384/1469503379817500702/9F27E399-57D0-4471-99DC-756372816414.png',type:'bg',filter:'hue-rotate(180deg)',icon:ICONS.map}
+    // ── RAREZA: 'common' | 'rare' | 'epic' | 'mythic' | 'legendary' ──
+    {id:'bg_classic',rarity:'common',name_es:'Fondo Clasico',name_en:'Classic Background',desc_es:'Clasico.',desc_en:'Classic.',multi:0,cost:0,img:'https://chibi.iitranq.co.uk/zze8NtjlBsHu.jpg',type:'bg',icon:ICONS.star},
+    {id:'bg_sanjay_house',rarity:'common',name_es:'Casa de Sanjay',name_en:"Sanjay's House",cost:150,multi:15,desc_es:'Bonus: +15 Multi.',desc_en:'Bonus: +15 Multi.',img:'https://uploads.onecompiler.io/447259qgx/44enzwetf/Universo.jpg',type:'bg',icon:ICONS.heart},
+    {id:'bg_park',rarity:'rare',name_es:'El Parque',name_en:'Unnamed Lundgren Park',cost:400,multi:40,desc_es:'Bonus: +40 Multi.',desc_en:'Bonus: +40 Multi.',img:'https://cdn.discordapp.com/attachments/1376584136491405384/1469503379817500702/9F27E399-57D0-4471-99DC-756372816414.png',type:'bg',icon:ICONS.tree},
+    {id:'bg_frycade',rarity:'rare',name_es:'Fritolandia',name_en:'Frycade',cost:1000,multi:100,desc_es:'Bonus: +100 Multi.',desc_en:'Bonus: +100 Multi.',img:'https://cdn.discordapp.com/attachments/1376584136491405384/1469486078908956756/1000.png',type:'bg',icon:ICONS.fries},
+    {id:'bg_lake',rarity:'epic',name_es:'Lago de Lundgren',name_en:'Lundgren Lake',cost:2500,multi:250,desc_es:'Bonus: +250 Multi.',desc_en:'Bonus: +250 Multi.',img:'https://static.wikia.nocookie.net/sanjayandcraig/images/1/14/Lake_Lundgren.png',type:'bg',icon:ICONS.compass},
+    {id:'bg_neon_city',rarity:'epic',name_es:'Ciudad Neon',name_en:'Neon City',cost:800,multi:5000,desc_es:'Bonus: +5000 Multi.',desc_en:'Bonus: +5000 Multi.',img:'https://uploads.onecompiler.io/447259qgx/44j4gx75g/Galaxia.png',type:'bg',currency:'bills',filter:'hue-rotate(270deg)',icon:ICONS.lightning},
+    {id:'bg_playa',rarity:'mythic',name_es:'Playa',name_en:'Beach',cost:600,multi:2000,desc_es:'Bonus: +2000 Multi.',desc_en:'Bonus: +2000 Multi.',img:'https://cdn.discordapp.com/attachments/1376584136491405384/1469503379817500702/9F27E399-57D0-4471-99DC-756372816414.png',type:'bg',filter:'hue-rotate(180deg)',icon:ICONS.map}
   ],
   event:[
-    {id:'party_craig',active:true,name_es:'Craig Neon',name_en:'Neon Craig',cost:5000,multi:3000,desc_es:'Edicion Limitada.',desc_en:'Limited Edition.',img:'https://static.wikia.nocookie.net/sanjayandcraig/images/0/07/Robot_Craig.png',filter:'hue-rotate(300deg) brightness(1.5)',type:'variant',currency:'wings',icon:ICONS.lightning},
-    {id:'max_d',active:true,name_es:'Dennis el Maximo',name_en:'Maximum Dennis',cost:100,multi:200,desc_es:'Busca tu escudo de carne.',desc_en:'We´re going too far.',img:'https://files.catbox.moe/zv4b54.png',type:'variant',currency:'bills',icon:'https://files.catbox.moe/42eaji.jpg'},
-    {id:'maximum_dennis',active:true,name_es:'Dennis el Maximo',name_en:'Maximum Dennis',cost:150,multi:200,desc_es:'El Verdadero Dennis.',desc_en:'The True Max D.',img:'https://files.catbox.moe/jp04m2.png',type:'char',currency:'bills',icon:'https://files.catbox.moe/pq9pt3.jpg'},
-    {id:'bg_cyber_frycade',active:true,name_es:'Ciber Fritolandia',name_en:'Cyber Frycade',cost:20000,multi:5000,desc_es:'Fondo exclusivo.',desc_en:'Exclusive background.',img:'https://cdn.discordapp.com/attachments/1376584136491405384/1469486078908956756/1000.png',filter:'hue-rotate(280deg)',type:'bg',currency:'wings',icon:ICONS.galaxy},
-    {id:'laser_cup',active:true,name_es:'Vaso Laser',name_en:'Laser Cup',cost:250,multi:25000,desc_es:'Poder puro.',desc_en:'Pure power.',img:ICONS.cup,filter:'hue-rotate(320deg) saturate(5)',type:'cup',currency:'bills',icon:ICONS.power},
-    {id:'stinkboy',active:false,name_es:'Chico Apestoso',name_en:'Stinkboy',cost:7500,multi:90,desc_es:'Olor insoportable.',desc_en:'Unbearable smell.',img:'https://chibi.iitranq.co.uk/qykvcIrDM4OK.png',type:'variant',currency:'bills',icon:ICONS.star},
-    {id:'street_dogg',active:true,name_es:'Street Dogg',name_en:'Street Dogg',cost:1500,multi:250,desc_es:'El rapero mas cool.',desc_en:'The coolest rapper.',img:'https://static.wikia.nocookie.net/sanjayandcraig/images/0/0e/Street_dogg.png',type:'char',currency:'bills',icon:ICONS.guitar},
-    {id:'megan_verano',active:false,name_es:'Megan Verano',name_en:'Summer Megan',cost:2500,multi:6000,desc_es:'Que calor!',desc_en:'So hot!',img:'https://static.wikia.nocookie.net/sanjayandcraig/images/7/77/Megan_Sparkles.png',filter:'sepia(0.5) saturate(2)',type:'variant',currency:'bills',icon:ICONS.fire},
-    {id:'galaxy_sanjay',active:false,name_es:'Sanjay Galactico',name_en:'Galaxy Sanjay',cost:6000,multi:18000,desc_es:'Modelo SR-3000.',desc_en:'Model SR-3000.',img:'https://static.wikia.nocookie.net/sanjayandcraig/images/0/07/Sanjay_Patel.png',filter:'hue-rotate(180deg) contrast(1.5)',type:'variant',currency:'bills',icon:ICONS.galaxy},
-    {id:'galaxy_craig',active:false,name_es:'Craig Galactico',name_en:'Galaxy Craig',cost:6000,multi:18000,desc_es:'Modelo SR-3000.',desc_en:'Model SR-3000.',img:'https://static.wikia.nocookie.net/sanjayandcraig/images/0/07/Sanjay_Patel.png',filter:'hue-rotate(180deg) contrast(1.5)',type:'variant',currency:'bills',icon:ICONS.rocket},
-    {id:'galaxy_megan',active:false,name_es:'Megan Galactica',name_en:'Galaxy Megan',cost:6000,multi:18000,desc_es:'Modelo SR-3000.',desc_en:'Model SR-3000.',img:'https://static.wikia.nocookie.net/sanjayandcraig/images/0/07/Sanjay_Patel.png',filter:'hue-rotate(180deg) contrast(1.5)',type:'variant',currency:'bills',icon:ICONS.star},
-    {id:'galaxy_hector',active:false,name_es:'Hector Galactico',name_en:'Galaxy Hector',cost:6000,multi:18000,desc_es:'Modelo SR-3000.',desc_en:'Model SR-3000.',img:'https://static.wikia.nocookie.net/sanjayandcraig/images/0/07/Sanjay_Patel.png',filter:'hue-rotate(180deg) contrast(1.5)',type:'variant',currency:'bills',icon:ICONS.shield},
-    {id:'alien_craig',active:false,name_es:'Alien Craig',name_en:'Alien Craig',cost:6000,multi:18000,desc_es:'Modelo SR-3000.',desc_en:'Model SR-3000.',img:'https://static.wikia.nocookie.net/sanjayandcraig/images/0/07/Sanjay_Patel.png',filter:'hue-rotate(180deg) contrast(1.5)',type:'variant',currency:'bills',icon:ICONS.infinity},
-    {id:'bg_galaxy',active:false,name_es:'Galaxia',name_en:'Galaxy',cost:200,multi:1500,desc_es:'Bonus: +1500 Multi.',desc_en:'Bonus: +1500 Multi.',img:'https://uploads.onecompiler.io/447259qgx/44j4gx75g/Galaxia.png',type:'bg',currency:'bills',icon:ICONS.galaxy},
-    {id:'bg_nebula',active:false,name_es:'Nebulosa',name_en:'Nebula',cost:1500,multi:10000,desc_es:'Bonus: +10000 Multi.',desc_en:'Bonus: +10000 Multi.',img:'https://uploads.onecompiler.io/447259qgx/44j4gx75g/Galaxia.png',type:'bg',currency:'bills',filter:'hue-rotate(120deg) saturate(2)',icon:ICONS.crystal},
-    {id:'sanjay_halloween',active:false,name_es:'Sanjay Halloween',name_en:'Halloween Sanjay',cost:3000,multi:8000,desc_es:'Edicion Halloween.',desc_en:'Halloween Edition.',img:'https://static.wikia.nocookie.net/sanjayandcraig/images/b/b2/Ninja_Sanjay.png',filter:'hue-rotate(200deg) brightness(0.7)',type:'variant',currency:'bills',icon:ICONS.storm},
-    {id:'craig_navidad',active:false,name_es:'Craig Navidad',name_en:'Christmas Craig',cost:4000,multi:12000,desc_es:'Ho ho ho!',desc_en:'Ho ho ho!',img:'https://static.wikia.nocookie.net/sanjayandcraig/images/a/a2/Craig_Slithers.png',filter:'hue-rotate(340deg) saturate(3)',type:'variant',currency:'bills',icon:ICONS.gift}
+    // ── RAREZA: 'common' | 'rare' | 'epic' | 'mythic' | 'legendary' ──
+    {id:'party_craig',rarity:'epic',name_es:'Craig Neon',name_en:'Neon Craig',cost:5000,multi:3000,desc_es:'Edicion Limitada.',desc_en:'Limited Edition.',img:'https://static.wikia.nocookie.net/sanjayandcraig/images/0/07/Robot_Craig.png',filter:'hue-rotate(300deg) brightness(1.5)',type:'variant',currency:'wings',icon:ICONS.lightning},
+    {id:'max_d',rarity:'rare',name_es:'Dennis el Maximo',name_en:'Maximum Dennis',cost:100,multi:200,desc_es:'Busca tu escudo de carne.',desc_en:'We´re going too far.',img:'https://files.catbox.moe/zv4b54.png',type:'variant',currency:'bills',icon:'https://files.catbox.moe/42eaji.jpg'},
+    {id:'maximum_dennis',rarity:'epic',name_es:'Dennis el Maximo',name_en:'Maximum Dennis',cost:150,multi:200,desc_es:'El Verdadero Dennis.',desc_en:'The True Max D.',img:'https://files.catbox.moe/jp04m2.png',type:'char',currency:'bills',icon:'https://files.catbox.moe/pq9pt3.jpg'},
+    {id:'bg_cyber_frycade',rarity:'legendary',name_es:'Ciber Fritolandia',name_en:'Cyber Frycade',cost:20000,multi:5000,desc_es:'Fondo exclusivo.',desc_en:'Exclusive background.',img:'https://cdn.discordapp.com/attachments/1376584136491405384/1469486078908956756/1000.png',filter:'hue-rotate(280deg)',type:'bg',currency:'wings',icon:ICONS.galaxy},
+    {id:'laser_cup',rarity:'legendary',name_es:'Vaso Laser',name_en:'Laser Cup',cost:250,multi:25000,desc_es:'Poder puro.',desc_en:'Pure power.',img:ICONS.cup,filter:'hue-rotate(320deg) saturate(5)',type:'cup',currency:'bills',icon:ICONS.power},
+    {id:'stinkboy',rarity:'rare',name_es:'Chico Apestoso',name_en:'Stinkboy',cost:7500,multi:90,desc_es:'Olor insoportable.',desc_en:'Unbearable smell.',img:'https://chibi.iitranq.co.uk/qykvcIrDM4OK.png',type:'variant',currency:'bills',icon:ICONS.star},
+    {id:'street_dogg',rarity:'rare',name_es:'Street Dogg',name_en:'Street Dogg',cost:1500,multi:250,desc_es:'El rapero mas cool.',desc_en:'The coolest rapper.',img:'https://static.wikia.nocookie.net/sanjayandcraig/images/0/0e/Street_dogg.png',type:'char',currency:'bills',icon:ICONS.guitar},
+    {id:'megan_verano',rarity:'epic',name_es:'Megan Verano',name_en:'Summer Megan',cost:2500,multi:6000,desc_es:'Que calor!',desc_en:'So hot!',img:'https://static.wikia.nocookie.net/sanjayandcraig/images/7/77/Megan_Sparkles.png',filter:'sepia(0.5) saturate(2)',type:'variant',currency:'bills',icon:ICONS.fire},
+    {id:'galaxy_sanjay',rarity:'mythic',name_es:'Sanjay Galactico',name_en:'Galaxy Sanjay',cost:6000,multi:18000,desc_es:'Modelo SR-3000.',desc_en:'Model SR-3000.',img:'https://static.wikia.nocookie.net/sanjayandcraig/images/0/07/Sanjay_Patel.png',filter:'hue-rotate(180deg) contrast(1.5)',type:'variant',currency:'bills',icon:ICONS.galaxy},
+    {id:'galaxy_craig',rarity:'mythic',name_es:'Craig Galactico',name_en:'Galaxy Craig',cost:6000,multi:18000,desc_es:'Modelo SR-3000.',desc_en:'Model SR-3000.',img:'https://static.wikia.nocookie.net/sanjayandcraig/images/0/07/Sanjay_Patel.png',filter:'hue-rotate(180deg) contrast(1.5)',type:'variant',currency:'bills',icon:ICONS.rocket},
+    {id:'galaxy_megan',rarity:'mythic',name_es:'Megan Galactica',name_en:'Galaxy Megan',cost:6000,multi:18000,desc_es:'Modelo SR-3000.',desc_en:'Model SR-3000.',img:'https://static.wikia.nocookie.net/sanjayandcraig/images/0/07/Sanjay_Patel.png',filter:'hue-rotate(180deg) contrast(1.5)',type:'variant',currency:'bills',icon:ICONS.star},
+    {id:'galaxy_hector',rarity:'mythic',name_es:'Hector Galactico',name_en:'Galaxy Hector',cost:6000,multi:18000,desc_es:'Modelo SR-3000.',desc_en:'Model SR-3000.',img:'https://static.wikia.nocookie.net/sanjayandcraig/images/0/07/Sanjay_Patel.png',filter:'hue-rotate(180deg) contrast(1.5)',type:'variant',currency:'bills',icon:ICONS.shield},
+    {id:'alien_craig',rarity:'legendary',name_es:'Alien Craig',name_en:'Alien Craig',cost:6000,multi:18000,desc_es:'Modelo SR-3000.',desc_en:'Model SR-3000.',img:'https://static.wikia.nocookie.net/sanjayandcraig/images/0/07/Sanjay_Patel.png',filter:'hue-rotate(180deg) contrast(1.5)',type:'variant',currency:'bills',icon:ICONS.infinity},
+    {id:'bg_galaxy',rarity:'epic',name_es:'Galaxia',name_en:'Galaxy',cost:200,multi:1500,desc_es:'Bonus: +1500 Multi.',desc_en:'Bonus: +1500 Multi.',img:'https://uploads.onecompiler.io/447259qgx/44j4gx75g/Galaxia.png',type:'bg',currency:'bills',icon:ICONS.galaxy},
+    {id:'bg_nebula',rarity:'legendary',name_es:'Nebulosa',name_en:'Nebula',cost:1500,multi:10000,desc_es:'Bonus: +10000 Multi.',desc_en:'Bonus: +10000 Multi.',img:'https://uploads.onecompiler.io/447259qgx/44j4gx75g/Galaxia.png',type:'bg',currency:'bills',filter:'hue-rotate(120deg) saturate(2)',icon:ICONS.crystal},
+    {id:'sanjay_halloween',rarity:'epic',name_es:'Sanjay Halloween',name_en:'Halloween Sanjay',cost:3000,multi:8000,desc_es:'Edicion Halloween.',desc_en:'Halloween Edition.',img:'https://static.wikia.nocookie.net/sanjayandcraig/images/b/b2/Ninja_Sanjay.png',filter:'hue-rotate(200deg) brightness(0.7)',type:'variant',currency:'bills',icon:ICONS.storm},
+    {id:'craig_navidad',rarity:'mythic',name_es:'Craig Navidad',name_en:'Christmas Craig',cost:4000,multi:12000,desc_es:'Ho ho ho!',desc_en:'Ho ho ho!',img:'https://static.wikia.nocookie.net/sanjayandcraig/images/a/a2/Craig_Slithers.png',filter:'hue-rotate(340deg) saturate(3)',type:'variant',currency:'bills',icon:ICONS.gift}
   ]
 };
 
@@ -1824,7 +1937,7 @@ const defaultState={
   customTitle:'ROOKIE',zoom:100,lang:'en',playerCode:'',accountCode:'',unlockedMusicUpload:false,unlockedBgUpload:false,unlockedPhotoUpload:false,
   leftChar:{id:'hector_and_megan'},rightChar:{id:'sanjay_and_craig'},
   cupMulti:1,cupFilter:'none',cupClass:'',cupRealImg:'',
-  currentBG:'https://uploads.onecompiler.io/447259qgx/44enzwetf/Universo.jpg',currentBgId:'bg_classic',
+  currentBG:'https://chibi.iitranq.co.uk/zze8NtjlBsHu.jpg',currentBgId:'bg_classic',
   unlockedAchs:['ach_w1'],frenzy:0,isFrenzy:false,isMobileMode:false,
   spicyTimer:0,prestigeLevel:0,prestigeUnlocked:false,
   totalFrenzies:0,eventItemsEnabled:{},berryTreeTimer:0,treeHarvestCount:0,
@@ -2404,8 +2517,12 @@ function silentRefreshAllFriends(){
   if(changed)saveGame();
 }
 
-function renderFriendsList(){
+function renderFriendsList(_skipCloudRefresh){
   silentRefreshAllFriends();
+  // Refresh photos from cloud in background and re-render once done (only on first call)
+  if(!_skipCloudRefresh && state.friends&&state.friends.length){
+    refreshAllFriendsFromCloud().then(()=>{ renderFriendsList(true); }).catch(()=>{});
+  }
   const c=document.getElementById('friends-list-container');
   const badge=document.getElementById('friends-count-badge');
   const myCodeEl=document.getElementById('friends-my-code-display');
@@ -2440,8 +2557,8 @@ function renderFriendsList(){
       <!-- Avatar with online ring -->
       <div style="position:relative;flex-shrink:0;">
         <img src="${avatarUrl}" class="friend-avatar" onerror="this.src='${ICONS.friends}'"
-          style="width:64px;height:64px;border-radius:50%;object-fit:cover;border:2px solid var(--friend-color);box-shadow:0 0 10px rgba(46,204,113,0.3);display:block;">
-        <div style="position:absolute;bottom:2px;right:2px;width:12px;height:12px;background:var(--neon-green);border-radius:50%;border:2px solid #0d1a0d;box-shadow:0 0 5px var(--neon-green);"></div>
+          style="width:68px;height:68px;border-radius:12px;object-fit:cover;border:2.5px solid var(--friend-color);box-shadow:0 0 14px rgba(46,204,113,0.35);display:block;">
+        <div style="position:absolute;bottom:3px;right:3px;width:11px;height:11px;background:var(--neon-green);border-radius:3px;border:2px solid #0d1a0d;box-shadow:0 0 5px var(--neon-green);"></div>
       </div>
       <!-- Info -->
       <div class="friend-info" style="flex:1;min-width:0;">
@@ -2500,7 +2617,7 @@ function showFriendStats(code){
     <div style="background:linear-gradient(135deg,#0d1a0d,#0a0f0d);border:2px solid var(--friend-color);border-radius:16px;padding:18px;margin-bottom:15px;display:flex;align-items:center;gap:18px;position:relative;overflow:hidden;">
       <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(46,204,113,0.08),transparent 60%);pointer-events:none;"></div>
       <div style="position:relative;flex-shrink:0;">
-        <img src="${avatarUrl}" style="width:80px;height:80px;border-radius:50%;border:3px solid var(--friend-color);object-fit:cover;box-shadow:0 0 20px rgba(46,204,113,0.4);display:block;" onerror="this.src='${ICONS.friends}'">
+        <img src="${avatarUrl}" style="width:80px;height:80px;border-radius:14px;border:3px solid var(--friend-color);object-fit:cover;box-shadow:0 0 20px rgba(46,204,113,0.4);display:block;" onerror="this.src='${ICONS.friends}'">
         <div style="position:absolute;bottom:4px;right:4px;width:14px;height:14px;background:var(--neon-green);border-radius:50%;border:2px solid #0d1a0d;"></div>
       </div>
       <div style="text-align:left;flex:1;position:relative;">
@@ -2575,12 +2692,12 @@ function sendGift(giftId){
 //  SAUCE UPGRADES (passive bonuses bought with hot sauce)
 // ══════════════════════════════════════════════════════
 const SAUCE_UPGRADES=[
-  {id:'su_frenzy_charge',name_en:'Frenzy Fuel',name_es:'Combustible Frenesi',desc_en:'Frenzy bar fills +20% faster per level.',desc_es:'La barra se llena +20% mas rapido.',icon:ICONS.fire,maxLevel:5,baseCost:3,costMult:2},
-  {id:'su_combo_time',name_en:'Combo Extender',name_es:'Extensor de Combo',desc_en:'Combo window +0.5s per level.',desc_es:'Ventana de combo +0.5s por nivel.',icon:ICONS.lightning,maxLevel:5,baseCost:5,costMult:2},
-  {id:'su_tree_yield',name_en:'Berry Booster',name_es:'Potenciador de Bayas',desc_en:'Berry tree yields +25% per level.',desc_es:'Arbol produce +25% mas por nivel.',icon:ICONS.berry_tree,maxLevel:4,baseCost:8,costMult:2.5},
-  {id:'su_daily_multi',name_en:'Daily Amplifier',name_es:'Amplificador Diario',desc_en:'Daily bonus rewards ×2 per level.',desc_es:'Recompensas diarias ×2 por nivel.',icon:ICONS.calendar,maxLevel:3,baseCost:10,costMult:3},
-  {id:'su_click_power',name_en:'Iron Finger',name_es:'Dedo de Acero',desc_en:'Click power +50% per level.',desc_es:'Poder de click +50% por nivel.',icon:ICONS.touch,maxLevel:6,baseCost:4,costMult:2},
-  {id:'su_prestige_bonus',name_en:'Prestige Amplifier',name_es:'Amplificador de Prestigio',desc_en:'Prestige multiplier +0.5x per level.',desc_es:'Multiplicador de prestigio +0.5x por nivel.',icon:ICONS.diamond,maxLevel:3,baseCost:20,costMult:3},
+  {id:'su_frenzy_charge',name_en:'Frenzy Fuel',name_es:'Combustible Frenesi',desc_en:'Frenzy bar fills +15% faster per level.',desc_es:'La barra se llena +15% mas rapido.',icon:ICONS.fire,maxLevel:5,baseCost:8,costMult:2.5},
+  {id:'su_combo_time',name_en:'Combo Extender',name_es:'Extensor de Combo',desc_en:'Combo window +0.4s per level.',desc_es:'Ventana de combo +0.4s por nivel.',icon:ICONS.lightning,maxLevel:5,baseCost:12,costMult:2.5},
+  {id:'su_tree_yield',name_en:'Berry Booster',name_es:'Potenciador de Bayas',desc_en:'Berry tree yields +20% per level.',desc_es:'Arbol produce +20% mas por nivel.',icon:ICONS.berry_tree,maxLevel:4,baseCost:20,costMult:3},
+  {id:'su_daily_multi',name_en:'Daily Amplifier',name_es:'Amplificador Diario',desc_en:'Daily bonus rewards ×2 per level.',desc_es:'Recompensas diarias ×2 por nivel.',icon:ICONS.calendar,maxLevel:3,baseCost:30,costMult:3.5},
+  {id:'su_click_power',name_en:'Iron Finger',name_es:'Dedo de Acero',desc_en:'Click power +30% per level.',desc_es:'Poder de click +30% por nivel.',icon:ICONS.touch,maxLevel:6,baseCost:10,costMult:2.5},
+  {id:'su_prestige_bonus',name_en:'Prestige Amplifier',name_es:'Amplificador de Prestigio',desc_en:'Prestige multiplier +0.3x per level.',desc_es:'Multiplicador de prestigio +0.3x por nivel.',icon:ICONS.diamond,maxLevel:3,baseCost:50,costMult:4},
 ];
 
 function getSauceUpgLevel(id){return(state.sauceUpgrades||{})[id]||0;}
@@ -2660,7 +2777,7 @@ const LOOT_BOXES=[
     {name_en:'Wings x15K',name_es:'Alitas x15K',fn:()=>{state.wings+=15000;},w:18,cat:'currency'},
     {name_en:'Blueberries x30',name_es:'Arandanos x30',fn:()=>{state.blueberries+=30;},w:22,cat:'currency'},
     {name_en:'Blueberries x80',name_es:'Arandanos x80',fn:()=>{state.blueberries+=80;},w:14,cat:'currency'},
-    {name_en:'Hot Sauce x1',name_es:'Salsa x1',fn:()=>{state.sauce+=1;},w:10,cat:'currency'},
+    {name_en:'Hot Sauce x1',name_es:'Salsa x1',fn:()=>{state.sauce+=1;},w:6,cat:'currency'},
     // Solo personajes básicos (primeros 3 de la tienda)
     {name_en:'Mr. Noodman',name_es:'Sr. Noodman',type:'char',charId:'leslie_noodman',fn:()=>{_boxGiveChar('leslie_noodman');},w:6,cat:'char'},
     {name_en:'Booger Johnson',name_es:'Moco Johnson',type:'char',charId:'booger_johnson',fn:()=>{_boxGiveChar('booger_johnson');},w:4,cat:'char'},
@@ -2672,7 +2789,7 @@ const LOOT_BOXES=[
     {name_en:'Wings x50K',name_es:'Alitas x50K',fn:()=>{state.wings+=50000;},w:20,cat:'currency'},
     {name_en:'Wings x200K',name_es:'Alitas x200K',fn:()=>{state.wings+=200000;},w:10,cat:'currency'},
     {name_en:'Blueberries x200',name_es:'Arandanos x200',fn:()=>{state.blueberries+=200;},w:14,cat:'currency'},
-    {name_en:'Hot Sauce x3',name_es:'Salsa x3',fn:()=>{state.sauce+=3;},w:12,cat:'currency'},
+    {name_en:'Hot Sauce x3',name_es:'Salsa x3',fn:()=>{state.sauce+=2;},w:6,cat:'currency'},
     {name_en:'Bills x30',name_es:'Billetes x30',fn:()=>{state.bills+=30;},w:10,cat:'currency'},
     {name_en:'Multiplier x2 (5min)',name_es:'Multiplicador x2 (5min)',fn:()=>{state.tempMultiBonus=(state.tempMultiBonus||0)+2;state.tempMultiTimer=(state.tempMultiTimer||0)+300;},w:7,cat:'boost'},
     {name_en:'Event Tokens x25',name_es:'Tokens x25',fn:()=>{state.eventTokens=(state.eventTokens||0)+25;},w:6,cat:'currency'},
@@ -2684,7 +2801,7 @@ const LOOT_BOXES=[
     {name_en:'Booger Johnson',name_es:'Moco Johnson',type:'char',charId:'booger_johnson',fn:()=>{_boxGiveChar('booger_johnson');},w:6,cat:'char'},
     // Variantes normales de tienda
     {name_en:'Variant (Shop)',name_es:'Variante (Tienda)',type:'char_variant',fn:()=>{_boxGiveRandomVariant('shop');},w:5,cat:'variant'},
-    {name_en:'Hot Sauce x6',name_es:'Salsa x6',fn:()=>{state.sauce+=6;},w:6,cat:'currency'},
+    {name_en:'Hot Sauce x6',name_es:'Salsa x6',fn:()=>{state.sauce+=4;},w:4,cat:'currency'},
     {name_en:'Random Cup',name_es:'Vaso Aleatorio',type:'item_cup',fn:()=>{_lastBoxItem=null;_boxGiveRandomCup('rare');},w:6,cat:'cup',icon_cat:'cup'},
     {name_en:'Random Object',name_es:'Objeto Aleatorio',type:'item_obj',fn:()=>{_lastBoxItem=null;_boxGiveRandomObj('rare');},w:5,cat:'obj',icon_cat:'obj'},
     {name_en:'Random Background',name_es:'Fondo Aleatorio',type:'item_bg',fn:()=>{_lastBoxItem=null;_boxGiveRandomBg('rare');},w:4,cat:'bg',icon_cat:'bg'},
@@ -2693,7 +2810,7 @@ const LOOT_BOXES=[
     {name_en:'Wings x500K',name_es:'Alitas x500K',fn:()=>{state.wings+=500000;},w:14,cat:'currency'},
     {name_en:'Wings x2M',name_es:'Alitas x2M',fn:()=>{state.wings+=2000000;},w:6,cat:'currency'},
     {name_en:'Blueberries x1000',name_es:'Arandanos x1000',fn:()=>{state.blueberries+=1000;},w:10,cat:'currency'},
-    {name_en:'Hot Sauce x10',name_es:'Salsa x10',fn:()=>{state.sauce+=10;},w:10,cat:'currency'},
+    {name_en:'Hot Sauce x10',name_es:'Salsa x10',fn:()=>{state.sauce+=6;},w:5,cat:'currency'},
     {name_en:'Bills x150',name_es:'Billetes x150',fn:()=>{state.bills+=150;},w:8,cat:'currency'},
     {name_en:'Multiplier x3 (10min)',name_es:'Multiplicador x3 (10min)',fn:()=>{state.tempMultiBonus=(state.tempMultiBonus||0)+3;state.tempMultiTimer=(state.tempMultiTimer||0)+600;},w:7,cat:'boost'},
     {name_en:'Frenzy x2!',name_es:'Frenesi x2!',fn:()=>{if(triggerFrenzy){triggerFrenzy();setTimeout(triggerFrenzy,12000);}},w:5,cat:'boost'},
@@ -2703,7 +2820,7 @@ const LOOT_BOXES=[
     {name_en:'Exclusive (Box)',name_es:'Exclusivo (Caja)',type:'char_exclusive',fn:()=>{_boxGiveRandomExclusive('box');},w:8,cat:'exclusive'},
     // Evento: muy baja probabilidad
     {name_en:'Event Item',name_es:'Articulo de Evento',type:'char_event',fn:()=>{_boxGiveRandomEventChar();},w:2,cat:'event'},
-    {name_en:'Hot Sauce x20',name_es:'Salsa x20',fn:()=>{state.sauce+=20;},w:4,cat:'currency'},
+    {name_en:'Hot Sauce x20',name_es:'Salsa x20',fn:()=>{state.sauce+=10;},w:2,cat:'currency'},
     {name_en:'Random Cup',name_es:'Vaso Aleatorio',type:'item_cup',fn:()=>{_lastBoxItem=null;_boxGiveRandomCup('epic');},w:6,cat:'cup'},
     {name_en:'Random Object',name_es:'Objeto Aleatorio',type:'item_obj',fn:()=>{_lastBoxItem=null;_boxGiveRandomObj('epic');},w:5,cat:'obj'},
     {name_en:'Random Background',name_es:'Fondo Aleatorio',type:'item_bg',fn:()=>{_lastBoxItem=null;_boxGiveRandomBg('epic');},w:4,cat:'bg'},
@@ -2711,7 +2828,7 @@ const LOOT_BOXES=[
   {id:'box_legendary',rarity:'legendary',name_en:'Legendary Box',name_es:'Caja Legendaria',desc_en:'Box-exclusives and event characters only!',desc_es:'Solo exclusivos de caja y personajes de evento!',img:'https://img.icons8.com/fluency/96/diamond.png',cost:1000,currency:'bills',color:'#ffd700',pool:[
     {name_en:'Wings x10M',name_es:'Alitas x10M',fn:()=>{state.wings+=10000000;},w:10,cat:'currency'},
     {name_en:'Wings x50M',name_es:'Alitas x50M',fn:()=>{state.wings+=50000000;},w:3,cat:'currency'},
-    {name_en:'Hot Sauce x50',name_es:'Salsa x50',fn:()=>{state.sauce+=50;},w:8,cat:'currency'},
+    {name_en:'Hot Sauce x50',name_es:'Salsa x50',fn:()=>{state.sauce+=20;},w:2,cat:'currency'},
     {name_en:'Bills x500',name_es:'Billetes x500',fn:()=>{state.bills+=500;},w:7,cat:'currency'},
     {name_en:'Blueberries x5000',name_es:'Arandanos x5000',fn:()=>{state.blueberries+=5000;},w:7,cat:'currency'},
     {name_en:'Multiplier x5 (15min)',name_es:'Multiplicador x5 (15min)',fn:()=>{state.tempMultiBonus=(state.tempMultiBonus||0)+5;state.tempMultiTimer=(state.tempMultiTimer||0)+900;},w:7,cat:'boost'},
@@ -2720,7 +2837,7 @@ const LOOT_BOXES=[
     // Solo exclusivos de caja y de evento
     {name_en:'Exclusive (Box)',name_es:'Exclusivo (Caja)',type:'char_exclusive',fn:()=>{_boxGiveRandomExclusive('box');},w:14,cat:'exclusive'},
     {name_en:'Event Item',name_es:'Articulo de Evento',type:'char_event',fn:()=>{_boxGiveRandomEventChar();},w:10,cat:'event'},
-    {name_en:'Sauce + Bills + Wings Mega',name_es:'Salsa + Billetes + Alitas Mega',fn:()=>{state.sauce+=30;state.bills+=300;state.wings+=5000000;},w:4,cat:'currency'},
+    {name_en:'Sauce + Bills + Wings Mega',name_es:'Salsa + Billetes + Alitas Mega',fn:()=>{state.sauce+=15;state.bills+=300;state.wings+=5000000;},w:2,cat:'currency'},
     {name_en:'Legendary Cup',name_es:'Vaso Legendario',type:'item_cup',fn:()=>{_lastBoxItem=null;_boxGiveRandomCup('legendary');},w:8,cat:'cup'},
     {name_en:'Legendary Object',name_es:'Objeto Legendario',type:'item_obj',fn:()=>{_lastBoxItem=null;_boxGiveRandomObj('legendary');},w:6,cat:'obj'},
     {name_en:'Legendary Background',name_es:'Fondo Legendario',type:'item_bg',fn:()=>{_lastBoxItem=null;_boxGiveRandomBg('legendary');},w:5,cat:'bg'},
@@ -3422,8 +3539,9 @@ const CURRENT_EVENT = {
   startDate: '',                        // Ej: '2025-06-01' o '' para ya
   endDate:   '',                        // Ej: '2025-08-31' o '' para sin fin
   // ─── ITEMS ACTIVOS EN ESTE EVENTO ───────────────────
-  // Pon los IDs de shopItems.event que quieres mostrar:
-  itemIds: ['street_dogg'],
+  // Para varios IDs: itemIds: ['street_dogg', 'max_d', 'laser_cup']
+  // USA [] o 'all' para mostrar TODOS los de shopItems.event automaticamente:
+  itemIds: ['street_dogg', 'max_d'],
   // ─── RECOMPENSAS EXCLUSIVAS DEL EVENTO ──────────────
   loginBonus: { type: 'eventTokens', amount: 10 }, // Bonus al entrar durante el evento
 };
@@ -3451,16 +3569,11 @@ function isEventActive() {
 
 function getActiveEventItems() {
   if (!isEventActive()) return [];
-  return shopItems.event.filter(i => {
-    // Si hay lista específica en CURRENT_EVENT, usarla
-    if (CURRENT_EVENT.itemIds && CURRENT_EVENT.itemIds.length) {
-      return CURRENT_EVENT.itemIds.includes(i.id);
-    }
-    // Fallback: usar el campo active del item
-    const stateOverride = state.eventItemsEnabled[i.id];
-    if (stateOverride !== undefined) return stateOverride;
-    return i.active !== false;
-  });
+  // Si itemIds es 'all' o está vacío/ausente → mostrar todos los items de shopItems.event
+  if (!CURRENT_EVENT.itemIds || !CURRENT_EVENT.itemIds.length || CURRENT_EVENT.itemIds === 'all') {
+    return shopItems.event || [];
+  }
+  return shopItems.event.filter(i => CURRENT_EVENT.itemIds.includes(i.id));
 }
 function updateBerryTree(){
   const lvl=getCurrentLevel(state.totalSips);
@@ -3781,7 +3894,7 @@ function getCharPower(id){
   if(!base)return 0.5;
   const level=state.upgrades[id]||1;
   let power=base.multi+(base.multi*0.5*(level-1));
-  if(state.charBoosts[id]>0)power*=5;
+  if(state.charBoosts[id]>0)power*=2; // Era x5
   if(state.spicyTimer>0)power*=2;
   return power;
 }
@@ -3847,8 +3960,8 @@ function sip(e){
   state.clickCounterBills+=power;
   if(state.clickCounterBills>=1500){state.bills+=1;state.clickCounterBills=0;createParticle(cx,cy,ICONS.bill);} // Era 500
   state.clickCounterSauce+=power;
-  if(state.clickCounterSauce>=3000){ // Era 1000
-    state.sauce+=1;state.clickCounterSauce=0;state.spicyTimer=30;
+  if(state.clickCounterSauce>=8000){ // Más difícil de obtener
+    state.sauce+=1;state.clickCounterSauce=0;
     document.getElementById('sauce-val').classList.add('spicy-active');
     try{const snd=document.getElementById('snd-spicy');snd.currentTime=0;snd.play().catch(()=>{});}catch(err){}
     createParticle(cx,cy,ICONS.sauce);
@@ -3861,7 +3974,7 @@ function sip(e){
   }
   if(!state.isFrenzy){
     const frenzyBoost=1+getSauceUpgEffect('su_frenzy_charge')*0.2;
-    state.frenzy+=1.5*frenzyBoost;
+    state.frenzy+=0.6*frenzyBoost; // Era 1.5
     if(state.frenzy>=100)startFrenzy();
   }
   updateClickStreak(gain);
@@ -4093,13 +4206,7 @@ function renderEventBanner(){
     banner.style.boxShadow=`0 0 30px ${color}33, inset 0 0 60px ${color}08`;
     banner.style.borderColor=color;
   }
-  // Side character image
-  const icon=document.getElementById('event-banner-icon');
-  if(icon&&ev.icon){
-    icon.src=ev.icon;
-    icon.style.filter=`drop-shadow(0 0 20px ${color})`;
-  }
-  // BG image (subtle)
+  // BG image (subtle overlay)
   const bgImg=document.getElementById('event-banner-bg-img');
   if(bgImg&&ev.icon){bgImg.src=ev.icon;}
   // Title
@@ -4181,7 +4288,7 @@ function renderEventStoreItems(){
           <span style="font-size:7px;background:${color}15;border:1px solid ${color}44;color:${color};border-radius:4px;padding:1px 5px;font-family:'Arial Black',sans-serif;">⭐ EVENTO</span>
           ${owned?`<span style="font-size:7px;background:rgba(46,204,113,0.15);border:1px solid #2ecc71;color:#2ecc71;border-radius:4px;padding:1px 5px;font-family:'Arial Black',sans-serif;">✓ ${t('OWNED')}</span>`:''}
         </div>
-        <div style="font-size:10px;color:#777;font-family:sans-serif;line-height:1.3;margin-bottom:5px;">${iDesc(i)}</div>
+        <div style="font-size:10px;color:#777;font-family:sans-serif;line-height:1.3;margin-bottom:5px;text-align:left;">${iDesc(i)}</div>
         <div style="display:flex;align-items:center;gap:5px;">
           <img src="${iconImg}" style="width:13px;height:13px;">
           <span style="font-size:12px;font-weight:bold;color:${owned?'#555':canAfford?'#fff':'#e74c3c'};font-family:'Arial Black',sans-serif;">${i.cost.toLocaleString()}</span>
@@ -4207,11 +4314,52 @@ function renderEventStoreItems(){
 }
 
 function openEvent(){
+  // Sin evento activo — mostrar solo mensaje limpio
+  if(!isEventActive()){
+    document.getElementById('event-banner-dynamic').style.display='none';
+    document.getElementById('event-tokens-bar').style.display='none';
+    document.getElementById('event-store-section').style.display='none';
+    document.getElementById('btn-leave-event').style.display='none';
+    document.getElementById('event-modal-content').style.border='1px solid #222';
+    document.getElementById('event-modal-content').style.borderRadius='16px';
+    document.getElementById('event-modal-content').style.maxWidth='360px';
+    document.getElementById('event-modal-content').style.margin='auto';
+    let noEvBox=document.getElementById('no-event-msg');
+    if(!noEvBox){
+      noEvBox=document.createElement('div');
+      noEvBox.id='no-event-msg';
+      document.getElementById('event-modal-content').appendChild(noEvBox);
+    }
+    noEvBox.style.display='flex';
+    noEvBox.innerHTML=`<div style="
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      min-height:260px;padding:40px 30px;gap:14px;text-align:center;
+    ">
+      <div style="font-size:48px;filter:grayscale(0.6);opacity:0.5;">🎪</div>
+      <h2 style="color:#666;margin:0;font-size:16px;font-family:'Arial Black',sans-serif;letter-spacing:1px;">${t('NO_EVENTS')}</h2>
+      <p style="color:#444;font-family:sans-serif;font-size:11px;margin:0;line-height:1.6;max-width:220px;">${t('NO_EVENTS_SUB')}</p>
+      <button class="s-btn" style="margin-top:6px;border-color:#333;color:#555;font-size:10px;padding:8px 24px;" onclick="closeModal('event-modal')">
+        ${lang==='es'?'CERRAR':'CLOSE'}
+      </button>
+    </div>`;
+    openModal('event-modal');
+    return;
+  }
+  // Evento activo — restaurar todo
+  document.getElementById('event-banner-dynamic').style.display='';
+  document.getElementById('event-tokens-bar').style.display='';
+  document.getElementById('event-store-section').style.display='';
+  document.getElementById('btn-leave-event').style.display='';
+  document.getElementById('event-modal-content').style.border='';
+  document.getElementById('event-modal-content').style.borderRadius='';
+  document.getElementById('event-modal-content').style.maxWidth='';
+  document.getElementById('event-modal-content').style.margin='';
+  const noEvBox=document.getElementById('no-event-msg');
+  if(noEvBox)noEvBox.style.display='none';
   updateEventTokensDisplay();
   renderEventBanner();
   renderEventStoreItems();
   openModal('event-modal');
-  // Actualizar cuenta regresiva cada minuto
   if(window._cdInterval)clearInterval(window._cdInterval);
   window._cdInterval=setInterval(updateEventCountdown,60000);
 }
@@ -4221,7 +4369,8 @@ function openEvent(){
 // ══════════════════════════════════════════════════════
 // ── Item Rarity System ─────────────────────────────────
 function getItemRarity(item){
-  if(item.rarity && item.rarity !== 'common') return item.rarity;
+  // Si el item tiene rareza definida en shopItems, se usa directamente
+  if(item.rarity) return item.rarity;
   const m = item.multi || 0;
   const cur = item.currency || 'wings';
   // Bills items: normalize by cost to rate efficiency
@@ -4315,7 +4464,7 @@ function switchShop(tab){
           ${owned?`<span style="font-size:7px;background:rgba(46,204,113,0.15);border:1px solid #2ecc71;color:#2ecc71;border-radius:4px;padding:1px 5px;font-family:'Arial Black',sans-serif;">✓ ${t('OWNED')}</span>`:''}
         </div>
         <!-- Description -->
-        <div style="font-size:10px;color:#777;font-family:sans-serif;line-height:1.3;margin-bottom:5px;">${iDesc(i)}</div>
+        <div style="font-size:10px;color:#777;font-family:sans-serif;line-height:1.3;margin-bottom:5px;text-align:left;">${iDesc(i)}</div>
         <!-- Price row -->
         <div style="display:flex;align-items:center;gap:5px;">
           <img src="${iconImg}" style="width:13px;height:13px;">
@@ -4499,32 +4648,35 @@ function switchInventory(tab){
     const rarity=getItemRarity(inv);
     const rarityColor=_RARITY_COLORS[rarity]||'#888';
     const rarityLabel=getRarityName(rarity);
+    const cardColor=isActive||isBgActive?'#2ecc71':rarityColor;
+    const bgImgSrc=inv.img||iIcon(inv)||'';
     c.innerHTML+=`
     <div style="
-      background:linear-gradient(135deg,${accentColor}06,rgba(10,10,10,0.95));
-      border:1px solid ${isActive||isBgActive?'#2ecc71':accentColor+'55'};
+      background:linear-gradient(135deg,${rarityColor}08,rgba(10,10,10,0.95));
+      border:1px solid ${cardColor}55;
       border-radius:14px;padding:0;margin:8px 0;display:flex;align-items:stretch;
       overflow:hidden;position:relative;
-      ${isActive||isBgActive?'box-shadow:0 0 10px rgba(46,204,113,0.15);':''}
+      ${isActive||isBgActive?'box-shadow:0 0 10px rgba(46,204,113,0.15);':`box-shadow:0 0 6px ${rarityColor}22;`}
     ">
-      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,${isActive||isBgActive?'#2ecc71':accentColor},transparent);pointer-events:none;"></div>
-      <div style="width:4px;background:linear-gradient(180deg,${isActive||isBgActive?'#2ecc71':accentColor},transparent);flex-shrink:0;"></div>
+      <!-- sin fondo difuminado -->
+      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,${cardColor},transparent);pointer-events:none;"></div>
+      <div style="width:4px;background:linear-gradient(180deg,${cardColor},transparent);flex-shrink:0;"></div>
       <div style="width:72px;min-height:72px;display:flex;align-items:center;justify-content:center;padding:10px;flex-shrink:0;">
-        <img src="${iIcon(inv)}" style="width:52px;height:52px;border-radius:10px;object-fit:contain;background:#111;border:1px solid ${accentColor}33;padding:4px;display:block;">
+        <img src="${iIcon(inv)}" style="width:52px;height:52px;border-radius:10px;object-fit:contain;background:#111;border:1px solid ${rarityColor}44;padding:4px;display:block;">
       </div>
-      <div style="flex:1;padding:10px 8px;min-width:0;">
+      <div style="flex:1;padding:10px 8px;min-width:0;position:relative;">
         <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-bottom:3px;">
-          <span style="font-size:13px;font-weight:bold;color:${accentColor};font-family:'Arial Black',sans-serif;">${iName(inv)}</span>
-          ${multiVal?`<span style="font-size:7px;background:${accentColor}22;border:1px solid ${accentColor}55;color:${accentColor};border-radius:4px;padding:1px 6px;font-family:'Arial Black',sans-serif;">+${multiVal}</span>`:''}
+          <span style="font-size:13px;font-weight:bold;color:${cardColor};font-family:'Arial Black',sans-serif;">${iName(inv)}</span>
+          ${multiVal?`<span style="font-size:7px;background:${rarityColor}22;border:1px solid ${rarityColor}55;color:${rarityColor};border-radius:4px;padding:1px 6px;font-family:'Arial Black',sans-serif;">+${multiVal}</span>`:''}
         </div>
         <div style="display:flex;gap:4px;margin-bottom:4px;flex-wrap:wrap;">
-          ${i.multi>0?`<span style="font-size:7px;background:${rarityColor}18;border:1px solid ${rarityColor}44;color:${rarityColor};border-radius:4px;padding:1px 5px;font-family:'Arial Black',sans-serif;">${rarityLabel}</span>`:''}
+          <span style="font-size:7px;background:${rarityColor}18;border:1px solid ${rarityColor}44;color:${rarityColor};border-radius:4px;padding:1px 5px;font-family:'Arial Black',sans-serif;">${rarityLabel}</span>
         </div>
-        ${invDesc?`<div style="font-size:10px;color:#666;font-family:sans-serif;line-height:1.3;margin-bottom:4px;">${invDesc}</div>`:''}
+        ${invDesc?`<div style="font-size:10px;color:#aaa;font-family:sans-serif;line-height:1.3;margin-bottom:4px;text-align:left;">${invDesc}</div>`:''}
         ${tab==='chars'||tab==='variants'?upgradeUI:''}
         ${tab!=='chars'&&tab!=='variants'?activeTag:''}
       </div>
-      <div style="display:flex;align-items:center;padding:10px 10px;flex-shrink:0;">${act}</div>
+      <div style="display:flex;align-items:center;padding:10px 10px;flex-shrink:0;position:relative;">${act}</div>
     </div>`;
   });
 }
@@ -4535,8 +4687,8 @@ function upgradeChar(id){
   else notify(t('NO_BERRIES'),t('CLOSET'),ICONS.error,true);
 }
 function spicyBoostChar(id){
-  if(state.sauce>=1){
-    state.sauce-=1;state.charBoosts[id]=30;
+  if(state.sauce>=3){
+    state.sauce-=3;state.charBoosts[id]=15; // Era 30s, cuesta 3 salsa
     try{const snd=document.getElementById('snd-spicy');snd.currentTime=0;snd.play().catch(()=>{});}catch(e){}
     notify(lang==='es'?'Personaje Potenciado!':'Character Boosted!',t('POTENCY'),ICONS.sauce);
     updateHUD();updateScene();saveGame();switchInventory(shopItems.chars.some(c=>c.id===id)?'chars':'variants');
@@ -5399,7 +5551,7 @@ async function refreshAllFriendsFromCloud(){
     const uid = (f.uid||f.code||'').replace(/-/g,'').toUpperCase();
     if(uid.length >= 8) await refreshFriendFromCloud(uid);
   }
-  renderFriendsList();
+  // Don't call renderFriendsList here to avoid infinite loop
 }
 
 // ── Social tabs ────────────────────────────────────────
@@ -5871,12 +6023,16 @@ document.addEventListener('DOMContentLoaded', function(){
   }
 });
 
-// Cloud photos are now handled directly in renderFriendsList (built-in)
-// This patch only triggers a re-render to pick up any newly loaded photos
-const _origRenderFriendsList = renderFriendsList;
-renderFriendsList = function(){
-  _origRenderFriendsList();
-};
+// _renderFriendsListInner: re-renders friends list after cloud photo refresh
+function _renderFriendsListInner(){
+  silentRefreshAllFriends();
+  const c=document.getElementById('friends-list-container');
+  if(!c) return;
+  // Trigger a minimal re-render by dispatching a custom event
+  renderFriendsList._inner=true;
+  renderFriendsList();
+  renderFriendsList._inner=false;
+}
 
 // Auto-upload profile when save syncs
 const _origSaveGame = saveGame;
