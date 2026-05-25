@@ -241,14 +241,12 @@ body.mobile-mode #daily-badge img,body.mobile-mode #missions-badge img{width:14p
 
 /* MODALS */
 
-/* ── Hide game when modal is open ─────────────────── */
-body.modal-open > *:not(.modal):not(#confirm-modal):not(script):not(style):not(audio) {
-  filter: blur(4px) brightness(0.3);
+/* ── Blur settings modal when reset-options is open ── */
+body.reset-modal-open #settings-modal .modal-content {
+  filter: blur(3px) brightness(0.5);
   pointer-events: none;
-  user-select: none;
-  transition: filter 0.2s, opacity 0.2s;
+  transition: filter 0.2s;
 }
-body.modal-open .modal { filter: none; pointer-events: all; }
 .modal{display:none;position:fixed;inset:0;z-index:2000;justify-content:center;align-items:flex-start;overflow-y:auto;padding:20px 0;padding-top:calc(20px + env(safe-area-inset-top));padding-bottom:calc(20px + env(safe-area-inset-bottom));-webkit-overflow-scrolling:touch;}
 /* ── Per-modal backdrops ─────────────────────────────────────────────
    Para cambiar un fondo: reemplaza la URL entre url("...") de cada modal
@@ -4779,19 +4777,13 @@ function notify(name,title,icon=ICONS.trophy,isError=false,noSound=false){
 // ══════════════════════════════════════════════════════
 function openModal(id){
   document.getElementById(id).style.display='flex';
-  document.body.classList.add('modal-open');
   if(id==='prestige-modal')openPrestigeModal();
   if(id==='settings-modal')updateSettingsPanel();
   if(id==='friends-modal')setTimeout(()=>socialTab('friends'),50);
   if(id==='missions-modal')renderMissions();
   if(id==='daily-modal')renderDailyGrid();
 }
-function closeModal(id){
-  document.getElementById(id).style.display='none';
-  // Only remove class if no other modal is open
-  const anyOpen = document.querySelectorAll('.modal[style*="flex"]').length > 0;
-  if(!anyOpen) document.body.classList.remove('modal-open');
-}
+function closeModal(id){document.getElementById(id).style.display='none';}
 document.querySelectorAll('.modal').forEach(m=>{m.addEventListener('click',e=>{if(e.target===m)m.style.display='none';});});
 
 // ══════════════════════════════════════════════════════
@@ -4843,12 +4835,12 @@ function showResetOptions(){
         </button>
       </div>
 
-      <button onclick="document.getElementById('reset-options-modal').remove();const _a=document.querySelectorAll('.modal[style*=flex]').length>0;if(!_a)document.body.classList.remove('modal-open')" style="width:100%;padding:10px;background:transparent;border:1px solid #333;border-radius:8px;color:#666;font-family:'Arial Black',sans-serif;font-size:10px;cursor:pointer;">
+      <button onclick="document.getElementById('reset-options-modal').remove();document.body.classList.remove('reset-modal-open')" style="width:100%;padding:10px;background:transparent;border:1px solid #333;border-radius:8px;color:#666;font-family:'Arial Black',sans-serif;font-size:10px;cursor:pointer;">
         ${lang==='es'?'CANCELAR':'CANCEL'}
       </button>
     </div>`;
   document.body.appendChild(m);
-  document.body.classList.add('modal-open');
+  document.body.classList.add('reset-modal-open');
 }
 
 function resetProgressOnly(){
@@ -4866,7 +4858,7 @@ function resetProgressOnly(){
       localStorage.setItem(SAVE_KEY, s);
       try{localStorage.setItem(ACCOUNT_CODE_KEY, code);}catch(e){}
       document.getElementById('reset-options-modal')?.remove();
-      document.body.classList.remove('modal-open');
+      document.body.classList.remove('reset-modal-open');
       setTimeout(()=>location.reload(), 200);
     }
   );
@@ -4882,7 +4874,7 @@ function resetKeepCode(){
       localStorage.clear();
       try{localStorage.setItem(ACCOUNT_CODE_KEY, code);}catch(e){}
       document.getElementById('reset-options-modal')?.remove();
-      document.body.classList.remove('modal-open');
+      document.body.classList.remove('reset-modal-open');
       setTimeout(()=>location.reload(), 200);
     }
   );
