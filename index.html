@@ -4736,8 +4736,8 @@ function claimCode(){
     'DIARIO':()=>{state.lastDailyDate='';checkDailyBonus();notify(lang==='es'?'Bonus diario reiniciado':'Daily reset',t('ACTIVATED'),ICONS.calendar);},
     'MISIONES':()=>{state.completedMissions=[];state.missionsCompleted=0;notify(lang==='es'?'Misiones reiniciadas':'Missions reset',t('ACTIVATED'),ICONS.task);},
     'COMBO10':()=>{state.comboCount=10;state.maxCombo=Math.max(state.maxCombo||0,10);updateComboDisplay();notify('COMBO x10!',t('ACTIVATED'),ICONS.lightning);},
-    'BORRARTODO':()=>{showConfirm(lang==='es'?'¿Borrar TODO el progreso?':'Delete ALL progress?',lang==='es'?'Esta acción es irreversible.':'This action is irreversible.',()=>{localStorage.clear();location.reload();});},
-    'RESETALL':()=>{showConfirm(lang==='es'?'¿Borrar TODO el progreso?':'Delete ALL progress?',lang==='es'?'Esta acción es irreversible.':'This action is irreversible.',()=>{localStorage.clear();location.reload();});},
+    'BORRARTODO':()=>showResetOptions(),
+    'RESETALL':()=>showResetOptions(),
     'EVENTO':()=>{state.eventTokens=(state.eventTokens||0)+50;notify('+50 EVENT TOKENS',t('ACTIVATED'),ICONS.confetti);},
     'MULTIMEDIAMODE':()=>{state.unlockedMusicUpload=true;state.unlockedBgUpload=true;state.unlockedPhotoUpload=true;applyUnlockState();notify(lang==='es'?'Todo multimedia desbloqueado!':'All media unlocked!',t('ACTIVATED'),ICONS.star);},
     'SNAKEMASTER':()=>{state.wings+=50000;state.snakeBestScore=Math.max(state.snakeBestScore||0,10);notify(lang==='es'?'+50,000 Alitas + Bonus Snake!':'+50,000 Wings + Snake Bonus!',t('ACTIVATED'),ICONS.snake);},
@@ -4783,6 +4783,125 @@ document.querySelectorAll('.modal').forEach(m=>{m.addEventListener('click',e=>{i
 //  CUSTOM CONFIRM DIALOG
 // ══════════════════════════════════════════════════════
 let _confirmCallback=null;
+// ── Reset / Delete Account System ─────────────────────
+function showResetOptions(){
+  // Build modal content
+  const existing = document.getElementById('reset-options-modal');
+  if(existing) existing.remove();
+
+  const code = state.accountVaultCode || '???';
+  const m = document.createElement('div');
+  m.id = 'reset-options-modal';
+  m.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:9999;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(10px);';
+  m.innerHTML = `
+    <div style="background:#0a0a0a;border:2px solid #c0392b;border-radius:16px;padding:24px;max-width:420px;width:90%;font-family:'Arial Black',sans-serif;">
+      <h2 style="color:#c0392b;text-align:center;margin:0 0 6px;">⚠️ ${lang==='es'?'GESTIONAR CUENTA':'ACCOUNT MANAGEMENT'}</h2>
+      <p style="color:#666;font-size:9px;text-align:center;font-family:sans-serif;margin:0 0 18px;">${lang==='es'?'Tu código actual:':'Your current code:'} <span style="color:#ffd700;letter-spacing:2px;">${code}</span></p>
+
+      <!-- Opción 1: Solo borrar progreso -->
+      <div style="background:#0d0d0d;border:1px solid #333;border-radius:10px;padding:14px;margin-bottom:10px;">
+        <div style="font-size:11px;color:#f39c12;margin-bottom:4px;">🔄 ${lang==='es'?'REINICIAR PROGRESO':'RESET PROGRESS'}</div>
+        <div style="font-size:9px;color:#666;font-family:sans-serif;margin-bottom:10px;">${lang==='es'?'Borra wings, items y recursos. Conserva tu código de cuenta y datos en Firebase.':'Clears wings, items and resources. Keeps your account code and Firebase data.'}</div>
+        <button onclick="resetProgressOnly()" style="width:100%;padding:9px;background:transparent;border:1px solid #f39c12;border-radius:8px;color:#f39c12;font-family:'Arial Black',sans-serif;font-size:10px;cursor:pointer;">
+          ${lang==='es'?'REINICIAR PROGRESO':'RESET PROGRESS'}
+        </button>
+      </div>
+
+      <!-- Opción 2: Borrar todo + mantener código -->
+      <div style="background:#0d0d0d;border:1px solid #555;border-radius:10px;padding:14px;margin-bottom:10px;">
+        <div style="font-size:11px;color:#e74c3c;margin-bottom:4px;">🗑️ ${lang==='es'?'BORRAR TODO (mantener código)':'DELETE ALL (keep code)'}</div>
+        <div style="font-size:9px;color:#666;font-family:sans-serif;margin-bottom:10px;">${lang==='es'?'Borra todo el progreso local. Conserva tu código para recuperar desde Firebase.':'Deletes all local progress. Keeps your code to recover from Firebase.'}</div>
+        <button onclick="resetKeepCode()" style="width:100%;padding:9px;background:transparent;border:1px solid #e74c3c;border-radius:8px;color:#e74c3c;font-family:'Arial Black',sans-serif;font-size:10px;cursor:pointer;">
+          ${lang==='es'?'BORRAR TODO':'DELETE ALL'}
+        </button>
+      </div>
+
+      <!-- Opción 3: Eliminar cuenta completa -->
+      <div style="background:#0d0d0d;border:1px solid #c0392b;border-radius:10px;padding:14px;margin-bottom:16px;">
+        <div style="font-size:11px;color:#c0392b;margin-bottom:4px;">💀 ${lang==='es'?'ELIMINAR CUENTA COMPLETA':'DELETE FULL ACCOUNT'}</div>
+        <div style="font-size:9px;color:#666;font-family:sans-serif;margin-bottom:6px;">${lang==='es'?'Borra TODO: progreso local, código de cuenta y datos en Firebase. Obtendrás un código nuevo. IRREVERSIBLE.':'Deletes EVERYTHING: local progress, account code and Firebase data. You will get a new code. IRREVERSIBLE.'}</div>
+        <div style="margin-bottom:8px;">
+          <input id="delete-confirm-input" type="text" placeholder="${lang==='es'?'Escribe ELIMINAR para confirmar':'Type DELETE to confirm'}" style="width:100%;background:#111;border:1px solid #c0392b;border-radius:6px;color:#fff;padding:8px;font-family:sans-serif;font-size:11px;box-sizing:border-box;">
+        </div>
+        <button onclick="deleteFullAccount()" style="width:100%;padding:9px;background:rgba(192,57,43,0.15);border:2px solid #c0392b;border-radius:8px;color:#c0392b;font-family:'Arial Black',sans-serif;font-size:10px;cursor:pointer;">
+          💀 ${lang==='es'?'ELIMINAR CUENTA':'DELETE ACCOUNT'}
+        </button>
+      </div>
+
+      <button onclick="document.getElementById('reset-options-modal').remove()" style="width:100%;padding:10px;background:transparent;border:1px solid #333;border-radius:8px;color:#666;font-family:'Arial Black',sans-serif;font-size:10px;cursor:pointer;">
+        ${lang==='es'?'CANCELAR':'CANCEL'}
+      </button>
+    </div>`;
+  document.body.appendChild(m);
+}
+
+function resetProgressOnly(){
+  showConfirm(
+    lang==='es'?'¿Reiniciar progreso?':'Reset progress?',
+    lang==='es'?'Se borrará wings, items y recursos. Tu código se conserva.':'Wings, items and resources will be cleared. Your code is kept.',
+    ()=>{
+      const code = state.accountVaultCode;
+      const playerCode = state.playerCode;
+      window._saveDisabled = true;
+      Object.assign(state, defaultState);
+      state.accountVaultCode = code;
+      state.playerCode = playerCode;
+      const s = JSON.stringify(state);
+      localStorage.setItem(SAVE_KEY, s);
+      try{localStorage.setItem(ACCOUNT_CODE_KEY, code);}catch(e){}
+      document.getElementById('reset-options-modal')?.remove();
+      location.reload();
+    }
+  );
+}
+
+function resetKeepCode(){
+  showConfirm(
+    lang==='es'?'¿Borrar todo el progreso?':'Delete all progress?',
+    lang==='es'?'Se borrará todo localmente. Podrás recuperar desde Firebase con tu código.':'Everything will be deleted locally. You can recover from Firebase with your code.',
+    ()=>{
+      const code = state.accountVaultCode;
+      window._saveDisabled = true;
+      localStorage.clear();
+      try{localStorage.setItem(ACCOUNT_CODE_KEY, code);}catch(e){}
+      document.getElementById('reset-options-modal')?.remove();
+      location.reload();
+    }
+  );
+}
+
+async function deleteFullAccount(){
+  const input = document.getElementById('delete-confirm-input')?.value?.trim().toUpperCase();
+  const confirmWord = lang==='es' ? 'ELIMINAR' : 'DELETE';
+  if(input !== confirmWord){
+    notify(lang==='es'?`Escribe "${confirmWord}" para confirmar`:`Type "${confirmWord}" to confirm`,'RESET',ICONS.error,true);
+    return;
+  }
+  showConfirm(
+    lang==='es'?'⚠️ ÚLTIMA CONFIRMACIÓN':'⚠️ FINAL CONFIRMATION',
+    lang==='es'?'Esto borrará tu cuenta de Firebase. No hay vuelta atrás.':'This will delete your Firebase account. There is no going back.',
+    async()=>{
+      // Delete from Firebase
+      const code = (state.accountVaultCode||'').replace(/-/g,'').toUpperCase();
+      if(code){
+        try{
+          await fetch(`${_FB_BASE}/${code}?key=${_FB_CONFIG.apiKey}`,{method:'DELETE'});
+          await fetch(`${_FB_PROFILES}/${code}?key=${_FB_CONFIG.apiKey}`,{method:'DELETE'});
+        }catch(e){}
+      }
+      window._saveDisabled = true;
+      localStorage.clear();
+      sessionStorage.clear();
+      // Clear IndexedDB
+      try{
+        const req = indexedDB.deleteDatabase('CupOClicker');
+        req.onsuccess = ()=>location.reload();
+        req.onerror = ()=>location.reload();
+      }catch(e){location.reload();}
+    }
+  );
+}
+
 function showConfirm(title,body,onConfirm){
   document.getElementById('confirm-modal-title').textContent=title||'Are you sure?';
   document.getElementById('confirm-modal-body').textContent=body||'';
@@ -4935,37 +5054,49 @@ async function vaultRestoreFromCloud(rawCode){
     showConfirm(
       lang==='es'?'Restaurar desde la nube?':'Restore from cloud?',
       lang==='es'?'Esto reemplazara tu progreso actual.':'This will overwrite your current progress.',
-      ()=>{
+      async()=>{
         try{
-          // Deshabilitar TODOS los saves inmediatamente
           window._saveDisabled=true;
-          // Cancelar cualquier save timer pendiente
           if(window._saveTimer){clearTimeout(window._saveTimer);window._saveTimer=null;}
           if(window._fbSyncTimer){clearTimeout(window._fbSyncTimer);window._fbSyncTimer=null;}
           if(window._profileSyncTimer){clearTimeout(window._profileSyncTimer);window._profileSyncTimer=null;}
-          // Conservar el código de cuenta del dispositivo destino
-          const _myCode=state.accountVaultCode||'';
-          // Parsear el save restaurado y reemplazar su código con el nuestro
+
+          // Código del save origen (el que pedimos restaurar)
+          const sourceCode = code; // ya limpio, sin guiones
+          // Código actual del dispositivo destino
+          const destCode = (state.accountVaultCode||'').replace(/-/g,'').toUpperCase();
+
+          // Si el destino tiene un código DIFERENTE al origen, borrar el doc de Firebase del destino
+          // para evitar que queden dos documentos apuntando al mismo jugador
+          if(destCode && destCode !== sourceCode){
+            try{
+              await fetch(`${_FB_BASE}/${destCode}?key=${_FB_CONFIG.apiKey}`,{method:'DELETE'});
+              await fetch(`${_FB_PROFILES}/${destCode}?key=${_FB_CONFIG.apiKey}`,{method:'DELETE'});
+            }catch(e){}
+          }
+
+          // Restaurar el save con el código ORIGINAL del origen (no reemplazar)
           let restoreData=JSON.parse(saveStr);
-          if(_myCode)restoreData.accountVaultCode=_myCode;
+          // Asegurarse de que el código en el save sea el del origen
+          restoreData.accountVaultCode = sourceCode;
+          // Guardar también en ACCOUNT_CODE_KEY para que loadGame lo lea bien
           const finalStr=JSON.stringify(restoreData);
-          // Borrar save actual y escribir el restaurado
           localStorage.removeItem(SAVE_KEY);
           localStorage.setItem(SAVE_KEY,finalStr);
+          localStorage.setItem(ACCOUNT_CODE_KEY,sourceCode);
           sessionStorage.setItem(SAVE_KEY,finalStr);
           _idbSave(finalStr);
-          // Verificar que se escribió bien antes de recargar
+
           const check=localStorage.getItem(SAVE_KEY);
           if(!check||check.length<10){
             notify(lang==='es'?'Error al escribir save':'Failed to write save','CLOUD',ICONS.error,true);
             window._saveDisabled=false;
             return;
           }
-          // Recargar con delay suficiente para que IDB termine
           setTimeout(()=>location.reload(), 300);
         }catch(e){
-            notify(lang==='es'?'Error al restaurar':'Restore failed','CLOUD',ICONS.error,true);
-            window._saveDisabled=false;
+          notify(lang==='es'?'Error al restaurar':'Restore failed','CLOUD',ICONS.error,true);
+          window._saveDisabled=false;
         }
       }
     );
@@ -5035,11 +5166,32 @@ function _generateVaultCode(){
   if(!state.accountVaultCode||!RE12.test(state.accountVaultCode)){
     let c='';for(let i=0;i<12;i++)c+=CHARS[Math.floor(Math.random()*CHARS.length)];
     state.accountVaultCode=c;
+    // Verify uniqueness in Firebase asynchronously (non-blocking)
+    _verifyCodeUniqueness(c);
   }
-  // Always persist to dedicated key and save
+  // Always persist to dedicated key
   try{localStorage.setItem(ACCOUNT_CODE_KEY,state.accountVaultCode);}catch(e){}
   saveGame();
   return state.accountVaultCode;
+}
+
+// Verifica que el código generado no exista ya en Firebase
+// Si existe, regenera uno nuevo
+async function _verifyCodeUniqueness(code){
+  try{
+    const existing = await _fbDownload(code);
+    if(existing){
+      // Código ya existe — generar uno nuevo
+      const CHARS='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+      let newCode='';
+      for(let i=0;i<12;i++)newCode+=CHARS[Math.floor(Math.random()*CHARS.length)];
+      state.accountVaultCode=newCode;
+      try{localStorage.setItem(ACCOUNT_CODE_KEY,newCode);}catch(e){}
+      saveGame();
+      // Reintentar verificación
+      _verifyCodeUniqueness(newCode);
+    }
+  }catch(e){}
 }
 
 function _formatVaultCode(raw){
