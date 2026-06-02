@@ -5696,23 +5696,42 @@ async function _resizePhoto(dataUrl, size){
 
 async function fbGetProfile(code){
   const key = code.replace(/-/g,'').toUpperCase();
-  const url = `${_FB_PROFILES}/${key}?key=${_FB_CONFIG.apiKey}`;
+  // 1) Try profiles collection first
   try{
-    const r = await fetch(url);
-    if(!r.ok) return null;
-    const obj = await r.json();
-    if(!obj.fields) return null;
-    const f = obj.fields;
-    return {
-      name:    f.name?.stringValue || 'Player',
-      level:   parseInt(f.level?.integerValue||1),
-      wings:   parseInt(f.wings?.integerValue||0),
-      sips:    parseInt(f.sips?.integerValue||0),
-      prestige:parseInt(f.prestige?.integerValue||0),
-      photo:   f.photo?.stringValue || '',
-      code:    key
-    };
-  }catch(e){ return null; }
+    const r = await fetch(`${_FB_PROFILES}/${key}?key=${_FB_CONFIG.apiKey}`);
+    if(r.ok){
+      const obj = await r.json();
+      if(obj.fields){
+        const f = obj.fields;
+        return {
+          name:    f.name?.stringValue || 'Player',
+          level:   parseInt(f.level?.integerValue||1),
+          wings:   parseInt(f.wings?.integerValue||0),
+          sips:    parseInt(f.sips?.integerValue||0),
+          prestige:parseInt(f.prestige?.integerValue||0),
+          photo:   f.photo?.stringValue || '',
+          code:    key
+        };
+      }
+    }
+  }catch(e){}
+  // 2) Fallback: try saves collection and parse state
+  try{
+    const saveStr = await _fbDownload(key);
+    if(saveStr){
+      const s = JSON.parse(saveStr);
+      return {
+        name:    s.userName || 'Player',
+        level:   typeof getCurrentLevel==='function' ? getCurrentLevel(s.totalSips||0) : 1,
+        wings:   Math.floor(s.wings||0),
+        sips:    Math.floor(s.totalSips||0),
+        prestige:s.prestigeLevel||0,
+        photo:   s.customPhoto&&s.customPhoto.startsWith('data:') ? s.customPhoto : (s.cloudPhoto||''),
+        code:    key
+      };
+    }
+  }catch(e){}
+  return null;
 }
 
 // Auto-upload profile on save
