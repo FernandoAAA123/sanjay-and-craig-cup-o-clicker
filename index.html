@@ -2440,8 +2440,8 @@ async function addFriendByCode(){
   const raw=(document.getElementById('friend-code-input').value||'').trim().toUpperCase().replace(/[\s\-]/g,'');
   if(!raw||raw.length<4){notify(t('INVALID_FRIEND_CODE'),t('FRIENDS'),ICONS.error,true);return;}
 
-  // Check if it's a vault/account code (12 chars) → look up in Firebase
-  const isVaultCode=/^[A-Z2-9]{12}$/.test(raw);
+  // Check if it's a vault/account code (8 or 12 chars) → look up in Firebase
+  const isVaultCode=/^[A-Z2-9]{8,12}$/.test(raw);
   if(isVaultCode){
     // Verify code exists in Firebase profiles
     const btn=document.getElementById('add-friend-btn');
@@ -2585,8 +2585,12 @@ function renderFriendsList(_skipCloudRefresh){
     const cmpTag=ahead
       ?`<span style="background:rgba(46,204,113,0.15);border:1px solid var(--neon-green);color:var(--neon-green);font-size:7px;font-weight:bold;border-radius:10px;padding:2px 6px;display:inline-flex;align-items:center;gap:2px;"><img src="https://img.icons8.com/fluency/48/up-arrow.png" style="width:8px;height:8px;"> AHEAD</span>`
       :`<span style="background:rgba(192,57,43,0.15);border:1px solid #c0392b;color:#e74c3c;font-size:7px;font-weight:bold;border-radius:10px;padding:2px 6px;display:inline-flex;align-items:center;gap:2px;"><img src="https://img.icons8.com/fluency/48/down-arrow.png" style="width:8px;height:8px;"> BEHIND</span>`;
-    // Use cloudPhoto if available, otherwise fallback
-    const avatarUrl=(f.cloudPhoto&&f.cloudPhoto.length>10)?f.cloudPhoto:(f.avatar&&f.avatar!==ICONS.friends?f.avatar:ICONS.friends);
+    // Avatar — photo or initials
+    const avatarUrl=(f.cloudPhoto&&f.cloudPhoto.length>10)?f.cloudPhoto:(f.avatar&&f.avatar!==ICONS.friends?f.avatar:'');
+    const initials=(f.name||'?').slice(0,2).toUpperCase();
+    const avatarHtml=avatarUrl
+      ?`<img src="${avatarUrl}" class="friend-avatar" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" style="width:68px;height:68px;border-radius:12px;object-fit:cover;border:2.5px solid var(--friend-color);box-shadow:0 0 14px rgba(46,204,113,0.35);display:block;"><div style="display:none;width:68px;height:68px;border-radius:12px;background:#0d1a0d;border:2.5px solid var(--friend-color);align-items:center;justify-content:center;font-size:22px;font-family:'Arial Black',sans-serif;color:var(--friend-color);flex-shrink:0;">${initials}</div>`
+      :`<div style="width:68px;height:68px;border-radius:12px;background:#0d1a0d;border:2.5px solid var(--friend-color);box-shadow:0 0 14px rgba(46,204,113,0.35);display:flex;align-items:center;justify-content:center;font-size:22px;font-family:'Arial Black',sans-serif;color:var(--friend-color);flex-shrink:0;">${initials}</div>`;
     const levelIcon=getLevelIconUrl(lvlNum);
     const lvlPct=100; // show level visually
     const wingsFormatted=formatNum(f.wings||0);
@@ -2596,8 +2600,7 @@ function renderFriendsList(_skipCloudRefresh){
       <div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--neon-green),transparent);border-radius:3px 0 0 3px;"></div>
       <!-- Avatar with online ring -->
       <div style="position:relative;flex-shrink:0;">
-        <img src="${avatarUrl}" class="friend-avatar" onerror="this.src='${ICONS.friends}'"
-          style="width:68px;height:68px;border-radius:12px;object-fit:cover;border:2.5px solid var(--friend-color);box-shadow:0 0 14px rgba(46,204,113,0.35);display:block;">
+        ${avatarHtml}
         <div style="position:absolute;bottom:3px;right:3px;width:11px;height:11px;background:var(--neon-green);border-radius:3px;border:2px solid #0d1a0d;box-shadow:0 0 5px var(--neon-green);"></div>
       </div>
       <!-- Info -->
