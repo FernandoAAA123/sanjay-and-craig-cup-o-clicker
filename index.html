@@ -2459,7 +2459,8 @@ async function addFriendByCode(){
       }
       // Check not yourself
       const myCode=(state.accountVaultCode||'').replace(/[\s\-]/g,'').toUpperCase();
-      if(raw===myCode){notify(lang==='es'?'¡Ese eres tú!':'That\'s you!',t('FRIENDS'),ICONS.error,true);return;}
+      const myPCode=(state.playerCode||'').toUpperCase();
+      if(raw===myCode||raw===myPCode){notify(lang==='es'?'¡Ese eres tú!':'That\'s you!',t('FRIENDS'),ICONS.error,true);return;}
       // Add friend from Firebase profile
       state.friends.push({
         name:profile.name||'Player',
@@ -2484,7 +2485,7 @@ async function addFriendByCode(){
   // Fallback: legacy encoded player code
   const data=decodePlayerCode(raw);
   if(!data||!data.id){notify(t('INVALID_FRIEND_CODE'),t('FRIENDS'),ICONS.error,true);return;}
-  if(data.id===state.playerCode){notify(lang==='es'?'¡Ese eres tú!':'That\'s you!',t('FRIENDS'),ICONS.error,true);return;}
+  if(state.playerCode && data.id===state.playerCode){notify(lang==='es'?'¡Ese eres tú!':'That\'s you!',t('FRIENDS'),ICONS.error,true);return;}
   if(state.friends.some(f=>f.uid===data.id)){notify(t('FRIEND_EXISTS'),data.n||'?',ICONS.friends,false);return;}
   const friendAvatar=data.av||ICONS.friends;
   state.friends.push({
@@ -4924,13 +4925,13 @@ async function deleteFullAccount(){
     lang==='es'?'⚠️ ÚLTIMA CONFIRMACIÓN':'⚠️ FINAL CONFIRMATION',
     lang==='es'?'Esto borrará tu cuenta de Firebase. No hay vuelta atrás.':'This will delete your Firebase account. There is no going back.',
     async()=>{
-      // Delete from Firebase
+      // Delete from Firebase — both accountVaultCode and playerCode
       const code = (state.accountVaultCode||'').replace(/-/g,'').toUpperCase();
-      if(code){
-        try{
-          await fetch(`${_FB_BASE}/${code}?key=${_FB_CONFIG.apiKey}`,{method:'DELETE'});
-          await fetch(`${_FB_PROFILES}/${code}?key=${_FB_CONFIG.apiKey}`,{method:'DELETE'});
-        }catch(e){}
+      const pcode = (state.playerCode||'').toUpperCase();
+      const delKeys = [...new Set([code, pcode].filter(k=>k.length>=4))];
+      for(const k of delKeys){
+        try{await fetch(`${_FB_BASE}/${k}?key=${_FB_CONFIG.apiKey}`,{method:'DELETE'});}catch(e){}
+        try{await fetch(`${_FB_PROFILES}/${k}?key=${_FB_CONFIG.apiKey}`,{method:'DELETE'});}catch(e){}
       }
       window._saveDisabled = true;
       localStorage.clear();
