@@ -977,14 +977,116 @@ input,select,textarea{
         </div>
       </div>
     </div>
+    <!-- ═══════════════════════════════════════════════ -->
+    <!-- BAP ID + ACCOUNT RECOVERY — sección unificada  -->
+    <!-- ═══════════════════════════════════════════════ -->
+    <div class="media-section" id="bap-id-settings-section" style="margin-top:12px;margin-bottom:12px;">
+      <div class="media-section-title" style="display:flex;align-items:center;gap:8px;">
+        <img src="https://chibi.iitranq.co.uk/BmBfGROSXFdY.jpg"
+             style="width:16px;height:16px;border-radius:4px;object-fit:contain;background:#000;border:1px solid #333;">
+        <span>BAP ID</span>
+      </div>
+
+      <!-- ── DESCONECTADO ── -->
+      <div id="bap-id-s-disconnected">
+        <p style="font-size:9px;color:#666;font-family:sans-serif;margin:0 0 10px;line-height:1.5;">
+          Conecta tu BAP ID para sincronizar tu progreso entre dispositivos y todos los juegos de BAP Studios.
+        </p>
+        <button class="s-btn" style="width:100%;border-color:#fff;color:#fff;font-size:10px;padding:11px;margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:8px;"
+          onclick="window.BapID && window.BapID.open()">
+          <img src="https://chibi.iitranq.co.uk/BmBfGROSXFdY.jpg"
+               style="width:14px;height:14px;border-radius:3px;object-fit:contain;background:#000;">
+          CONECTAR BAP ID
+        </button>
+
+        <!-- Recuperar cuenta por código (sin BAP ID) -->
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+          <div style="flex:1;height:1px;background:#222;"></div>
+          <span style="font-size:8px;color:#444;font-family:sans-serif;white-space:nowrap;">O RECUPERA CON CÓDIGO</span>
+          <div style="flex:1;height:1px;background:#222;"></div>
+        </div>
+        <input id="bap-id-recovery-input" type="text"
+          style="width:100%;background:#111;border:1px solid #333;border-radius:8px;color:var(--neon-green);
+                 font-family:'Arial Black',sans-serif;font-size:13px;letter-spacing:3px;text-align:center;
+                 padding:9px;box-sizing:border-box;outline:none;text-transform:uppercase;margin-bottom:8px;"
+          placeholder="XXXX-XX-XXXX"
+          oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9-]/g,'')">
+        <button class="s-btn"
+          style="width:100%;border-color:var(--neon-green);color:var(--neon-green);font-size:10px;padding:10px;"
+          onclick="vaultRestoreFromCloud(document.getElementById('bap-id-recovery-input').value)">
+          <img src="https://img.icons8.com/fluency/48/cloud-sync.png" class="icon-btn">RESTAURAR DESDE LA NUBE
+        </button>
+      </div>
+
+      <!-- ── CONECTADO ── -->
+      <div id="bap-id-s-connected" style="display:none;">
+
+        <!-- Tarjeta de perfil -->
+        <div style="background:#0a0a0a;border:1px solid #2a2a2a;border-radius:12px;padding:13px 14px;margin-bottom:10px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+            <img src="https://chibi.iitranq.co.uk/BmBfGROSXFdY.jpg"
+                 style="width:36px;height:36px;border-radius:9px;object-fit:contain;background:#000;border:1px solid #333;flex-shrink:0;">
+            <div style="flex:1;min-width:0;">
+              <div id="bap-id-s-name"
+                   style="font-size:12px;font-weight:bold;color:#fff;font-family:'Arial Black',sans-serif;
+                          white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">—</div>
+              <div id="bap-id-s-email"
+                   style="font-size:9px;color:#555;font-family:sans-serif;margin-top:2px;
+                          white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">—</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:4px;flex-shrink:0;">
+              <div style="width:6px;height:6px;border-radius:50%;background:#4caf50;"></div>
+              <span style="font-size:8px;color:#4caf50;font-family:sans-serif;">Activo</span>
+            </div>
+          </div>
+          <!-- Código vinculado -->
+          <div style="border-top:1px solid #1a1a1a;padding-top:9px;display:flex;align-items:center;justify-content:space-between;gap:8px;">
+            <span style="font-size:8px;color:#444;font-family:sans-serif;text-transform:uppercase;letter-spacing:1px;">Código vinculado</span>
+            <span id="bap-id-s-code"
+                  style="font-family:'Arial Black',monospace;font-size:11px;color:#777;letter-spacing:2px;">—</span>
+          </div>
+        </div>
+
+        <!-- Vincular código si aún no hay uno -->
+        <div id="bap-id-s-link-row" style="display:none;margin-bottom:8px;">
+          <button class="s-btn"
+            style="width:100%;border-color:#f9ca24;color:#f9ca24;font-size:9px;padding:9px;"
+            onclick="window._bapLinkCurrentCode && window._bapLinkCurrentCode()">
+            🔗 VINCULAR CÓDIGO ACTUAL A BAP ID
+          </button>
+        </div>
+
+        <!-- Restaurar desde BAP ID (ya tiene el código, un clic) -->
+        <button class="s-btn"
+          style="width:100%;border-color:var(--neon-green);color:var(--neon-green);font-size:9px;padding:10px;margin-bottom:8px;"
+          onclick="window._bapRestoreFromAccount && window._bapRestoreFromAccount()">
+          <img src="https://img.icons8.com/fluency/48/cloud-sync.png" class="icon-btn">RESTAURAR MI PROGRESO
+        </button>
+
+        <!-- Acciones de cuenta -->
+        <div style="display:flex;gap:8px;">
+          <button class="s-btn"
+            style="flex:1;border-color:#333;color:#555;font-size:9px;padding:9px;"
+            onclick="window.BapID && window.BapID.logout()">
+            DESCONECTAR
+          </button>
+          <button class="s-btn"
+            style="flex:1;border-color:#555;color:#aaa;font-size:9px;padding:9px;"
+            onclick="window.BapID && window.BapID.open()">
+            GESTIONAR ↗
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- ═══════════════════════════════════════════════ -->
+
     <div class="media-section" style="margin-top:15px;">
       <div class="media-section-title">
         <img src="https://img.icons8.com/fluency/48/safe.png"><span id="lbl-account-section">DATA VAULT</span>
       </div>
-      <!-- VAULT UI: two tabs: BACKUP / RESTORE -->
+      <!-- VAULT UI: solo BACKUP (RESTORE unificado en sección BAP ID) -->
       <div style="display:flex;gap:6px;margin-bottom:12px;">
-        <button id="vault-tab-backup" onclick="vaultTab('backup')" style="flex:1;padding:8px;background:var(--neon-green);border:none;border-radius:8px;color:#000;font-size:9px;font-family:'Arial Black',sans-serif;cursor:pointer;">💾 BACKUP</button>
-        <button id="vault-tab-restore" onclick="vaultTab('restore')" style="flex:1;padding:8px;background:#111;border:1px solid #444;border-radius:8px;color:#888;font-size:9px;font-family:'Arial Black',sans-serif;cursor:pointer;">🔑 RESTORE</button>
+        <button id="vault-tab-backup" style="flex:1;padding:8px;background:var(--neon-green);border:none;border-radius:8px;color:#000;font-size:9px;font-family:'Arial Black',sans-serif;cursor:pointer;">💾 BACKUP</button>
       </div>
 
       <!-- BACKUP PANEL -->
@@ -1016,8 +1118,8 @@ input,select,textarea{
         <input type="file" id="save-file-input" accept=".json,application/json" style="display:none;" onchange="importSaveFile(event)">
       </div>
 
-      <!-- RESTORE PANEL -->
-      <div id="vault-restore-panel" style="display:none;">
+      <!-- RESTORE PANEL: movido a sección BAP ID -->
+      <div id="vault-restore-panel" style="display:none!important;">
 
         <!-- ☁️ CLOUD RESTORE (código corto) — PRINCIPAL -->
         <div style="background:#0a0f0a;border:2px solid var(--neon-green);border-radius:12px;padding:14px;margin-bottom:12px;">
@@ -5186,14 +5288,16 @@ function vaultTab(tab){
   const btnB=document.getElementById('vault-tab-backup');
   const btnR=document.getElementById('vault-tab-restore');
   if(tab==='backup'){
-    backup.style.display='';restore.style.display='none';
-    btnB.style.background='var(--neon-green)';btnB.style.color='#000';btnB.style.border='none';
-    btnR.style.background='#111';btnR.style.color='#888';btnR.style.border='1px solid #444';
+    if(backup)backup.style.display='';
+    if(restore)restore.style.display='none';
+    if(btnB){btnB.style.background='var(--neon-green)';btnB.style.color='#000';btnB.style.border='none';}
+    if(btnR){btnR.style.background='#111';btnR.style.color='#888';btnR.style.border='1px solid #444';}
     vaultRefreshChip();
   } else {
-    backup.style.display='none';restore.style.display='';
-    btnR.style.background='var(--neon-green)';btnR.style.color='#000';btnR.style.border='none';
-    btnB.style.background='#111';btnB.style.color='#888';btnB.style.border='1px solid #444';
+    if(backup)backup.style.display='none';
+    if(restore)restore.style.display='';
+    if(btnR){btnR.style.background='var(--neon-green)';btnR.style.color='#000';btnR.style.border='none';}
+    if(btnB){btnB.style.background='#111';btnB.style.color='#888';btnB.style.border='1px solid #444';}
   }
 }
 
@@ -6292,6 +6396,214 @@ function _checkOrientation(){
 window.addEventListener('resize',_checkOrientation);
 window.addEventListener('orientationchange',_checkOrientation);
 _checkOrientation();
+</script>
+
+<script>
+// ══════════════════════════════════════════════════════════════════
+//  BAP ID — Integración para Sanjay and Craig: Cup O'Clicker
+//  Colocado al final del <body>, después de todos los scripts.
+// ══════════════════════════════════════════════════════════════════
+(function () {
+
+  // ── Configuración ──────────────────────────────────────────────
+  const BAP_ID_URL      = 'https://TU_DOMINIO/bap-id.html';       // URL de tu página BAP ID
+  const BAP_PROJECT_ID  = 'TU_PROYECTO_DE_BAP_ID';                 // Firebase project ID de BAP ID
+  const BAP_API_KEY     = 'TU_API_KEY_DE_BAP_ID';                  // Firebase API Key de BAP ID
+  const BAP_USERS_URL   = `https://firestore.googleapis.com/v1/projects/${BAP_PROJECT_ID}/databases/(default)/documents/bap_users`;
+  const ACCOUNT_CODE_KEY = 'sc_account_code';
+
+  // ── Estado ─────────────────────────────────────────────────────
+  let _bapUser  = null;
+  let _bapReady = false;
+
+  // ── Helpers ────────────────────────────────────────────────────
+  const _log = msg => console.log('[BAP ID]', msg);
+
+  function _formatCode(raw) {
+    const c = (raw || '').replace(/[^A-Z0-9]/g,'').toUpperCase();
+    if (c.length === 12) return `${c.slice(0,4)}-${c.slice(4,6)}-${c.slice(6)}`;
+    return c;
+  }
+
+  function _rawCode(code) { return (code||'').replace(/-/g,'').toUpperCase(); }
+
+  function _getStoredUID()  { try { return localStorage.getItem('bap_id_uid') || null; } catch(e) { return null; } }
+  function _storeUID(uid)   { try { localStorage.setItem('bap_id_uid', uid); } catch(e) {} }
+  function _clearUID()      { try { localStorage.removeItem('bap_id_uid'); } catch(e) {} }
+
+  // ── Firestore: leer perfil ─────────────────────────────────────
+  async function _fetchProfile(uid) {
+    try {
+      const r = await fetch(`${BAP_USERS_URL}/${uid}?key=${BAP_API_KEY}`);
+      if (!r.ok) return null;
+      const doc = await r.json();
+      const f = doc.fields || {};
+      return {
+        uid,
+        email:    f.email?.stringValue    || '',
+        name:     f.name?.stringValue     || '',
+        gameCode: f.linked_games?.mapValue?.fields?.juego_principal?.stringValue || ''
+      };
+    } catch(e) { _log('Error perfil: ' + e); return null; }
+  }
+
+  // ── Firestore: vincular código del juego ───────────────────────
+  async function _linkCode(uid, code) {
+    if (!uid || !code) return;
+    const raw = _rawCode(code);
+    const url = `${BAP_USERS_URL}/${uid}?key=${BAP_API_KEY}&updateMask.fieldPaths=linked_games.juego_principal`;
+    try {
+      await fetch(url, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fields: { linked_games: { mapValue: { fields: {
+            juego_principal: { stringValue: raw }
+          }}}}
+        })
+      });
+      _log('Código vinculado: ' + raw);
+    } catch(e) { _log('Error vinculando: ' + e); }
+  }
+
+  // ── Aplicar código al juego ────────────────────────────────────
+  async function _applyCode(gameCode) {
+    if (!gameCode) return;
+    const raw = _rawCode(gameCode);
+    try { localStorage.setItem(ACCOUNT_CODE_KEY, raw); } catch(e) {}
+    if (typeof vaultRestoreFromCloud === 'function') {
+      _log('Restaurando desde cloud: ' + raw);
+      await vaultRestoreFromCloud(raw);
+    } else {
+      _log('Código inyectado en localStorage: ' + raw);
+    }
+  }
+
+  // Badge flotante eliminado — BAP ID solo en ajustes
+
+  // ── UI: actualizar badge + sección settings ────────────────────
+  function _updateUI(user) {
+    // Defensivo: si el DOM aún no tiene la sección, reintentar en 200ms
+    const disc = document.getElementById('bap-id-s-disconnected');
+    const conn = document.getElementById('bap-id-s-connected');
+    if (!disc || !conn) {
+      setTimeout(() => _updateUI(user), 200);
+      return;
+    }
+
+    try {
+      if (user) {
+        disc.style.display = 'none';
+        conn.style.display = '';
+        const nameEl  = document.getElementById('bap-id-s-name');
+        const emailEl = document.getElementById('bap-id-s-email');
+        const codeEl  = document.getElementById('bap-id-s-code');
+        const linkRow = document.getElementById('bap-id-s-link-row');
+        if (nameEl)  nameEl.textContent  = user.name  || (user.email ? user.email.split('@')[0] : '') || '—';
+        if (emailEl) emailEl.textContent = user.email || '—';
+        if (codeEl)  codeEl.textContent  = user.gameCode ? _formatCode(user.gameCode) : '—';
+        if (linkRow) {
+          const localCode = localStorage.getItem(ACCOUNT_CODE_KEY);
+          linkRow.style.display = (!user.gameCode && localCode) ? '' : 'none';
+        }
+      } else {
+        disc.style.display = '';
+        conn.style.display = 'none';
+      }
+    } catch(e) {
+      _log('_updateUI error: ' + e);
+    }
+  }
+
+  // ── Restaurar progreso desde BAP ID (un clic cuando está conectado) ──
+  window._bapRestoreFromAccount = async function () {
+    if (!_bapUser || !_bapUser.gameCode) return;
+    await _applyCode(_bapUser.gameCode);
+  };
+
+  // ── Vincular código actual al hacer clic en el botón ──────────
+  window._bapLinkCurrentCode = async function () {
+    if (!_bapUser) return;
+    const localCode = localStorage.getItem(ACCOUNT_CODE_KEY);
+    if (!localCode) return;
+    await _linkCode(_bapUser.uid, localCode);
+    _bapUser.gameCode = localCode;
+    _updateUI(_bapUser);
+    _log('Código vinculado manualmente: ' + localCode);
+  };
+
+  // ── Inicialización ─────────────────────────────────────────────
+  async function _init() {
+    const uid = _getStoredUID();
+    if (!uid) { _updateUI(null); return; }
+
+    _log('Sesión activa: ' + uid);
+    const profile = await _fetchProfile(uid);
+    if (!profile) { _clearUID(); _updateUI(null); return; }
+
+    _bapUser  = profile;
+    _bapReady = true;
+    _updateUI(profile);
+    _log(`Perfil: ${profile.name} (${profile.email})`);
+
+    if (profile.gameCode) {
+      await _applyCode(profile.gameCode);
+    } else {
+      const localCode = localStorage.getItem(ACCOUNT_CODE_KEY);
+      if (localCode) await _linkCode(uid, localCode);
+    }
+  }
+
+  // ── Escuchar login desde la ventana BAP ID ─────────────────────
+  window.addEventListener('message', async (e) => {
+    if (!e.data || e.data.type !== 'BAP_ID_LOGIN') return;
+    const { uid, name, email, gameCode } = e.data;
+    if (!uid) return;
+    _log('Login recibido: ' + uid);
+    _storeUID(uid);
+    _bapUser  = { uid, name, email, gameCode };
+    _bapReady = true;
+    _updateUI(_bapUser);
+    if (gameCode) {
+      await _applyCode(gameCode);
+    } else {
+      const localCode = localStorage.getItem(ACCOUNT_CODE_KEY);
+      if (localCode) await _linkCode(uid, localCode);
+    }
+  });
+
+  // ── Interceptar generación de nuevo vault code ─────────────────
+  const _origGen = window._generateVaultCode;
+  if (typeof _origGen === 'function') {
+    window._generateVaultCode = function () {
+      const code = _origGen.apply(this, arguments);
+      if (_bapReady && _bapUser && code) _linkCode(_bapUser.uid, code);
+      return code;
+    };
+  }
+
+  // ── API pública ────────────────────────────────────────────────
+  window.BapID = {
+    getUser:    () => _bapUser,
+    isLoggedIn: () => _bapReady,
+    open:       () => window.open(BAP_ID_URL, 'bap_id', 'width=480,height=680'),
+    logout:     () => {
+      _clearUID();
+      _bapUser  = null;
+      _bapReady = false;
+      _updateUI(null);
+      _log('Sesión cerrada.');
+    }
+  };
+
+  // ── Arrancar ───────────────────────────────────────────────────
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => setTimeout(_init, 500));
+  } else {
+    setTimeout(_init, 500);
+  }
+
+})();
 </script>
 </body>
 </html>
