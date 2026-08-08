@@ -637,7 +637,7 @@ input,select,textarea{
 <div id="splash-container" style="position:fixed;inset:0;z-index:10000;background:black;display:flex;justify-content:center;align-items:center;">
   <img id="splash-nickelodeon" src="https://web.archive.org/web/20260416223007if_/https://files.catbox.moe/70s6vg.jpg" style="max-width:175%;max-height:175%;display:none;object-fit:contain;">
   <img id="splash-forest-city-rockers" src="https://web.archive.org/web/20260423020116if_/https://files.catbox.moe/l2t0oy.jpg" style="max-width:175%;max-height:175%;display:none;object-fit:contain;">
-  <img id="splash-bap-studios" src="https://web.archive.org/web/20260416212714if_/https://litter.catbox.moe/8m9oy0.jpg" style="max-width:100%;max-height:100%;display:none;object-fit:contain;">
+  <img id="splash-greatspot" src="https://web.archive.org/web/20260416212714if_/https://litter.catbox.moe/8m9oy0.jpg" style="max-width:100%;max-height:100%;display:none;object-fit:contain;">
 </div>
 
 <div id="orientation-warning">
@@ -747,7 +747,7 @@ input,select,textarea{
 </div>
 
 <!-- MISSIONS BADGE -->
-<div id="missions-badge" onclick="openModal('missions-modal')">
+<div id="missions-badge" onclick="openMissionsIfUnlocked()">
   <img src="https://img.icons8.com/fluency/48/task.png">
   <span id="missions-badge-txt">MISSIONS</span>
 </div>
@@ -780,7 +780,7 @@ input,select,textarea{
   </div>
 
   <!-- CHALLENGES BUTTON -->
-  <div id="challenges-sidebar-btn" class="sidebar-btn" onclick="openChallenges()" style="border-color:#e74c3c;color:#e74c3c;">
+  <div id="challenges-sidebar-btn" class="sidebar-btn" onclick="openChallengesIfUnlocked()" style="border-color:#e74c3c;color:#e74c3c;">
     <div style="display:flex;align-items:center;justify-content:center;gap:5px;">
       <img src="https://img.icons8.com/fluency/48/sword.png" style="width:14px;height:14px;">
       <span id="challenges-sidebar-lbl">CHALLENGES</span>
@@ -788,11 +788,11 @@ input,select,textarea{
     <div id="challenges-sidebar-count" style="font-size:9px;color:#e74c3c;margin-top:3px;">0 active</div>
   </div>
 
-  <!-- SNAKE GAME BUTTON -->
-  <div id="snake-sidebar-btn" class="sidebar-btn" onclick="openSnakeGame()" style="border-color:#e91e63;color:#e91e63;">
+  <!-- FRYCADE BUTTON (antes SNAKE) -->
+  <div id="snake-sidebar-btn" class="sidebar-btn" onclick="openFrycade()" style="border-color:#e91e63;color:#e91e63;">
     <div style="display:flex;align-items:center;justify-content:center;gap:5px;">
-      <img src="https://img.icons8.com/fluency/48/snake.png" style="width:14px;height:14px;">
-      <span id="snake-sidebar-lbl">SNAKE</span>
+      <img src="https://img.icons8.com/fluency/48/joystick.png" style="width:14px;height:14px;">
+      <span id="snake-sidebar-lbl">FRYCADE</span>
     </div>
     <div style="font-size:9px;color:#e91e63;margin-top:3px;" id="snake-best-lbl">BEST: 0</div>
   </div>
@@ -825,22 +825,22 @@ input,select,textarea{
 
 <!-- CONTROLS -->
 <div class="controls">
-  <button class="s-btn btn-settings" onclick="openSettings()">
+  <button class="s-btn btn-settings" onclick="openSettings()" style="filter:grayscale(1);opacity:0.4;">
     <img src="https://img.icons8.com/fluency/48/gear.png" class="icon-btn"><span id="ctrl-settings">SETTINGS</span>
   </button>
-  <button class="s-btn btn-friends" onclick="openModal('friends-modal')">
+  <button class="s-btn btn-friends" onclick="openFriendsIfUnlocked()" id="btn-friends-main" style="display:none;">
     <img src="https://img.icons8.com/fluency/48/conference-call.png" class="icon-btn"><span id="ctrl-friends">FRIENDS</span>
   </button>
-  <button class="s-btn btn-event" id="btn-event" onclick="openEvent()">
+  <button class="s-btn btn-event" id="btn-event" onclick="openEvent()" style="display:none;">
     <img src="https://img.icons8.com/fluency/48/confetti.png" class="icon-btn"><span id="ctrl-event">EVENT</span>
   </button>
-  <button class="s-btn" style="border-color:var(--gold);color:var(--gold);" onclick="updateAchievements();openModal('ach-modal')">
+  <button class="s-btn" id="btn-achievements" style="border-color:var(--gold);color:var(--gold);display:none;" onclick="achModalTab('local');updateAchievements();openModal('ach-modal')">
     <img src="https://img.icons8.com/fluency/48/trophy.png" class="icon-btn"><span id="ctrl-achs">ACHIEVEMENTS</span>
   </button>
-  <button class="s-btn btn-inv" onclick="openInventory()">
+  <button class="s-btn btn-inv" onclick="openInventory()" style="filter:grayscale(1);opacity:0.4;">
     <img src="https://img.icons8.com/fluency/48/box.png" class="icon-btn"><span id="ctrl-closet">CLOSET</span>
   </button>
-  <button class="s-btn btn-shop" onclick="openShop()">
+  <button class="s-btn btn-shop" onclick="openShop()" style="filter:grayscale(1);opacity:0.4;">
     <img src="https://img.icons8.com/fluency/48/shopping-cart.png" class="icon-btn"><span id="ctrl-store">STORE</span>
   </button>
 </div>
@@ -990,7 +990,7 @@ input,select,textarea{
       <!-- ── DESCONECTADO ── -->
       <div id="bap-id-s-disconnected">
         <p style="font-size:9px;color:#666;font-family:sans-serif;margin:0 0 10px;line-height:1.5;">
-          Conecta tu BAP ID para sincronizar tu progreso entre dispositivos y todos los juegos de BAP Studios.
+          Conecta tu BAP ID para sincronizar tu progreso entre dispositivos y todos los juegos de GreatSpot.
         </p>
         <button class="s-btn" style="width:100%;border-color:#fff;color:#fff;font-size:10px;padding:11px;margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:8px;"
           onclick="window.BapID && window.BapID.open()">
@@ -1232,7 +1232,23 @@ input,select,textarea{
     <h2 style="display:flex;align-items:center;gap:10px;justify-content:center;">
       <img src="https://img.icons8.com/fluency/48/trophy.png" style="width:24px;height:24px;"><span id="lbl-achievements">ACHIEVEMENTS</span>
     </h2>
-    <div id="ach-list"></div>
+    <!-- TABS: logros locales del juego vs. logros reales de BAP (% y rareza) -->
+    <div style="display:flex;gap:6px;margin-bottom:12px;">
+      <button id="atab-local" onclick="achModalTab('local')" style="flex:1;padding:9px;background:var(--gold);border:none;border-radius:8px;color:#000;font-size:9px;font-family:'Arial Black',sans-serif;cursor:pointer;letter-spacing:1px;">🎮 DEL JUEGO</button>
+      <button id="atab-bap" onclick="achModalTab('bap')" style="flex:1;padding:9px;background:#111;border:1px solid #333;border-radius:8px;color:#666;font-size:9px;font-family:'Arial Black',sans-serif;cursor:pointer;letter-spacing:1px;">🏅 BAP</button>
+    </div>
+    <!-- PANEL: logros locales (existente) -->
+    <div id="ach-panel-local">
+      <div id="ach-list"></div>
+    </div>
+    <!-- PANEL: logros BAP — estilo Google Play Juegos, % real + rareza -->
+    <div id="ach-panel-bap" style="display:none;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+        <div style="font-size:20px;">🏆</div>
+        <div id="bap-ach-count" style="font-size:18px;color:var(--gold);font-family:'Arial Black',sans-serif;">0 / 0</div>
+      </div>
+      <div id="bap-ach-body" style="max-height:48vh;overflow-y:auto;"></div>
+    </div>
     <button class="s-btn close-btn" onclick="closeModal('ach-modal')" id="btn-close-achs">CLOSE</button>
   </div>
 </div>
@@ -1814,7 +1830,7 @@ function mName(m){return lang==='es'?(m.name_es||m.name_en):(m.name_en||m.name_e
 //  ACHIEVEMENTS (MANTENIDO IGUAL)
 // ══════════════════════════════════════════════════════
 const gameAchievements=[
-  {id:'ach_w1',name_es:'NOVATO',name_en:'ROOKIE',goal:0,type:'wings',icon:ICONS.egg},
+  {id:'ach_tutorial',name_es:'¡MAESTRO DEL VASO!',name_en:'CUP MASTER!',goal:1,type:'tutorialComplete',icon:ICONS.star},
   {id:'ach_w2',name_es:'HAMBRIENTO',name_en:'HUNGRY',goal:500,type:'wings',icon:ICONS.chicken},
   {id:'ach_w3',name_es:'CLIENTE FIEL',name_en:'LOYAL CUSTOMER',goal:5000,type:'wings',icon:ICONS.waiter},
   {id:'ach_w4',name_es:'PANZA LLENA',name_en:'STUFFED',goal:50000,type:'wings',icon:ICONS.fire},
@@ -2036,7 +2052,7 @@ const defaultState={
   realClicks:0,eventTokens:0,
   inventory:[],upgrades:{},charBoosts:{},friends:[],
   userName:'USER',userAvatar:'https://uploads.onecompiler.io/447259qgx/44d8stvca/Usuario.jpg',
-  customTitle:'ROOKIE',zoom:100,lang:'en',playerCode:'',accountCode:'',unlockedMusicUpload:false,unlockedBgUpload:false,unlockedPhotoUpload:false,
+  customTitle:'ROOKIE',zoom:100,lang:'en',playerCode:'',accountCode:'',unlockedMusicUpload:false,unlockedBgUpload:false,unlockedPhotoUpload:false,oneTimeReactions:[],
   leftChar:{id:'hector_and_megan'},rightChar:{id:'sanjay_and_craig'},
   cupMulti:1,cupFilter:'none',cupClass:'',cupRealImg:'',
   currentBG:'https://chibi.iitranq.co.uk/zze8NtjlBsHu.jpg',currentBgId:'bg_classic',
@@ -2049,6 +2065,7 @@ const defaultState={
   sauceUpgrades:{},totalSpins:0,maxClickStreak:0,tempMultiBonus:0,tempMultiTimer:0,
   completedChallenges:[],totalChallenges:0,boxesOpened:{},totalBoxesOpened:0,
   snakeBestScore:0,
+  tutorialDone:false, tutorialStep:0, tutorialSkipped:false, tutorialShown:[],
   clubId:'',clubInvite:'',cloudPhoto:''
 };
 
@@ -2101,14 +2118,15 @@ function saveGame(immediate){
   const data=JSON.stringify(state);
   const _doSave=()=>{
     if(window._saveDisabled)return;
-    // 1) localStorage (primary)
+    // 1) localStorage (primary) — siempre, para no perder progreso local
     try{localStorage.setItem(SAVE_KEY,data);}catch(e){}
-    // 2) IndexedDB (backup automático)
+    // 2) IndexedDB (backup automático) — siempre
     _idbSave(data);
-    // 3) sessionStorage (fallback para la sesión)
+    // 3) sessionStorage (fallback para la sesión) — siempre
     try{sessionStorage.setItem(SAVE_KEY,data);}catch(e){}
-    // 4) Firebase cloud sync (auto, background)
-    if(typeof _fbAutoSync==='function')_fbAutoSync();
+    // 4) Firebase cloud sync — SOLO si nivel > 1, para no gastar espacio en
+    //    Firebase con cuentas de prueba/spam que nunca pasan del nivel 1
+    if(getCurrentLevel(state.totalSips) > 1 && typeof _fbAutoSync==='function')_fbAutoSync();
   };
   if(immediate){clearTimeout(_saveTimer);_saveTimer=null;_doSave();return;}
   if(_saveTimer)return;
@@ -2265,7 +2283,7 @@ window.addEventListener('load',function(){
   const sc=document.getElementById('splash-container');
   const n=document.getElementById('splash-nickelodeon');
   const f=document.getElementById('splash-forest-city-rockers');
-  const bap=document.getElementById('splash-bap-studios');
+  const bap=document.getElementById('splash-greatspot');
   setTimeout(()=>{
     n.style.display='block';
     setTimeout(()=>{
@@ -2303,7 +2321,13 @@ function startGame(){
           const cover=document.getElementById('game-cover');
           if(cover)cover.remove();
           hideShroud();
-          setTimeout(()=>{_gameReady=true;},600);
+          setTimeout(()=>{
+            _gameReady=true;
+            // Start tutorial for new players
+            if(!state.tutorialDone && !state.tutorialSkipped){
+              setTimeout(()=>startTutorial(), 1500);
+            }
+          },600);
         });
       },800);
     }
@@ -2350,6 +2374,48 @@ function _stopTitleMusic(){
   },40); // 40ms × 30 = 1200ms fade
 }
 
+function _hasExistingSave(){
+  for(const key of SAVE_KEYS){ try{ if(localStorage.getItem(key)) return true; }catch(e){} }
+  try{ if(sessionStorage.getItem(SAVE_KEY)) return true; }catch(e){}
+  return false;
+}
+
+function showLanguagePicker(){
+  const startBtn=document.getElementById('start-prompt-btn');
+  if(startBtn)startBtn.style.display='none';
+
+  const overlay=document.createElement('div');
+  overlay.id='lang-picker-overlay';
+  overlay.style.cssText='position:fixed;inset:0;z-index:6000;background:rgba(0,0,0,0.75);display:flex;align-items:center;justify-content:center;animation:langPickerFade 0.25s ease;';
+  if(!document.getElementById('lang-picker-css')){
+    const st=document.createElement('style');
+    st.id='lang-picker-css';
+    st.textContent='@keyframes langPickerFade{from{opacity:0}to{opacity:1}}';
+    document.head.appendChild(st);
+  }
+
+  const card=document.createElement('div');
+  card.style.cssText=`
+    width:min(360px,88vw);
+    background:linear-gradient(135deg,#0a1a0a,#051005);
+    border:2px solid #2ecc71;border-radius:18px;
+    padding:26px 22px;display:flex;flex-direction:column;align-items:center;gap:18px;
+    box-shadow:0 0 40px rgba(46,204,113,0.45);
+  `;
+  card.innerHTML=`
+    <div style="color:#fff;font-family:'Arial Black',sans-serif;font-size:12px;letter-spacing:1px;text-align:center;line-height:1.6;">CHOOSE YOUR LANGUAGE<br>ELIGE TU IDIOMA</div>
+    <div style="display:flex;flex-direction:column;gap:10px;width:100%;">
+      <button id="lang-pick-es" style="width:100%;padding:12px 0;background:rgba(46,204,113,0.15);border:2px solid #2ecc71;border-radius:12px;color:#2ecc71;font-size:13px;font-family:'Arial Black',sans-serif;cursor:pointer;box-shadow:0 0 14px rgba(46,204,113,0.4);">🇪🇸 ESPAÑOL</button>
+      <button id="lang-pick-en" style="width:100%;padding:12px 0;background:rgba(46,204,113,0.15);border:2px solid #2ecc71;border-radius:12px;color:#2ecc71;font-size:13px;font-family:'Arial Black',sans-serif;cursor:pointer;box-shadow:0 0 14px rgba(46,204,113,0.4);">🇬🇧 ENGLISH</button>
+    </div>
+  `;
+  overlay.appendChild(card);
+  document.body.appendChild(overlay);
+
+  document.getElementById('lang-pick-es').onclick=()=>{setLang('es');overlay.remove();if(startBtn)startBtn.style.display='';};
+  document.getElementById('lang-pick-en').onclick=()=>{setLang('en');overlay.remove();if(startBtn)startBtn.style.display='';};
+}
+
 function initLoading(){
   const startMenu=document.getElementById('start-menu');
   startMenu.style.display='flex';
@@ -2366,6 +2432,12 @@ function initLoading(){
   // Update start prompt text for current language
   const spt=document.getElementById('start-prompt-txt');
   if(spt)spt.textContent=t('START_PROMPT');
+  // Partida nueva (sin save previo) — preguntar idioma antes de jugar.
+  // Si ya hay un save, se respeta el idioma guardado y se puede cambiar
+  // manualmente en Settings, sin volver a preguntar.
+  if(!_hasExistingSave()){
+    showLanguagePicker();
+  }
 }
 
 function showShroud(cb){const s=document.getElementById('black-shroud');s.style.display='block';setTimeout(()=>{s.style.opacity='1';setTimeout(cb,500);},10);}
@@ -2811,7 +2883,7 @@ function openGiftModal(code){
   GIFT_OPTIONS.forEach(g=>{
     const costLabel=`${g.cost.amount} ${lang==='es'?(g.name_es):g.name_en}`;
     const canAfford=(state[g.cost.type]||0)>=g.cost.amount;
-    c.innerHTML+=`<div class="gift-option" onclick="${canAfford?`sendGift('${g.id}')`:''}" style="opacity:${canAfford?1:0.4};cursor:${canAfford?'pointer':'not-allowed'};">
+    c.innerHTML+=`<div class="gift-option" onclick="sendGift('${g.id}')" style="opacity:${canAfford?1:0.4};cursor:pointer;">
       <img src="${g.icon}" style="width:36px;height:36px;">
       <div style="flex:1;text-align:left;">
         <div style="font-size:12px;font-weight:bold;">${lang==='es'?g.name_es:g.name_en}</div>
@@ -2825,7 +2897,7 @@ function openGiftModal(code){
 
 function sendGift(giftId){
   const g=GIFT_OPTIONS.find(x=>x.id===giftId);if(!g)return;
-  if((state[g.cost.type]||0)<g.cost.amount){notify(t('NO_BALANCE'),t('STORE'),ICONS.error,true);return;}
+  if((state[g.cost.type]||0)<g.cost.amount){showCurrencyShortageReaction(g.cost.type);return;}
   state[g.cost.type]-=g.cost.amount;
   state[g.give.type]=(state[g.give.type]||0)+g.give.amount;
   state.giftsSent=(state.giftsSent||0)+1;
@@ -2859,7 +2931,7 @@ function buySauceUpgrade(id){
   const lvl=getSauceUpgLevel(id);
   if(lvl>=u.maxLevel){notify(lang==='es'?'¡Ya esta al maximo!':'Already maxed!',getSauceUpgName(u),ICONS.check,false,true);return;}
   const cost=getSauceUpgCost(u);
-  if((state.sauce||0)<cost){notify(t('NO_SAUCE'),getSauceUpgName(u),ICONS.error,true);return;}
+  if((state.sauce||0)<cost){showCurrencyShortageReaction('sauce');return;}
   state.sauce-=cost;
   if(!state.sauceUpgrades)state.sauceUpgrades={};
   state.sauceUpgrades[id]=(state.sauceUpgrades[id]||0)+1;
@@ -2889,7 +2961,7 @@ function renderSauceShop(){
         <div class="sauce-upgrade-level">${lang==='es'?'Nivel':'Level'} ${lvl}/${u.maxLevel}</div>
         <div class="sauce-upgrade-bar"><div class="sauce-upgrade-bar-fill" style="width:${pct}%"></div></div>
       </div>
-      <button class="s-btn" style="border-color:${maxed?'#555':'var(--hot-sauce)'};color:${maxed?'#555':'var(--hot-sauce)'};font-size:9px;padding:6px 10px;flex-shrink:0;" onclick="${maxed?'':'buySauceUpgrade(\''+u.id+'\')'}" ${maxed||!canAfford?'disabled':''} style="opacity:${maxed||!canAfford?0.5:1}">
+      <button class="s-btn" style="border-color:${maxed?'#555':'var(--hot-sauce)'};color:${maxed?'#555':'var(--hot-sauce)'};font-size:9px;padding:6px 10px;flex-shrink:0;opacity:${maxed||!canAfford?0.5:1};" onclick="${maxed?'':'buySauceUpgrade(\''+u.id+'\')'}" ${maxed?'disabled':''}>
         ${maxed?(lang==='es'?'MAXIMO':'MAXED'):`<img src="${ICONS.sauce}" style="width:10px;height:10px;margin-right:3px;vertical-align:middle;">${cost}`}
       </button>
     </div>`;
@@ -3409,7 +3481,7 @@ function updateClickStreak(newClick){
   clearTimeout(_clickStreakTimer);
   _clickStreakTimer=setTimeout(()=>{_clickStreakCount=0;updateStreakBadge();},4000);
   updateStreakBadge();
-  if(_clickStreakCount===50){notify(lang==='es'?'Racha de 50 clicks + 500 Alitas':'50-click streak! +500 Wings',lang==='es'?'RACHA':'STREAK',ICONS.fire,false,true);state.wings+=500;updateHUD();}
+  if(_clickStreakCount===50){notify(lang==='es'?'Racha de 50 clicks + 200 Alitas':'50-click streak! +200 Wings',lang==='es'?'RACHA':'STREAK',ICONS.fire,false,true);state.wings+=200;updateHUD();}
   if(_clickStreakCount===100){notify(lang==='es'?'Racha de 100 + 2500 Alitas':'100-click streak! +2,500 Wings',lang==='es'?'RACHA':'STREAK',ICONS.fire,false,true);state.wings+=2500;updateHUD();}
   if(_clickStreakCount===250){notify(lang==='es'?'Racha de 250 + 1 Salsa':'250-click streak! +1 Hot Sauce',lang==='es'?'RACHA':'STREAK',ICONS.sauce,false,true);state.sauce=(state.sauce||0)+1;updateHUD();}
   if(_clickStreakCount===500){notify(lang==='es'?'RACHA LEGENDARIA 500 + 5000 Alitas':'LEGENDARY STREAK 500! +5,000 Wings',lang==='es'?'LEYENDA':'LEGEND',ICONS.crown,false,true);state.wings+=5000;updateHUD();}
@@ -3831,6 +3903,49 @@ let _chalTimeLeft=0;
 function chalName(c){return lang==='es'?(c.name_es||c.name_en):(c.name_en||c.name_es);}
 function chalDesc(c){return lang==='es'?(c.desc_es||c.desc_en):(c.desc_en||c.desc_es);}
 
+// ══════════════════════════════════════════════════════
+//  DESBLOQUEOS POR NIVEL — Misiones, Challenges, Frycade
+// ══════════════════════════════════════════════════════
+const MISSIONS_UNLOCK_LVL = 5;
+const CHALLENGES_UNLOCK_LVL = 20;
+const FRYCADE_UNLOCK_LVL = 35;
+
+function _lockedNotify(nameEs,nameEn,lvl){
+  notify(
+    lang==='es' ? `¡${nameEs} se desbloquea en el Nivel ${lvl}! (Actual: ${getCurrentLevel(state.totalSips)})` : `${nameEn} unlocks at Level ${lvl}! (Current: ${getCurrentLevel(state.totalSips)})`,
+    lang==='es' ? 'BLOQUEADO' : 'LOCKED',
+    ICONS.lock, true
+  );
+}
+
+function openMissionsIfUnlocked(){
+  if(getCurrentLevel(state.totalSips) < MISSIONS_UNLOCK_LVL){ _lockedNotify('Misiones','Missions',MISSIONS_UNLOCK_LVL); return; }
+  openModal('missions-modal');
+}
+
+function openChallengesIfUnlocked(){
+  if(getCurrentLevel(state.totalSips) < CHALLENGES_UNLOCK_LVL){ _lockedNotify('Challenges','Challenges',CHALLENGES_UNLOCK_LVL); return; }
+  renderChallenges();openModal('challenges-modal');
+}
+
+function openFrycade(){
+  if(getCurrentLevel(state.totalSips) < FRYCADE_UNLOCK_LVL){ _lockedNotify('Frycade','Frycade',FRYCADE_UNLOCK_LVL); return; }
+  openSnakeGame();
+}
+
+function _lockBtn(btnId,lockIconId,lvl,showDisplay){
+  const btn=document.getElementById(btnId);
+  if(!btn) return;
+  const unlocked = getCurrentLevel(state.totalSips) >= lvl;
+  btn.style.display = unlocked ? (showDisplay||'block') : 'none';
+}
+
+function updateSectionLocks(){
+  _lockBtn('missions-badge','missions-lock-icon',MISSIONS_UNLOCK_LVL,'flex');
+  _lockBtn('challenges-sidebar-btn','challenges-lock-icon',CHALLENGES_UNLOCK_LVL,'block');
+  _lockBtn('snake-sidebar-btn','frycade-lock-icon',FRYCADE_UNLOCK_LVL,'block');
+}
+
 function openChallenges(){renderChallenges();openModal('challenges-modal');}
 
 function renderChallenges(){
@@ -3956,7 +4071,14 @@ function checkLevelUp(){
     notify(`${t('LEVEL_LBL')} ${lvl}`,t('LEVEL_UP'),getLevelIconUrl(lvl));
     updateBerryTree();
     if(lvl===TREE_UNLOCK_LVL)notify(lang==='es'?'Arbol de Arandanos desbloqueado!':'Blueberry Tree unlocked!',t('BERRY_TREE'),ICONS.berry_tree);
+    // Friends unlock at level 15
+    if(lvl===15){
+      notify(lang==='es'?'¡Sección AMIGOS desbloqueada!':'FRIENDS section unlocked!',lang==='es'?'NIVEL 15':'LEVEL 15',ICONS.friends);
+      setTimeout(()=>checkFriendsTutorialUnlock(), 2000);
+    }
+    updateFriendsButtonLock();
     updateHUD();
+    checkAchievements();
   }
 }
 
@@ -3969,6 +4091,7 @@ function checkPrestigeUnlock(){
     document.getElementById('prestige-sidebar-btn').style.display='block';
     notify(t('PRESTIGE'),lang==='es'?'Sistema desbloqueado!':'System unlocked!',ICONS.diamond);
     saveGame();
+    setTimeout(()=>checkTutorialProgress(),1500);
   }
   if(state.prestigeUnlocked){
     document.getElementById('prestige-sidebar-btn').style.display='block';
@@ -4130,6 +4253,7 @@ function sip(e){
   const ci=document.getElementById('cup-img');ci.classList.remove('cup-click-anim');void ci.offsetWidth;ci.classList.add('cup-click-anim');
   checkLevelUp();if((state.realClicks||0)%10===0)checkAchievements();checkPrestigeUnlock();updateMissionsBadge();updateHUD();saveGame();
   chalTrackClick();
+  checkTutorialProgress();
 }
 
 function showClickNum(x,y,text){
@@ -4161,19 +4285,34 @@ const triggerFrenzy=startFrenzy;
 //  ACHIEVEMENTS
 // ══════════════════════════════════════════════════════
 function checkAchievements(){
+  if(!state.tutorialDone && !state.tutorialSkipped) return; // logros inactivos hasta terminar el tutorial
   const lvl=getCurrentLevel(state.totalSips);
+  let _anyNewUnlock=false;
   gameAchievements.forEach(ach=>{
     let v=0;
     const typeMap={wings:'wings',bills:'bills',blueberries:'blueberries',sips:'totalSips',multi:null,sauce:'sauce',frenzies:'totalFrenzies',prestiges:'prestigeLevel',level:null,friends:null,treeHarvest:'treeHarvestCount',dailyStreak:'dailyStreak',missionsCompleted:'missionsCompleted',maxCombo:'maxCombo',giftsSent:'giftsSent',totalSpins:'totalSpins',maxClickStreak:'maxClickStreak',totalChallenges:'totalChallenges',totalBoxesOpened:'totalBoxesOpened'};
     if(ach.type==='multi')v=getFullMulti();
     else if(ach.type==='level')v=lvl;
     else if(ach.type==='friends')v=(state.friends||[]).length;
+    else if(ach.type==='tutorialComplete')v=(state.tutorialDone&&!state.tutorialSkipped)?1:0;
     else v=state[typeMap[ach.type]]||0;
     if(v>=ach.goal&&!state.unlockedAchs.includes(ach.id)){
       state.unlockedAchs.push(ach.id);
       notify(achName(ach),t('ACHIEVEMENT_UNLOCKED'),ach.icon||ICONS.trophy);
+      _anyNewUnlock=true;
     }
   });
+  if(_anyNewUnlock){
+    if(typeof updateAchievementsButtonLock==='function')updateAchievementsButtonLock();
+    if(window._bapSyncAchievements)window._bapSyncAchievements(true);
+    setTimeout(()=>{
+      showCharacterReaction('meg_achievements_intro', SANJAY_TUTORIAL_IMGS[2], 'Megan',
+        '¡Felicidades por tu primer LOGRO! Los logros premian tus hazañas en el juego — algunos hasta te dan recompensas extra como personajes, avatares o bonus. ¡Mira, ahí está el botón para revisarlos!',
+        'Congrats on your first ACHIEVEMENT! Achievements reward your milestones in the game — some even give extra rewards like characters, avatars, or bonuses. Look, there\'s the button to check them out!',
+        '#btn-achievements'
+      );
+    }, 1200);
+  }
 }
 
 function updateAchievements(){
@@ -4191,12 +4330,35 @@ function updateAchievements(){
   });
 }
 
+// Cambia entre la pestaña de logros locales y la de logros BAP dentro del mismo modal.
+function achModalTab(tab){
+  const localBtn=document.getElementById('atab-local'), bapBtn=document.getElementById('atab-bap');
+  const localPanel=document.getElementById('ach-panel-local'), bapPanel=document.getElementById('ach-panel-bap');
+  if(!localBtn||!bapBtn||!localPanel||!bapPanel)return;
+  if(tab==='local'){
+    localPanel.style.display='';bapPanel.style.display='none';
+    localBtn.style.background='var(--gold)';localBtn.style.color='#000';localBtn.style.border='none';
+    bapBtn.style.background='#111';bapBtn.style.color='#666';bapBtn.style.border='1px solid #333';
+  }else{
+    localPanel.style.display='none';bapPanel.style.display='';
+    bapBtn.style.background='var(--gold)';bapBtn.style.color='#000';bapBtn.style.border='none';
+    localBtn.style.background='#111';localBtn.style.color='#666';localBtn.style.border='1px solid #333';
+    if(window._bapSyncAchievements)window._bapSyncAchievements();
+    if(window._bapRenderAchievements)window._bapRenderAchievements();
+  }
+}
+
 // ══════════════════════════════════════════════════════
 //  HUD
 // ══════════════════════════════════════════════════════
 function formatNum(n){n=Math.floor(n);if(n>=1e9)return(n/1e9).toFixed(1)+'B';if(n>=1e6)return(n/1e6).toFixed(1)+'M';if(n>=1e3)return(n/1e3).toFixed(1)+'K';return n.toLocaleString();}
 
 function updateHUD(){
+  updateFriendsButtonLock();
+  updateEventButtonLock();
+  updateSectionLocks();
+  updateTutorialGatedButtons();
+  updateAchievementsButtonLock();
   document.getElementById('s-val').innerText=formatNum(state.sips);
   document.getElementById('rc-val').innerText=formatNum(state.realClicks||0);
   document.getElementById('p-val').innerText=formatNum(state.wings);
@@ -4310,7 +4472,7 @@ function openAvatarSelector(){
 }
 
 function handleCustomAvatarUpload(event){
-  const file=event.target.files[0];if(file){const r=new FileReader();r.onload=(e)=>{state.userAvatar=e.target.result;document.getElementById('user-avatar').src=e.target.result;closeModal('avatar-modal');saveGame();};r.readAsDataURL(file);}
+  const file=event.target.files[0];if(file){const r=new FileReader();r.onload=(e)=>{state.userAvatar=e.target.result;state.customPhoto=e.target.result;document.getElementById('user-avatar').src=e.target.result;closeModal('avatar-modal');saveGame();if(typeof fbUploadProfile==='function')fbUploadProfile();};r.readAsDataURL(file);}
 }
 
 function saveProfile(){
@@ -4460,6 +4622,14 @@ function renderEventStoreItems(){
 }
 
 function openEvent(){
+  if(getCurrentLevel(state.totalSips) < 15){
+    notify(
+      lang==='es' ? `¡Los Eventos se desbloquean en el Nivel 15!` : `Events unlock at Level 15!`,
+      lang==='es' ? 'BLOQUEADO' : 'LOCKED',
+      ICONS.lock, true
+    );
+    return;
+  }
   // Sin evento activo — mostrar solo mensaje limpio
   if(!isEventActive()){
     document.getElementById('event-banner-dynamic').style.display='none';
@@ -4534,8 +4704,60 @@ const _RARITY_LABELS2={
 };
 function getRarityName(r){return lang==='es'?(_RARITY_LABELS2[r]||_RARITY_LABELS2.common).es:(_RARITY_LABELS2[r]||_RARITY_LABELS2.common).en;}
 
-function openShop(){switchShop('chars');openModal('shop-modal');}
+const SHOP_UNLOCK_WINGS = 250; // costo de Sr. Noodman, primer personaje comprable
+function openShop(){
+  const alreadyUnlocked = state.tutorialDone || state.tutorialSkipped || (state.tutorialShown||[]).includes('store');
+  if(!alreadyUnlocked && (state.wings||0) < SHOP_UNLOCK_WINGS){
+    notify(
+      lang==='es' ? `¡La Tienda se desbloquea con ${SHOP_UNLOCK_WINGS} Alitas! (Actual: ${Math.floor(state.wings||0)})` : `Store unlocks with ${SHOP_UNLOCK_WINGS} Wings! (Current: ${Math.floor(state.wings||0)})`,
+      lang==='es' ? 'BLOQUEADO' : 'LOCKED',
+      ICONS.lock, true
+    );
+    return;
+  }
+  switchShop('chars');openModal('shop-modal');
+}
+// ══════════════════════════════════════════════════════
+//  STOCK LOCAL DE PERSONAJES/VARIANTES — rota cada 10 minutos
+// ══════════════════════════════════════════════════════
+// Cada 10 min se eligen 8 personajes y 8 variantes al azar que quedan
+// disponibles para comprar; el resto se oculta hasta la próxima rotación.
+// Totalmente LOCAL: vive solo en memoria de esta pestaña, nunca se guarda ni
+// se sube a Firebase, y se reinicia solo al recargar la página.
+const STOCK_SIZE = 8;
+const STOCK_RESET_MS = 10*60*1000; // 10 minutos
+const STOCK_EXEMPT_IDS = ['leslie_noodman']; // el primer personaje del tutorial siempre disponible
+let _stockSelection = {}; // { chars:Set, variants:Set }
+let _stockResetAt = 0;
+let _lastShopTab = 'chars';
+
+function _pickRandomStock(tab){
+  const pool=(shopItems[tab]||[]).filter(i=>i.cost>0 && !STOCK_EXEMPT_IDS.includes(i.id));
+  const ids=pool.map(i=>i.id);
+  for(let k=ids.length-1;k>0;k--){const j=Math.floor(Math.random()*(k+1));[ids[k],ids[j]]=[ids[j],ids[k]];}
+  return new Set(ids.slice(0,STOCK_SIZE));
+}
+function _refreshStockSelection(){
+  _stockSelection.chars=_pickRandomStock('chars');
+  _stockSelection.variants=_pickRandomStock('variants');
+  _stockResetAt=Date.now()+STOCK_RESET_MS;
+}
+function _isInStock(tab,item){
+  if(tab!=='chars'&&tab!=='variants')return true; // el stock solo aplica a personajes/variantes
+  if(item.cost===0||STOCK_EXEMPT_IDS.includes(item.id))return true;
+  if(!_stockSelection[tab]||Date.now()>=_stockResetAt)_refreshStockSelection();
+  return _stockSelection[tab].has(item.id);
+}
+setInterval(()=>{
+  if(Date.now()>=_stockResetAt){
+    _refreshStockSelection();
+    const shopModal=document.getElementById('shop-modal');
+    if(shopModal && shopModal.style.display!=='none' && shopModal.style.display!=='') switchShop(_lastShopTab);
+  }
+},5000);
+
 function switchShop(tab){
+  _lastShopTab = tab;
   const c=document.getElementById('shop-items-container');c.innerHTML='';
   document.querySelectorAll('#shop-modal .tab-btn').forEach(b=>b.classList.remove('active'));
   const tabEl=document.getElementById('ts-'+tab);if(tabEl)tabEl.classList.add('active');
@@ -4565,6 +4787,9 @@ function switchShop(tab){
   shopItems[tab].forEach(i=>{
     if(i.cost===0)return;
     const owned=state.inventory.some(x=>x.id===i.id);
+    const isCharItem=(i.type==='char'||i.type==='variant');
+    const inStock=_isInStock(tab,i);
+    if(isCharItem && !inStock)return; // no le tocó en esta rotación de 10 min (incluye ya obtenidos)
     const iconImg=i.currency==='bills'?ICONS.bill:i.currency==='blue'?ICONS.berry:ICONS.wing;
     const curName=i.currency==='bills'?(lang==='es'?'Billetes':'Bills'):i.currency==='blue'?(lang==='es'?'Arándanos':'Blueberries'):(lang==='es'?'Alitas':'Wings');
     const bal=i.currency==='bills'?(state.bills||0):i.currency==='blue'?(state.blueberries||0):(state.wings||0);
@@ -4608,6 +4833,7 @@ function switchShop(tab){
           <span style="font-size:7px;background:#151515;border:1px solid #2a2a2a;color:#777;border-radius:4px;padding:1px 5px;font-family:'Arial Black',sans-serif;letter-spacing:0.5px;">${typeLabel}</span>
           ${i.multi>0?`<span style="font-size:7px;background:${rarityColor}18;border:1px solid ${rarityColor}44;color:${rarityColor};border-radius:4px;padding:1px 5px;font-family:'Arial Black',sans-serif;">${rarityLabel}</span>`:''}
           ${owned?`<span style="font-size:7px;background:rgba(46,204,113,0.15);border:1px solid #2ecc71;color:#2ecc71;border-radius:4px;padding:1px 5px;font-family:'Arial Black',sans-serif;">✓ ${t('OWNED')}</span>`:''}
+          ${!owned&&isCharItem&&!STOCK_EXEMPT_IDS.includes(i.id)?`<span style="font-size:7px;background:rgba(46,204,113,0.1);border:1px solid #2ecc7155;color:#2ecc71;border-radius:4px;padding:1px 5px;font-family:'Arial Black',sans-serif;">${lang==='es'?'EN STOCK':'IN STOCK'}</span>`:''}
         </div>
         <!-- Description -->
         <div style="font-size:10px;color:#777;font-family:sans-serif;line-height:1.3;margin-bottom:5px;text-align:left;">${iDesc(i)}</div>
@@ -4729,6 +4955,15 @@ function showUnlockReveal(item, tabCat){
 
 function buyItem(tabCat,id){
   const all=shopItems[tabCat]||[];const i=all.find(x=>x.id===id);if(!i)return;
+  const isCharItem=(i.type==='char'||i.type==='variant');
+  if(isCharItem && !_isInStock(tabCat,i)){
+    showPersistentReaction(SANJAY_TUTORIAL_IMGS[1], 'Craig',
+      'Este personaje ya no está en stock esta ronda. ¡El stock se renueva cada 10 minutos!',
+      'This character isn\'t in stock this round anymore. Stock refreshes every 10 minutes!'
+    );
+    if(tabCat==='event')renderEventStoreItems();else switchShop(tabCat);
+    return;
+  }
   const cur=i.currency==='bills'?'bills':i.currency==='blue'?'blueberries':'wings';
   if(state[cur]>=i.cost){
     state[cur]-=i.cost;state.inventory.push(i);
@@ -4738,7 +4973,39 @@ function buyItem(tabCat,id){
     updateHUD();saveGame();
     if(tabCat==='event')renderEventStoreItems();else switchShop(tabCat);
     showUnlockReveal(i,tabCat);
-  }else notify(t('NO_BALANCE'),t('STORE'),ICONS.error,true);
+    checkTutorialProgress();
+  }else{
+    showCurrencyShortageReaction(cur);
+  }
+}
+
+// Cada divisa reacciona con un personaje distinto explicando cómo conseguirla.
+// (Usa imágenes de Sanjay como placeholder hasta tener el resto de personajes)
+function showCurrencyShortageReaction(cur){
+  const R={
+    wings:{
+      img:SANJAY_TUTORIAL_IMGS[1], name:'Sanjay',
+      es:'¡Ups! Te faltan Alitas para esto. ¡Sigue haciendo clic en el vaso!',
+      en:'Oops! You\'re short on Wings for this. Keep clicking the cup!'
+    },
+    bills:{
+      img:SANJAY_TUTORIAL_IMGS[1], name:'Craig',
+      es:'¡Te faltan Billetes! Se ganan automáticamente clickeando seguido, o en cajas sorpresa.',
+      en:'You\'re short on Bills! You earn them automatically by clicking a lot, or from mystery boxes.'
+    },
+    blueberries:{
+      img:SANJAY_TUTORIAL_IMGS[1], name:'Hector',
+      es:'¡Te faltan Arándanos! Cosecha el Árbol de Arándanos o sigue clickeando para juntar más.',
+      en:'You\'re short on Blueberries! Harvest the Blueberry Tree or keep clicking to gather more.'
+    },
+    sauce:{
+      img:SANJAY_TUTORIAL_IMGS[1], name:'Megan',
+      es:'¡Te falta Salsa Picante! Se junta clickeando seguido, o abriendo cajas sorpresa.',
+      en:'You\'re short on Hot Sauce! You gather it by clicking a lot, or by opening mystery boxes.'
+    },
+  };
+  const r=R[cur]||R.wings;
+  showPersistentReaction(r.img, r.name, r.es, r.en);
 }
 
 // ══════════════════════════════════════════════════════
@@ -4830,7 +5097,7 @@ function switchInventory(tab){
 function upgradeChar(id){
   const lvl=state.upgrades[id]||1;const cost=lvl*15;
   if(state.blueberries>=cost){state.blueberries-=cost;state.upgrades[id]=lvl+1;saveGame();updateHUD();switchInventory(shopItems.chars.some(c=>c.id===id)?'chars':'variants');}
-  else notify(t('NO_BERRIES'),t('CLOSET'),ICONS.error,true);
+  else showCurrencyShortageReaction('blueberries');
 }
 function spicyBoostChar(id){
   if(state.sauce>=3){
@@ -4838,9 +5105,9 @@ function spicyBoostChar(id){
     try{const snd=document.getElementById('snd-spicy');snd.currentTime=0;snd.play().catch(()=>{});}catch(e){}
     notify(lang==='es'?'Personaje Potenciado!':'Character Boosted!',t('POTENCY'),ICONS.sauce);
     updateHUD();updateScene();saveGame();switchInventory(shopItems.chars.some(c=>c.id===id)?'chars':'variants');
-  }else notify(t('NO_SAUCE'),t('CLOSET'),ICONS.error,true);
+  }else showCurrencyShortageReaction('sauce');
 }
-function setChar(id,pos){if(pos==='left')state.leftChar.id=id;else state.rightChar.id=id;updateScene();saveGame();}
+function setChar(id,pos){if(pos==='left')state.leftChar.id=id;else state.rightChar.id=id;updateScene();saveGame();checkTutorialProgress();}
 function setCup(f,m,cls,realImg){state.cupFilter=f;state.cupMulti=m;state.cupClass=cls;state.cupRealImg=realImg||'';updateScene();updateHUD();saveGame();}
 function setBG(img,id){state.currentBG=img;state.currentBgId=id;document.body.style.backgroundImage=`url('${img}')`;saveGame();}
 
@@ -4922,8 +5189,8 @@ function openModal(id){
   if(id==='missions-modal')renderMissions();
   if(id==='daily-modal')renderDailyGrid();
 }
-function closeModal(id){document.getElementById(id).style.display='none';}
-document.querySelectorAll('.modal').forEach(m=>{m.addEventListener('click',e=>{if(e.target===m)m.style.display='none';});});
+function closeModal(id){document.getElementById(id).style.display='none';if(typeof checkTutorialProgress==='function')setTimeout(checkTutorialProgress,150);}
+document.querySelectorAll('.modal').forEach(m=>{m.addEventListener('click',e=>{if(e.target===m){m.style.display='none';if(typeof checkTutorialProgress==='function')setTimeout(checkTutorialProgress,150);}});});
 
 // ══════════════════════════════════════════════════════
 //  CUSTOM CONFIRM DIALOG
@@ -5527,9 +5794,10 @@ function applyUnlockState(){
 <div id="snake-modal" class="modal">
   <div class="modal-content" style="border-color:#e91e63;max-width:480px;">
     <h2 style="color:#e91e63;display:flex;align-items:center;gap:10px;justify-content:center;">
-      <img src="https://img.icons8.com/fluency/48/snake.png" style="width:24px;height:24px;">
-      <span id="snake-modal-title">SNAKE GAME</span>
+      <img src="https://img.icons8.com/fluency/48/joystick.png" style="width:24px;height:24px;">
+      <span id="snake-modal-title">FRYCADE — FRITOLANDIA</span>
     </h2>
+    <p style="text-align:center;font-size:9px;color:#888;font-family:sans-serif;margin:-8px 0 8px;" id="frycade-subtitle">SNAKE</p>
     <div class="snake-score-row">
       <div><div class="snake-score-lbl" id="snake-score-lbl">SCORE</div><div class="snake-score-val" id="snake-score-display">0</div></div>
       <div style="text-align:right"><div class="snake-score-lbl" id="snake-best-label">BEST</div><div class="snake-best-val" id="snake-best-display">0</div></div>
@@ -6373,6 +6641,477 @@ if(typeof state !== 'undefined'){
 // ── Update Firestore rules reminder (in console) ───────
 // Social system loaded
 
+// ══════════════════════════════════════════════════════
+//  TUTORIAL SYSTEM
+// ══════════════════════════════════════════════════════
+// Cada paso se activa solo cuando se cumple su condition(state).
+// waitForClick:true = el jugador debe hacer clic real en el target (el hueco del
+// overlay deja pasar el clic al botón real) para avanzar. Sin waitForClick = paso
+// informativo con botón "Siguiente".
+// Imágenes de referencia de Sanjay para los diálogos del tutorial — AÚN NO
+// DEFINITIVAS (habrá más / se reordenarán cuando SpongeVoid confirme el set final).
+const SANJAY_TUTORIAL_IMGS = [
+  'https://chibi.iitranq.co.uk/R0vpONCSxVfr.png',
+  'https://chibi.iitranq.co.uk/IBvSJwauFlvK.png',
+  'https://chibi.iitranq.co.uk/yoNMeiXKFskb.png',
+  'https://chibi.iitranq.co.uk/kQitQxyMYt7U.png',
+];
+
+const TUTORIAL_STEPS = [
+  {
+    id: 'click',
+    char_img: SANJAY_TUTORIAL_IMGS[0],
+    char_name: 'Sanjay',
+    target: '#cup-wrapper',
+    text_es: '¡Haz clic en el vaso para ganar Alitas! Cuantos más cliques, más ganas.',
+    text_en: 'Click the cup to earn Wings! The more you click, the more you earn.',
+    waitForClick: true,
+    condition: () => true,
+  },
+  {
+    id: 'store',
+    char_img: 'https://web.archive.org/web/20260422005428if_/https://files.catbox.moe/3cdyrt.png',
+    char_name: 'Craig',
+    target: 'button.btn-shop',
+    text_es: '¡Ya casi llegas a 250 Alitas! Ve a la Tienda y compra al Sr. Noodman, tu primer personaje. Soy un maestro comprando.',
+    text_en: 'You\'re almost at 250 Wings! Go to the Store and buy Mr. Noodman, your first character. I\'m a master shopper.',
+    waitForClick: true,
+    condition: (s) => (s.wings||0) >= 250,
+  },
+  {
+    id: 'closet',
+    char_img: 'https://web.archive.org/web/20260422005428if_/https://files.catbox.moe/3cdyrt.png',
+    char_name: 'Craig',
+    target: 'button.btn-inv',
+    text_es: '¡Buena compra! Ahora ve al Armario y equipa a tu nuevo personaje en un espacio para que empiece a ayudarte.',
+    text_en: 'Nice buy! Now go to the Closet and equip your new character in a slot so it starts helping you.',
+    waitForClick: true,
+    condition: (s) => (s.inventory||[]).some(i => i.type==='char'||i.type==='variant'),
+  },
+  {
+    id: 'multi',
+    char_img: 'https://web.archive.org/web/20260416222459if_/https://files.catbox.moe/5ih2jk.png',
+    char_name: 'Hector',
+    target: '#m-val',
+    text_es: '¡Así se hace! El Multiplicador aumenta tus Alitas por clic. ¡Equipa más personajes para subirlo aún más!',
+    text_en: 'That\'s how it\'s done! The Multiplier boosts your Wings per click. Equip more characters to increase it even more!',
+    condition: (s) => (s.leftChar.id!=='hector_and_megan') || (s.rightChar.id!=='sanjay_and_craig'),
+  },
+  {
+    id: 'prestige',
+    char_img: 'https://uploads.onecompiler.io/447259qgx/44cxpnfu9/Remington%20Tufflips.png',
+    char_name: 'Remington Tufflips',
+    target: '#prestige-sidebar-btn',
+    text_es: '¡El Prestigio reinicia tu progreso pero te da multiplicadores PERMANENTES! Yo hice el Prestige 46 veces.',
+    text_en: 'Prestige resets your progress but gives you PERMANENT multipliers! I\'ve done it 46 times.',
+    condition: (s) => !!s.prestigeUnlocked,
+    optional: true,
+  },
+  {
+    id: 'friends',
+    char_img: 'https://web.archive.org/web/20260416222459if_/https://files.catbox.moe/5ih2jk.png',
+    char_name: 'Megan',
+    target: '#btn-friends-main',
+    text_es: '¡Ya desbloqueaste la sección de Amigos! Agrega a tus amigos con su código de cuenta.',
+    text_en: 'You\'ve unlocked the Friends section! Add your friends with their account code.',
+    waitForClick: true,
+    condition: (s) => getCurrentLevel(s.totalSips) >= 15,
+    optional: true,
+  },
+];
+
+let _tutorialActive = false;
+let _tutorialCurrentStepId = null;
+let _tutorialTargetEl = null;
+let _tutorialClickHandler = null;
+let _tutorialReposition = null;
+
+function updateTutorialGatedButtons(){
+  const shopBtn=document.querySelector('.btn-shop');
+  const closetBtn=document.querySelector('.btn-inv');
+  const settingsBtn=document.querySelector('.btn-settings');
+  if(state.tutorialDone || state.tutorialSkipped){
+    [shopBtn,closetBtn,settingsBtn].forEach(b=>{if(b){b.style.filter='none';b.style.opacity='1';}});
+    return;
+  }
+  const storeStep=TUTORIAL_STEPS.find(s=>s.id==='store');
+  const closetStep=TUTORIAL_STEPS.find(s=>s.id==='closet');
+  const shopUnlocked = storeStep ? storeStep.condition(state) : true;
+  const closetUnlocked = closetStep ? closetStep.condition(state) : shopUnlocked;
+  // Settings no tiene un paso propio en el tutorial — se destraba junto con el
+  // resto de la sección de compras (armario), que es cuando el jugador ya
+  // conoce lo básico del juego.
+  const settingsUnlocked = closetUnlocked;
+  if(shopBtn){shopBtn.style.filter=shopUnlocked?'none':'grayscale(1)';shopBtn.style.opacity=shopUnlocked?'1':'0.4';}
+  if(closetBtn){closetBtn.style.filter=closetUnlocked?'none':'grayscale(1)';closetBtn.style.opacity=closetUnlocked?'1':'0.4';}
+  if(settingsBtn){settingsBtn.style.filter=settingsUnlocked?'none':'grayscale(1)';settingsBtn.style.opacity=settingsUnlocked?'1':'0.4';}
+}
+
+function updateAchievementsButtonLock(){
+  const btn = document.getElementById('btn-achievements');
+  if(!btn) return;
+  btn.style.display = (state.tutorialDone || state.tutorialSkipped) ? 'flex' : 'none';
+}
+
+function updateFriendsButtonLock(){
+  const btn = document.getElementById('btn-friends-main');
+  if(!btn) return;
+  btn.style.display = (getCurrentLevel(state.totalSips) >= 15) ? 'flex' : 'none';
+}
+
+function updateEventButtonLock(){
+  const btn = document.getElementById('btn-event');
+  if(!btn) return;
+  btn.style.display = (getCurrentLevel(state.totalSips) >= 15) ? 'flex' : 'none';
+}
+
+// ══════════════════════════════════════════════════════
+//  REACCIONES DE PERSONAJE — se muestran UNA sola vez por id
+// ══════════════════════════════════════════════════════
+// Devuelve true si mostró la reacción (primera vez), false si ya se había
+// mostrado antes (el llamador debe usar un notify() normal como fallback).
+// Igual que showCharacterReaction pero SIEMPRE se muestra (no se guarda como
+// "vista", no cae nunca a un notify() genérico). Para reacciones con más
+// personalidad que deben repetirse cada vez que aplican (ej: sin saldo).
+function _injectReactionCSS(){
+  if(!document.getElementById('char-reaction-css')){
+    const st=document.createElement('style');
+    st.id='char-reaction-css';
+    st.textContent=`
+      @keyframes charReactionPop{from{opacity:0;transform:translateX(-50%) translateY(12px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+      @keyframes charReactionHighlight{0%,100%{box-shadow:0 0 0 3px #2ecc71,0 0 18px rgba(46,204,113,0.8)}50%{box-shadow:0 0 0 3px #2ecc71,0 0 30px rgba(46,204,113,1)}}
+    `;
+    document.head.appendChild(st);
+  }
+}
+
+// Resalta brevemente un elemento (ej: el botón de Logros) para que el
+// jugador sepa a dónde mirar mientras un personaje se lo explica.
+function _highlightElementBriefly(selector, ms=3500){
+  const el=document.querySelector(selector);
+  if(!el) return;
+  const prevRadius=el.style.borderRadius;
+  el.style.animation='charReactionHighlight 0.8s ease infinite';
+  el.style.borderRadius=el.style.borderRadius||'6px';
+  setTimeout(()=>{ el.style.animation=''; el.style.borderRadius=prevRadius; }, ms);
+}
+
+function _buildReactionOverlay(imgUrl, charName, text_es, text_en, extraClass){
+  const overlay=document.createElement('div');
+  if(extraClass)overlay.className=extraClass;
+  overlay.style.cssText='position:fixed;left:50%;bottom:26px;transform:translateX(-50%);z-index:9500;display:flex;gap:12px;align-items:center;background:linear-gradient(135deg,#0a1a0a,#051005);border:2px solid #2ecc71;border-radius:16px;padding:14px 18px;box-shadow:0 0 30px rgba(46,204,113,0.4);max-width:min(420px,90vw);animation:charReactionPop 0.3s ease;cursor:pointer;';
+  const nameHtml = charName ? `<div style="font-size:9px;color:#2ecc71;font-family:'Arial Black',sans-serif;letter-spacing:1px;margin-bottom:4px;">${charName.toUpperCase()}</div>` : '';
+  overlay.innerHTML=`
+    <img src="${imgUrl}" style="width:56px;height:56px;object-fit:contain;flex-shrink:0;filter:drop-shadow(0 2px 6px rgba(0,0,0,0.6));" onerror="this.style.display='none'">
+    <div style="min-width:0;">
+      ${nameHtml}
+      <div style="font-size:11px;color:#eee;font-family:sans-serif;line-height:1.4;">${lang==='es'?text_es:text_en}</div>
+    </div>
+  `;
+  return overlay;
+}
+
+// Igual que showCharacterReaction pero SIEMPRE se muestra (no se guarda como
+// "vista", no cae nunca a un notify() genérico). Para reacciones con más
+// personalidad que deben repetirse cada vez que aplican (ej: sin saldo).
+function showPersistentReaction(imgUrl, charName, text_es, text_en, highlightSelector){
+  _injectReactionCSS();
+  document.querySelectorAll('.char-reaction-persistent').forEach(e=>e.remove());
+  const overlay=_buildReactionOverlay(imgUrl, charName, text_es, text_en, 'char-reaction-persistent');
+  document.body.appendChild(overlay);
+  overlay.onclick=()=>overlay.remove();
+  setTimeout(()=>overlay.remove(), 4500);
+  if(highlightSelector)_highlightElementBriefly(highlightSelector);
+}
+
+function showCharacterReaction(id, imgUrl, charName, text_es, text_en, highlightSelector){
+  if(!state.oneTimeReactions) state.oneTimeReactions=[];
+  if(state.oneTimeReactions.includes(id)) return false;
+  state.oneTimeReactions.push(id);
+  saveGame();
+  _injectReactionCSS();
+  const overlay=_buildReactionOverlay(imgUrl, charName, text_es, text_en);
+  document.body.appendChild(overlay);
+  overlay.onclick=()=>overlay.remove();
+  setTimeout(()=>overlay.remove(), 4500);
+  if(highlightSelector)_highlightElementBriefly(highlightSelector);
+  return true;
+}
+
+function openFriendsIfUnlocked(){
+  const lvl = getCurrentLevel(state.totalSips);
+  if(lvl < 15){
+    notify(
+      lang==='es' ? `¡Desbloqueas Amigos en el Nivel 15! (Actual: ${lvl})` : `Friends unlock at Level 15! (Current: ${lvl})`,
+      lang==='es' ? 'BLOQUEADO' : 'LOCKED',
+      ICONS.lock, true
+    );
+    return;
+  }
+  openModal('friends-modal');
+}
+
+function startTutorial(){
+  if(state.tutorialDone || state.tutorialSkipped) return;
+  if(!state.tutorialShown) state.tutorialShown = [];
+  _tutorialActive = true;
+  checkTutorialProgress();
+}
+
+// Busca el siguiente paso no mostrado cuya condición ya se cumple y lo muestra.
+// Se llama tras cada acción relevante del juego (clic, compra, subir nivel, etc.)
+function checkTutorialProgress(){
+  if(state.tutorialDone || state.tutorialSkipped) return;
+  if(_tutorialActive && document.getElementById('tutorial-overlay')) return; // ya hay un paso visible
+  if(!state.tutorialShown) state.tutorialShown = [];
+  const _isOpen=(id)=>{const el=document.getElementById(id);return el && el.style.display!=='none' && el.style.display!=='';};
+  const shopOpen = _isOpen('shop-modal');
+  const invOpen = _isOpen('inv-modal');
+  const next = TUTORIAL_STEPS.find(s => !state.tutorialShown.includes(s.id) && s.condition(state) && !(s.id==='closet' && shopOpen) && !(s.id==='multi' && invOpen));
+  if(next){
+    _tutorialActive = true;
+    showTutorialStepById(next.id);
+  }
+}
+
+function _cleanupTutorialDOM(){
+  document.getElementById('tutorial-overlay')?.remove();
+  if(_tutorialTargetEl && _tutorialClickHandler){
+    _tutorialTargetEl.removeEventListener('click', _tutorialClickHandler);
+  }
+  _tutorialTargetEl = null;
+  _tutorialClickHandler = null;
+  if(_tutorialReposition){
+    window.removeEventListener('resize', _tutorialReposition);
+    window.removeEventListener('scroll', _tutorialReposition, true);
+    _tutorialReposition = null;
+  }
+}
+
+function showTutorialStepById(stepId){
+  const step = TUTORIAL_STEPS.find(s => s.id === stepId);
+  if(!step) return;
+  _cleanupTutorialDOM();
+  _tutorialCurrentStepId = stepId;
+
+  const shownCount = (state.tutorialShown||[]).length;
+  const totalCount = TUTORIAL_STEPS.length;
+
+  const overlay = document.createElement('div');
+  overlay.id = 'tutorial-overlay';
+  overlay.style.cssText = 'position:fixed;inset:0;z-index:10000;pointer-events:none;';
+
+  // El "ring" oscurece toda la pantalla con box-shadow (spread 2000px) dejando
+  // un hueco transparente sobre el target. pointer-events:none en el ring hace
+  // que el clic pase directo al botón real — soluciona el bug de no poder
+  // comprar en la tienda durante el tutorial.
+  const ring = document.createElement('div');
+  ring.id = 'tutorial-ring';
+  ring.style.cssText = 'position:absolute;pointer-events:none;border:3px solid #2ecc71;border-radius:14px;box-shadow:0 0 16px rgba(46,204,113,0.7),0 0 0 2000px rgba(0,0,0,0.72);transition:all .25s ease;';
+  overlay.appendChild(ring);
+
+  const arrow = document.createElement('div');
+  arrow.id = 'tutorial-arrow';
+  arrow.style.cssText = 'position:absolute;font-size:26px;pointer-events:none;filter:drop-shadow(0 0 6px rgba(46,204,113,0.8));';
+  overlay.appendChild(arrow);
+
+  const dialog = document.createElement('div');
+  dialog.id = 'tutorial-dialog';
+  dialog.style.cssText = `
+    position:absolute;
+    width:min(480px,90vw);
+    background:linear-gradient(135deg,#0a1a0a,#051005);
+    border:2px solid #2ecc71;border-radius:16px;
+    padding:16px;display:flex;gap:14px;align-items:flex-start;
+    box-shadow:0 0 30px rgba(46,204,113,0.4);
+    pointer-events:all;
+    animation:tutorialPop 0.3s ease;
+  `;
+
+  const charImg = `<div style="width:64px;height:64px;flex-shrink:0;display:flex;align-items:center;justify-content:center;"><img src="${step.char_img}" style="max-width:100%;max-height:100%;object-fit:contain;filter:drop-shadow(0 2px 6px rgba(0,0,0,0.6));" onerror="this.style.display='none'"></div>`;
+  const text = lang==='es' ? step.text_es : step.text_en;
+  const dots = TUTORIAL_STEPS.filter(s=>!s.optional||true).map(s=>{
+    const done = (state.tutorialShown||[]).includes(s.id);
+    const isCurrent = s.id===stepId;
+    const color = isCurrent ? '#2ecc71' : (done ? '#1b7a45' : '#333');
+    return `<span style="width:6px;height:6px;border-radius:50%;background:${color};display:inline-block;"></span>`;
+  }).join('');
+
+  dialog.innerHTML = `
+    ${charImg}
+    <div style="flex:1;min-width:0;">
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+        <span style="font-size:9px;color:#2ecc71;font-family:'Arial Black',sans-serif;letter-spacing:1px;">${step.char_name.toUpperCase()}</span>
+        <span style="display:flex;gap:3px;">${dots}</span>
+      </div>
+      <div style="font-size:12px;color:#eee;font-family:sans-serif;line-height:1.5;margin-bottom:12px;">${text}</div>
+      <div style="display:flex;gap:8px;">
+        <button onclick="skipTutorial()" style="padding:7px 14px;background:transparent;border:1px solid #555;border-radius:8px;color:#555;font-size:9px;font-family:'Arial Black',sans-serif;cursor:pointer;">
+          ${lang==='es'?'SALTAR':'SKIP'}
+        </button>
+        ${step.waitForClick ? `<div style="flex:1;display:flex;align-items:center;justify-content:center;font-size:9px;color:#2ecc71;font-family:'Arial Black',sans-serif;">${lang==='es'?'👆 TOCA EL BOTÓN RESALTADO':'👆 TAP THE HIGHLIGHTED BUTTON'}</div>` :
+        `<button onclick="_tutorialManualNext()" style="flex:1;padding:7px 14px;background:rgba(46,204,113,0.15);border:2px solid #2ecc71;border-radius:8px;color:#2ecc71;font-size:10px;font-family:'Arial Black',sans-serif;cursor:pointer;box-shadow:0 0 10px rgba(46,204,113,0.3);">${lang==='es'?'SIGUIENTE ▶':'NEXT ▶'}</button>`}
+      </div>
+    </div>
+  `;
+
+  overlay.appendChild(dialog);
+  document.body.appendChild(overlay);
+
+  if(!document.getElementById('tutorial-css')){
+    const style = document.createElement('style');
+    style.id = 'tutorial-css';
+    style.textContent = `
+      @keyframes tutorialPop{from{opacity:0;transform:scale(0.9)}to{opacity:1;transform:scale(1)}}
+      @keyframes arrowBounceDown{from{transform:translateY(0)}to{transform:translateY(-8px)}}
+      @keyframes arrowBounceUp{from{transform:translateY(0)}to{transform:translateY(8px)}}
+    `;
+    document.head.appendChild(style);
+  }
+
+  // Posiciona ring, flecha y diálogo relativo al target real; se re-ejecuta
+  // en resize/scroll para que nunca queden desalineados.
+  function reposition(){
+    const targetEl = document.querySelector(step.target);
+    const ov = document.getElementById('tutorial-overlay');
+    if(!ov) return;
+    if(!targetEl){
+      // Sin target visible: solo centra el diálogo, sin ring ni flecha.
+      ring.style.display = 'none';
+      arrow.style.display = 'none';
+      dialog.style.top = '50%';
+      dialog.style.left = '50%';
+      dialog.style.transform = 'translate(-50%,-50%)';
+      return;
+    }
+    const r = targetEl.getBoundingClientRect();
+    const pad = 10;
+    ring.style.display = 'block';
+    ring.style.left = (r.left-pad)+'px';
+    ring.style.top = (r.top-pad)+'px';
+    ring.style.width = (r.width+pad*2)+'px';
+    ring.style.height = (r.height+pad*2)+'px';
+
+    const spaceBelow = window.innerHeight - r.bottom;
+    const spaceAbove = r.top;
+    const dialogGoesBelow = spaceBelow >= 160 || spaceBelow >= spaceAbove;
+
+    // Flecha: apunta desde el lado del diálogo hacia el target
+    arrow.style.display = 'block';
+    const cx = Math.min(Math.max(r.left + r.width/2, 20), window.innerWidth-20);
+    if(dialogGoesBelow){
+      arrow.textContent = '⬆️';
+      arrow.style.top = Math.max(r.bottom + 6, 6) + 'px';
+      arrow.style.left = (cx-13)+'px';
+      arrow.style.animation = 'arrowBounceUp 0.7s infinite alternate';
+    } else {
+      arrow.textContent = '⬇️';
+      arrow.style.top = Math.max(r.top - 34, 6) + 'px';
+      arrow.style.left = (cx-13)+'px';
+      arrow.style.animation = 'arrowBounceDown 0.7s infinite alternate';
+    }
+
+    // Diálogo: clamp horizontal para que no se salga de pantalla
+    const dw = Math.min(480, window.innerWidth*0.9);
+    let dleft = r.left + r.width/2 - dw/2;
+    dleft = Math.min(Math.max(dleft, 10), window.innerWidth - dw - 10);
+    dialog.style.left = dleft+'px';
+    dialog.style.transform = 'none';
+    dialog.style.width = dw+'px';
+    if(dialogGoesBelow){
+      dialog.style.top = Math.min(r.bottom + 46, window.innerHeight-160) + 'px';
+      dialog.style.bottom = '';
+    } else {
+      dialog.style.top = '';
+      dialog.style.bottom = (window.innerHeight - r.top + 46) + 'px';
+    }
+  }
+  reposition();
+  _tutorialReposition = reposition;
+  window.addEventListener('resize', reposition);
+  window.addEventListener('scroll', reposition, true);
+
+  // Hueco clicable: si el paso requiere clic real, escucha el target sin
+  // bloquearlo (el overlay nunca tapa el área del target, ver CSS #tutorial-frame).
+  if(step.waitForClick){
+    const targetEl = document.querySelector(step.target);
+    if(targetEl){
+      _tutorialTargetEl = targetEl;
+      _tutorialClickHandler = () => { setTimeout(()=>_tutorialAdvance(step.id), 350); };
+      targetEl.addEventListener('click', _tutorialClickHandler);
+      targetEl.addEventListener('mousedown', _tutorialClickHandler);
+    } else {
+      // Target no encontrado (ej. detrás de un modal cerrado): permite avanzar igual
+      _tutorialClickHandler = null;
+    }
+  }
+}
+
+function _tutorialManualNext(){
+  if(_tutorialCurrentStepId) _tutorialAdvance(_tutorialCurrentStepId);
+}
+
+function _tutorialAdvance(stepId){
+  if(!state.tutorialShown) state.tutorialShown = [];
+  if(!state.tutorialShown.includes(stepId)) state.tutorialShown.push(stepId);
+  _cleanupTutorialDOM();
+  saveGame();
+
+  const remaining = TUTORIAL_STEPS.filter(s => !state.tutorialShown.includes(s.id) && !s.optional);
+  const remainingReachable = remaining.filter(s => s.condition(state));
+  if(remaining.length === 0){
+    completeTutorial();
+    return;
+  }
+  // Si hay un siguiente paso ya alcanzable, muéstralo; si no, espera a que
+  // checkTutorialProgress() lo dispare cuando se cumpla su condición.
+  if(remainingReachable.length){
+    showTutorialStepById(remainingReachable[0].id);
+  } else {
+    _tutorialActive = false; // queda "en pausa" hasta cumplir la próxima condición
+  }
+}
+
+function skipTutorial(){
+  _cleanupTutorialDOM();
+  state.tutorialSkipped = true;
+  state.tutorialDone = true;
+  _tutorialActive = false;
+  saveGame();
+  setTimeout(()=>{
+    notify(
+      lang==='es' ? '⚠️ Saltaste el tutorial — el logro "¡MAESTRO DEL VASO!" no se desbloqueará.' : '⚠️ You skipped the tutorial — "CUP MASTER!" achievement won\'t unlock.',
+      lang==='es' ? 'TUTORIAL' : 'TUTORIAL',
+      ICONS.lock, false, true
+    );
+  }, 500);
+}
+
+function completeTutorial(){
+  _cleanupTutorialDOM();
+  state.tutorialDone = true;
+  state.tutorialSkipped = false;
+  _tutorialActive = false;
+  saveGame();
+  checkAchievements();
+  setTimeout(()=>{
+    notify(
+      lang==='es' ? '🎓 ¡Tutorial completado! Logro desbloqueado.' : '🎓 Tutorial complete! Achievement unlocked.',
+      lang==='es' ? 'TUTORIAL' : 'TUTORIAL',
+      ICONS.star, false, true
+    );
+    showCharacterReaction('tutorial_complete', SANJAY_TUTORIAL_IMGS[3], 'Sanjay',
+      '¡LO LOGRASTE! Ya sabes todo lo necesario. ¡Ahora a ganar Alitas!',
+      'YOU DID IT! You know everything you need. Now go earn those Wings!'
+    );
+  }, 300);
+}
+
+// Mantiene compatibilidad con la llamada existente al subir a nivel 15
+function checkFriendsTutorialUnlock(){
+  checkTutorialProgress();
+}
+
 window.addEventListener('beforeunload',()=>{if(!window._saveDisabled)saveGame(true);});
 document.addEventListener('visibilitychange',()=>{
   if(document.hidden){saveGame(true);}
@@ -6406,10 +7145,11 @@ _checkOrientation();
 (function () {
 
   // ── Configuración ──────────────────────────────────────────────
-  const BAP_ID_URL      = 'https://TU_DOMINIO/bap-id.html';       // URL de tu página BAP ID
-  const BAP_PROJECT_ID  = 'TU_PROYECTO_DE_BAP_ID';                 // Firebase project ID de BAP ID
-  const BAP_API_KEY     = 'TU_API_KEY_DE_BAP_ID';                  // Firebase API Key de BAP ID
+  const BAP_ID_URL      = 'https://fernandoaaa123.github.io/BAP/';   // URL de tu página BAP ID
+  const BAP_PROJECT_ID  = 'bap-studios-id';                           // Firebase project ID de BAP ID
+  const BAP_API_KEY     = 'AIzaSyDYO-VjjLbqrYIWV-mMfKpsR_TvBJZgLZ0';  // Firebase API Key de BAP ID
   const BAP_USERS_URL   = `https://firestore.googleapis.com/v1/projects/${BAP_PROJECT_ID}/databases/(default)/documents/bap_users`;
+  const BAP_STATS_URL   = `https://firestore.googleapis.com/v1/projects/${BAP_PROJECT_ID}/databases/(default)/documents/bap_achievement_stats`;
   const ACCOUNT_CODE_KEY = 'sc_account_code';
 
   // ── Estado ─────────────────────────────────────────────────────
@@ -6593,6 +7333,191 @@ _checkOrientation();
       _bapReady = false;
       _updateUI(null);
       _log('Sesión cerrada.');
+    }
+  };
+
+  // ══════════════════════════════════════════════════════════════
+  //  🏆 LOGROS BAP — pestaña "BAP" del modal de logros.
+  //  Usa la misma API REST de Firestore que el resto de este bloque
+  //  (sin SDK), apuntando siempre al proyecto de BAP ID.
+  // ══════════════════════════════════════════════════════════════
+
+  // Catálogo derivado automáticamente de gameAchievements — no hay que
+  // mantener una segunda lista a mano. Prefijo 'coc_' para que los ids
+  // sean únicos en todo el ecosistema BAP (junto a los de otros juegos).
+  const BAP_ACHIEVEMENTS = gameAchievements.map(a => ({
+    id: 'coc_' + a.id, icon: a.icon, name_es: a.name_es, name_en: a.name_en,
+    goal: a.goal, type: a.type
+  }));
+
+  const _TYPE_LABEL_ES = {wings:'alitas',bills:'billetes',blueberries:'arándanos',sips:'sorbos',multi:'multiplicador',sauce:'salsas picantes',frenzies:'frenesís',prestiges:'prestigios',level:'nivel',friends:'amigos',treeHarvest:'cosechas del árbol',dailyStreak:'días de racha diaria',missionsCompleted:'misiones completadas',maxCombo:'combo máximo',giftsSent:'regalos enviados',totalSpins:'giros de ruleta',maxClickStreak:'racha de clics',totalChallenges:'desafíos',totalBoxesOpened:'cajas abiertas',tutorialComplete:'el tutorial'};
+  const _TYPE_LABEL_EN = {wings:'wings',bills:'bills',blueberries:'blueberries',sips:'sips',multi:'multiplier',sauce:'hot sauces',frenzies:'frenzies',prestiges:'prestiges',level:'level',friends:'friends',treeHarvest:'tree harvests',dailyStreak:'daily streak days',missionsCompleted:'missions completed',maxCombo:'max combo',giftsSent:'gifts sent',totalSpins:'wheel spins',maxClickStreak:'click streak',totalChallenges:'challenges',totalBoxesOpened:'boxes opened',tutorialComplete:'the tutorial'};
+  function _bapAchDesc(a){
+    if(a.type==='tutorialComplete') return lang==='es' ? 'Completa el tutorial' : 'Complete the tutorial';
+    if(a.type==='level') return lang==='es' ? `Alcanza el nivel ${a.goal}` : `Reach level ${a.goal}`;
+    const label=(lang==='es'?_TYPE_LABEL_ES:_TYPE_LABEL_EN)[a.type]||a.type;
+    return lang==='es' ? `Alcanza ${a.goal.toLocaleString('es')} ${label}` : `Reach ${a.goal.toLocaleString('en')} ${label}`;
+  }
+
+  // Rareza (remake propio, no el de Google Play Juegos): umbrales fijos.
+  function _bapRarityFromPct(pct){
+    if(pct > 75) return 'common';
+    if(pct > 50) return 'uncommon';
+    if(pct > 30) return 'rare';
+    if(pct > 10) return 'ultra';
+    if(pct > 1)  return 'epic';
+    return 'legendary';
+  }
+  const _bapRarityLabel = { common:'Común', uncommon:'Poco común', rare:'Raro', ultra:'Ultra raro', epic:'Épico', legendary:'Legendario' };
+  const _bapRarityColor = { common:'#9aa0a6', uncommon:'#7cb342', rare:'#4285f4', ultra:'#9c27b0', epic:'#facc15', legendary:'#ef4444' };
+  function _bapRarityShape(rarity){
+    const col=_bapRarityColor[rarity];
+    const base='display:inline-block;width:9px;height:9px;flex-shrink:0;background:'+col+';';
+    if(rarity==='common')   return `<span style="${base}border-radius:50%;"></span>`;
+    if(rarity==='uncommon') return `<span style="${base}border-radius:2px;"></span>`;
+    if(rarity==='rare')     return `<span style="${base}border-radius:1px;transform:rotate(45deg);"></span>`;
+    if(rarity==='ultra')    return `<span style="${base}clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);"></span>`; // estrella
+    if(rarity==='epic')     return `<span style="${base}clip-path:polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%);"></span>`; // hexágono
+    return `<span style="${base}clip-path:polygon(50% 0%,100% 35%,80% 100%,20% 100%,0% 35%);"></span>`; // legendario: diamante
+  }
+
+  // batchGet: trae varios documentos de Firestore en una sola llamada REST.
+  async function _bapBatchGet(paths){
+    try{
+      const url=`https://firestore.googleapis.com/v1/projects/${BAP_PROJECT_ID}/databases/(default)/documents:batchGet?key=${BAP_API_KEY}`;
+      const r=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({documents:paths})});
+      if(!r.ok) return [];
+      return await r.json();
+    }catch(e){ _log('batchGet error: '+e); return []; }
+  }
+
+  let _bapTotalUsersCache=null;
+  async function _bapGetTotalUsers(){
+    if(_bapTotalUsersCache!==null) return _bapTotalUsersCache;
+    try{
+      const url=`https://firestore.googleapis.com/v1/projects/${BAP_PROJECT_ID}/databases/(default)/documents:runAggregationQuery?key=${BAP_API_KEY}`;
+      const r=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+        structuredAggregationQuery:{ structuredQuery:{ from:[{collectionId:'bap_users'}] }, aggregations:[{alias:'count',count:{}}] }
+      })});
+      if(r.ok){
+        const data=await r.json();
+        const row=Array.isArray(data)?data.find(x=>x.result):null;
+        const cnt=row?.result?.aggregateFields?.count?.integerValue;
+        if(cnt!=null){ _bapTotalUsersCache=Math.max(1,parseInt(cnt,10)); return _bapTotalUsersCache; }
+      }
+    }catch(e){ _log('count() falló, se usa conteo manual: '+e); }
+    // Fallback: listar documentos y contar (evita que el % se infle a 100%
+    // cuando la agregación no está disponible/permitida).
+    try{
+      const url2=`${BAP_USERS_URL}?key=${BAP_API_KEY}&pageSize=300`;
+      const r2=await fetch(url2);
+      if(r2.ok){ const d2=await r2.json(); _bapTotalUsersCache=Math.max(1,(d2.documents||[]).length); return _bapTotalUsersCache; }
+    }catch(e2){ _log('conteo manual también falló: '+e2); }
+    _bapTotalUsersCache=1;
+    return _bapTotalUsersCache;
+  }
+
+  // Desbloquea un logro en BAP (idempotente: si ya existe, no hace nada).
+  // No es atómico (llamadas REST simples, sin transacción) — aceptable a
+  // esta escala; si dos pestañas lo desbloquean en el mismo instante el
+  // contador podría perder +1 en un caso muy raro, sin mayor consecuencia.
+  // `meta` = el logro local (para el nombre/ícono del aviso). `silent` = no
+  // mostrar el aviso (se usa cuando el logro local YA mostró su propio aviso
+  // hace un instante, para no duplicarlo).
+  async function _bapUnlockAchievement(uid, achId, meta, silent){
+    try{
+      const checkUrl=`${BAP_USERS_URL}/${uid}/achievements/${achId}?key=${BAP_API_KEY}`;
+      const r=await fetch(checkUrl);
+      if(r.ok) return false; // ya estaba desbloqueado
+      await fetch(checkUrl,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+        fields:{ unlockedAt:{ timestampValue: new Date().toISOString() } }
+      })});
+      const statUrl=`${BAP_STATS_URL}/${achId}?key=${BAP_API_KEY}`;
+      let current=0;
+      try{ const rs=await fetch(statUrl); if(rs.ok){ const d=await rs.json(); current=parseInt(d.fields?.unlockCount?.integerValue||'0',10); } }catch(e){}
+      await fetch(statUrl,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+        fields:{ unlockCount:{ integerValue:String(current+1) } }
+      })});
+      _log('Logro BAP desbloqueado: '+achId);
+      if(!silent && meta) notify(achName(meta), t('ACHIEVEMENT_UNLOCKED'), meta.icon||ICONS.trophy);
+      return true;
+    }catch(e){ _log('Error al desbloquear logro BAP '+achId+': '+e); return false; }
+  }
+
+  // Revisa los logros locales ya desbloqueados (state.unlockedAchs) y los
+  // sincroniza con BAP. Segura de llamar muchas veces. Pasa silent=true
+  // cuando el aviso local ya se mostró (evita el aviso duplicado); se deja
+  // sonar cuando es una sincronización de "alcance" (p. ej. al abrir la
+  // pestaña BAP), así confirma cualquier logro que no se haya avisado antes.
+  window._bapSyncAchievements = async function(silent){
+    if(!_bapReady || !_bapUser || !_bapUser.uid) return;
+    for(const a of gameAchievements){
+      if(state.unlockedAchs.includes(a.id)) await _bapUnlockAchievement(_bapUser.uid, 'coc_'+a.id, a, silent);
+    }
+  };
+
+  // Dibuja la pestaña BAP — estilo Google Play Juegos: % real + rareza.
+  window._bapRenderAchievements = async function(){
+    const body=document.getElementById('bap-ach-body');
+    const countEl=document.getElementById('bap-ach-count');
+    if(!body) return;
+    body.innerHTML='<div style="font-size:13px;color:#888;text-align:center;padding:30px 20px;font-family:sans-serif;">Cargando…</div>';
+    const loggedWithBap = _bapReady && _bapUser && _bapUser.uid;
+    try{
+      const totalUsers=await _bapGetTotalUsers();
+      const unlockedMap=new Map();
+      if(loggedWithBap){
+        const listUrl=`${BAP_USERS_URL}/${_bapUser.uid}/achievements?key=${BAP_API_KEY}&pageSize=300`;
+        const r=await fetch(listUrl);
+        if(r.ok){
+          const d=await r.json();
+          (d.documents||[]).forEach(doc=>{
+            const id=doc.name.split('/').pop();
+            unlockedMap.set(id, doc.fields?.unlockedAt?.timestampValue);
+          });
+        }
+      }
+      const base=`projects/${BAP_PROJECT_ID}/databases/(default)/documents`;
+      const statPaths=BAP_ACHIEVEMENTS.map(a=>`${base}/bap_achievement_stats/${a.id}`);
+      const statResults=await _bapBatchGet(statPaths);
+      const statMap={};
+      statResults.forEach(item=>{
+        if(item.found){
+          const id=item.found.name.split('/').pop();
+          statMap[id]=parseInt(item.found.fields?.unlockCount?.integerValue||'0',10);
+        }
+      });
+      BAP_ACHIEVEMENTS.forEach(a=>{ if(!(a.id in statMap)) statMap[a.id]=0; });
+
+      const enriched=BAP_ACHIEVEMENTS.map(a=>{
+        const pct=Math.min(100,(statMap[a.id]/totalUsers)*100);
+        return { a, pct, rarity:_bapRarityFromPct(pct), isUnlocked:unlockedMap.has(a.id), unlockedAt:unlockedMap.get(a.id) };
+      });
+      if(countEl) countEl.textContent = enriched.filter(e=>e.isUnlocked).length+' / '+enriched.length;
+
+      const notice = !loggedWithBap
+        ? `<div style="font-size:12px;color:#aaa;background:#111;border-radius:8px;padding:10px 14px;margin-bottom:12px;line-height:1.6;font-family:sans-serif;">${lang==='es'?'Inicia sesión con BAP ID (Ajustes → Cuenta) para desbloquear y guardar estos logros.':'Sign in with BAP ID (Settings → Account) to unlock and save these achievements.'}</div>`
+        : '';
+
+      body.innerHTML = notice + enriched.map(e => {
+        const iconBox = e.isUnlocked
+          ? `<div style="width:44px;height:44px;border-radius:8px;flex-shrink:0;background:#1a1a1a;border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;overflow:hidden;"><img src="${e.a.icon}" style="width:26px;height:26px;"></div>`
+          : `<div style="width:44px;height:44px;border-radius:8px;flex-shrink:0;background:#151515;border:1px solid #333;display:flex;align-items:center;justify-content:center;font-size:18px;color:#555;">🔒</div>`;
+        return `<div style="display:flex;gap:12px;align-items:flex-start;padding:10px 4px;border-bottom:1px solid #1a1a1a;">
+          ${iconBox}
+          <div style="flex:1;min-width:0;font-family:sans-serif;">
+            <div style="font-size:13px;font-weight:700;color:#eee;line-height:1.3;">${achName(e.a)}</div>
+            <div style="font-size:12px;color:#888;line-height:1.4;margin-top:1px;">${e.isUnlocked ? _bapAchDesc(e.a) : '???'}</div>
+            <div style="display:flex;align-items:center;gap:6px;margin-top:5px;">
+              ${_bapRarityShape(e.rarity)}
+              <span style="font-size:11px;color:${_bapRarityColor[e.rarity]};">${_bapRarityLabel[e.rarity]} · ${e.pct<0.1&&e.pct>0?'<0.1':e.pct.toFixed(1)}% lo tiene</span>
+            </div>
+          </div>
+        </div>`;
+      }).join('');
+    }catch(e){
+      body.innerHTML='<div style="font-size:13px;color:#e55;text-align:center;padding:30px 20px;font-family:sans-serif;">No se pudieron cargar los logros.</div>';
+      _log('Error render BAP achievements: '+e);
     }
   };
 
