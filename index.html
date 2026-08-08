@@ -7281,6 +7281,20 @@ _checkOrientation();
     _log('Código vinculado manualmente: ' + localCode);
   };
 
+  // Marca (una vez, idempotente) que este uid se conectó a Cup O'Clicker
+  // desde BAP ID — necesario para calcular el % solo entre quienes juegan
+  // esto, no entre todos los usuarios de BAP. Campo separado de
+  // linked_games (que ya se usa para el código de recuperación del vault),
+  // para no chocar con ese sistema existente.
+  async function _bapMarkGameLinked(uid){
+    try{
+      const url=`${BAP_USERS_URL}/${uid}?key=${BAP_API_KEY}&updateMask.fieldPaths=game_links.juego_principal`;
+      await fetch(url,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+        fields:{ game_links:{ mapValue:{ fields:{ juego_principal:{ booleanValue:true } } } } }
+      })});
+    }catch(e){ _log('No se pudo marcar game_links: '+e); }
+  }
+
   // ── Inicialización ─────────────────────────────────────────────
   async function _init() {
     const uid = _getStoredUID();
@@ -7293,6 +7307,7 @@ _checkOrientation();
     _bapUser  = profile;
     _bapReady = true;
     _updateUI(profile);
+    _bapMarkGameLinked(uid);
     _log(`Perfil: ${profile.name} (${profile.email})`);
 
     if (profile.gameCode) {
@@ -7313,6 +7328,7 @@ _checkOrientation();
     _bapUser  = { uid, name, email, gameCode };
     _bapReady = true;
     _updateUI(_bapUser);
+    _bapMarkGameLinked(uid);
     if (gameCode) {
       await _applyCode(gameCode);
     } else {
@@ -7401,11 +7417,14 @@ _checkOrientation();
   }
 
   // Sin caché a propósito: se pide fresco cada vez (ver nota en bap_id.html).
+  // Solo cuenta a los usuarios conectados a ESTE juego (game_links.juego_principal),
+  // no a todos los usuarios de BAP.
   async function _bapGetTotalUsers(){
+    const filter = { fieldFilter: { field:{fieldPath:'game_links.juego_principal'}, op:'EQUAL', value:{booleanValue:true} } };
     try{
       const url=`https://firestore.googleapis.com/v1/projects/${BAP_PROJECT_ID}/databases/(default)/documents:runAggregationQuery?key=${BAP_API_KEY}`;
       const r=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
-        structuredAggregationQuery:{ structuredQuery:{ from:[{collectionId:'bap_users'}] }, aggregations:[{alias:'count',count:{}}] }
+        structuredAggregationQuery:{ structuredQuery:{ from:[{collectionId:'bap_users'}], where:filter }, aggregations:[{alias:'count',count:{}}] }
       })});
       if(r.ok){
         const data=await r.json();
@@ -7414,12 +7433,19 @@ _checkOrientation();
         if(cnt!=null) return Math.max(1,parseInt(cnt,10));
       }
     }catch(e){ _log('count() falló, se usa conteo manual: '+e); }
-    // Fallback: listar documentos y contar (evita que el % se infle a 100%
-    // cuando la agregación no está disponible/permitida).
+    // Fallback: consultar con :runQuery (el GET simple de la colección no
+    // admite filtros) y contar los documentos devueltos. Evita que el % se
+    // infle a 100% cuando la agregación no está disponible/permitida.
     try{
-      const url2=`${BAP_USERS_URL}?key=${BAP_API_KEY}&pageSize=300`;
-      const r2=await fetch(url2);
-      if(r2.ok){ const d2=await r2.json(); return Math.max(1,(d2.documents||[]).length); }
+      const url2=`https://firestore.googleapis.com/v1/projects/${BAP_PROJECT_ID}/databases/(default)/documents:runQuery?key=${BAP_API_KEY}`;
+      const r2=await fetch(url2,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+        structuredQuery:{ from:[{collectionId:'bap_users'}], where:filter }
+      })});
+      if(r2.ok){
+        const rows=await r2.json();
+        const count=(Array.isArray(rows)?rows:[]).filter(x=>x.document).length;
+        return Math.max(1,count);
+      }
     }catch(e2){ _log('conteo manual también falló: '+e2); }
     return 1;
   }
