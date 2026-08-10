@@ -7191,7 +7191,7 @@ _checkOrientation();
         uid,
         email:    f.email?.stringValue    || '',
         name:     f.name?.stringValue     || '',
-        gameCode: f.linked_games?.mapValue?.fields?.juego_principal?.stringValue || ''
+        gameCode: f.linked_games?.mapValue?.fields?.cup_o_clicker?.stringValue || ''
       };
     } catch(e) { _log('Error perfil: ' + e); return null; }
   }
@@ -7200,14 +7200,14 @@ _checkOrientation();
   async function _linkCode(uid, code) {
     if (!uid || !code) return;
     const raw = _rawCode(code);
-    const url = `${BAP_USERS_URL}/${uid}?key=${BAP_API_KEY}&updateMask.fieldPaths=linked_games.juego_principal`;
+    const url = `${BAP_USERS_URL}/${uid}?key=${BAP_API_KEY}&updateMask.fieldPaths=linked_games.cup_o_clicker`;
     try {
       await fetch(url, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           fields: { linked_games: { mapValue: { fields: {
-            juego_principal: { stringValue: raw }
+            cup_o_clicker: { stringValue: raw }
           }}}}
         })
       });
@@ -7288,9 +7288,9 @@ _checkOrientation();
   // para no chocar con ese sistema existente.
   async function _bapMarkGameLinked(uid){
     try{
-      const url=`${BAP_USERS_URL}/${uid}?key=${BAP_API_KEY}&updateMask.fieldPaths=game_links.juego_principal`;
+      const url=`${BAP_USERS_URL}/${uid}?key=${BAP_API_KEY}&updateMask.fieldPaths=game_links.cup_o_clicker`;
       await fetch(url,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({
-        fields:{ game_links:{ mapValue:{ fields:{ juego_principal:{ booleanValue:true } } } } }
+        fields:{ game_links:{ mapValue:{ fields:{ cup_o_clicker:{ booleanValue:true } } } } }
       })});
     }catch(e){ _log('No se pudo marcar game_links: '+e); }
   }
@@ -7417,10 +7417,10 @@ _checkOrientation();
   }
 
   // Sin caché a propósito: se pide fresco cada vez (ver nota en bap_id.html).
-  // Solo cuenta a los usuarios conectados a ESTE juego (game_links.juego_principal),
+  // Solo cuenta a los usuarios conectados a ESTE juego (game_links.cup_o_clicker),
   // no a todos los usuarios de BAP.
   async function _bapGetTotalUsers(){
-    const filter = { fieldFilter: { field:{fieldPath:'game_links.juego_principal'}, op:'EQUAL', value:{booleanValue:true} } };
+    const filter = { fieldFilter: { field:{fieldPath:'game_links.cup_o_clicker'}, op:'EQUAL', value:{booleanValue:true} } };
     try{
       const url=`https://firestore.googleapis.com/v1/projects/${BAP_PROJECT_ID}/databases/(default)/documents:runAggregationQuery?key=${BAP_API_KEY}`;
       const r=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
